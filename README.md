@@ -36,7 +36,7 @@ Running your own instance is really straight-forward.
 6. Run `git clone https://github.com/wowpin/dumserver.git` to download Dumserver
 7. CD into dumserver folder and run the server: `python3 dumserver.py`
 
-### For Windows:
+### For Windows (I have not teste this on Windows just yet - stepas below are theoretical):
 1. Download and install the latest Python (At the time of writing this: https://www.python.org/ftp/python/3.7.1/python-3.7.1.exe)
 2. Install Pip:
    Download the `get-pip.py` (https://bootstrap.pypa.io/get-pip.py) script to a location of your choice.
