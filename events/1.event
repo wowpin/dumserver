@@ -1,0 +1,6 @@
+# Reserved event 1 - used for spawnItem
+# Executed once on server boot, after all assets have been loaded
+1
+0|spawnItem|1;$rid=0$;0;0
+0|spawnItem|2;$rid=2$;0;0
+0|spawnItem|1;$rid=3$;0;0

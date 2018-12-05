@@ -1,0 +1,75 @@
+// Filename: items.json
+// Description: File containing definitions of all in-game items.
+
+{
+    "1": {
+		// --- Item definition ---
+        "name": "Tin Can",
+        "long_description": "It's an empty beer can. It's pretty badly scuffed and crumpled.",
+        "short_description": "It's a crumpled tin can.",
+		"clo_head": "0",
+		"clo_larm": "0",
+		"clo_rarm": "0",
+		"clo_lhand": "0",
+		"clo_rhand": "0",
+		"clo_chest": "0",
+		"clo_lleg": "0",
+		"clo_rleg": "0",
+		"clo_feet": "0",
+		"imp_head": "0",
+		"imp_larm": "0",
+		"imp_rarm": "0",
+		"imp_lhand": "0",
+		"imp_rhand": "0",
+		"imp_chest": "0",
+		"imp_lleg": "0",
+		"imp_rleg": "0",
+		"imp_feet": "0",
+		"mod_str": "0",
+		"mod_per": "0",
+		"mod_endu": "0",
+		"mod_cha": "0",
+		"mod_inte": "0",
+		"mod_agi": "0",
+		"mod_luc": "0",
+		"weight": "1",
+		"article": "a"
+		// --- End of Item definition ---
+    },
+
+    "2": {
+		// --- Item definition ---
+        "name": "Lighter",
+        "long_description": "It's an oldschool Zippo lighter. It does not light up and you cannot imagine you could possible get the lighter fluid anywhere on Mariner",
+        "short_description": "It's a Zippo lighter.",
+		"clo_head": "0",
+		"clo_larm": "0",
+		"clo_rarm": "0",
+		"clo_lhand": "0",
+		"clo_rhand": "0",
+		"clo_chest": "0",
+		"clo_lleg": "0",
+		"clo_rleg": "0",
+		"clo_feet": "0",
+		"imp_head": "0",
+		"imp_larm": "0",
+		"imp_rarm": "0",
+		"imp_lhand": "0",
+		"imp_rhand": "0",
+		"imp_chest": "0",
+		"imp_lleg": "0",
+		"imp_rleg": "0",
+		"imp_feet": "0",
+		"mod_str": "0",
+		"mod_per": "0",
+		"mod_endu": "0",
+		"mod_cha": "0",
+		"mod_inte": "0",
+		"mod_agi": "0",
+		"mod_luc": "0",
+		"weight": "1",
+		"article": "a"
+		// --- End of Item definition ---
+    }
+}
+

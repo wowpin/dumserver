@@ -1,0 +1,5 @@
+# Reserved event 3 - Used for spawnActor. Executed once on server boot, after all assets have been loaded.
+# 0|spawnActor|id;room
+3
+0|spawnActor|1;$rid=1$
+

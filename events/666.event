@@ -1,0 +1,24 @@
+# Do not remove: Comment line 1
+# Do not remove: Comment line 2
+666
+0|setPlayerCanGo|0
+0|setPlayerCanLook|0
+0|setPlayerCanSay|0
+0|setPlayerCanAttack|0
+0|setPlayerCanDirectMessage|0
+0|setPlayerPrefix|Recovering
+5|msg|<b53>Fear of the unknown paralyses your body and mind.
+10|msg|<b53>It feels like you entire being has suddenly been shifted somewhere else..
+14|msg|...
+18|msg|...
+22|msg|<b63>What is this place?
+26|msg|...
+28|msg|<b53>Somehow, you begin to calm down...
+36|msg|<b53>You regain your senses and slowly start to notice your immediate surroundings.
+37|setPlayerCanGo|1
+38|setPlayerCanLook|1
+39|setPlayerCanSay|1
+40|setPlayerCanAttack|1
+41|setPlayerCanDirectMessage|1
+120|setPlayerPrefix|None
+120|msg|All residual effect of your recent death are now gone.

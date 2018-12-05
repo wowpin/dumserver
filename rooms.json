@@ -1,0 +1,62 @@
+// Filename: rooms.json
+// Description: File containing definitions of all game rooms
+
+{
+    "$rid=0$": {
+        "description": "You are in your private quarter aboard the Mariner spacecraft. Your room is dark, the only source of light being a wall screen displaying current time of day on Earth. You can hear a distant hum of ventilation equipment and a characteristic buzz of FTL engines, currently pushing you through a vast, unknown expand of space. The air feels fresh and pleasantly cool. Air pumps and filters are doing a good job today",
+        "exits": {
+            "door": "$rid=1$",
+            "bathroom": "$rid=4$"
+        },
+        "name": "Private Quarter",
+	"eventOnEnter": "100",
+	"eventOnLeave": "101"
+    },
+    "$rid=1$": {
+        "description": "You are standing in a wide corridor, which circles around the second level of the craft. Private quarters of other crew members are located on this level. A broken ceiling light flickers every few seconds. The air pumped through the vents is chilly and refreshing.",
+        "exits": {
+            "quarter": "$rid=0$",
+            "north": "$rid=2$",
+            "south": "$rid=3$"
+        },
+        "name": "Corridor",
+	"eventOnEnter": "",
+	"eventOnLeave": ""
+    },
+    "$rid=2$": {
+        "description": "You are in a corridor. It ends here abruptly with a dead end.",
+        "exits": {
+            "south": "$rid=1$"
+        },
+        "name": "Corridor",
+	"eventOnEnter": "",
+	"eventOnLeave": ""
+    },
+    "$rid=3$": {
+        "description": "You are standing in the middle of a wide corridor. It's impossible to venture further south, a pile of rubble is blocking the way.",
+        "exits": {
+            "north": "$rid=1$"
+        },
+        "name": "Corridor",
+	"eventOnEnter": "",
+	"eventOnLeave": ""
+    },
+    "$rid=4$": {
+        "description": "You are standing in a tiny bathroom, which is part of a private quarter aboard Mariner. Only bare essentials here, certainly nothing luxurious.",
+        "exits": {
+            "door": "$rid=0$"
+        },
+        "name": "Small Bathroom",
+	"eventOnEnter": "",
+	"eventOnLeave": ""
+    },
+    "$rid=666$": {
+        "description": "Void. This is how you would describe your surroundings. You realize you cannot see your physical body and somehow it feels like you are not ACTUALLY there in a physical sense. It`s unbelievably bright here. You can see a slightly darker patch in a distance. It almost looks like an open rift, a tear in whatever fabric the environment is made of.",
+        "exits": {
+            "rift": "$rid=0$"
+        },
+        "name": "Void",
+	"eventOnEnter": "",
+	"eventOnLeave": ""
+    }
+}

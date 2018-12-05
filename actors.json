@@ -1,0 +1,19 @@
+// FIlename: actors.json
+// Description: File containing definitions of all in-game environment actors
+
+{
+    "1": {
+		// --- Actor definition ---
+        "name": "Wind Draft",
+        "vocabulary": "The air smells fresh.|Hmmmm fresh air...",
+		"talkDelay": "1",
+		"randomFactor": "4",
+		// --- End of Actor definition ---
+		
+		// --- Do not modify below this line ---
+        "room": "0",
+		"randomizer": "0",
+		"timeTalked": "0",
+		"lastSaid": "0"
+    }
+}

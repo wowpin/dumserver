@@ -1,0 +1,6 @@
+players/*.player
+__pycache__
+backup
+dum.log
+nohup.out
+
