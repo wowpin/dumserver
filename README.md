@@ -44,7 +44,7 @@ Running your own instance is really straight-forward.
 5. Modify `config.ini` and change the Location and Definition entries to reflect Windows-style file locations.
 6. Run the server: `python dumserver.py`
 
-You will be greeted by some boot-time messages - your server is up and running:
+You will be greeted by some boot-time messages - your server is up and running!
 
 ```
 05/12/2018 11:19:23 [Server Boot] 
