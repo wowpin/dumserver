@@ -6,11 +6,11 @@ DUM is a hobby project aiming to continue developing a feature-rich Python codeb
 
 > Note: A **Test Server** running this repository of `dumserver` is live! It's accessible via a webclient -> http://dum.dynu.net . If you'd like to try DUM out, you can log in and explore a couple of example rooms. Use one of the account credentials below:
 
-user: `Guest1` / pass: `Password`
-user: `Guest2` / pass: `Password`
-user: `Guest3` / pass: `Password`
-user: `Guest4` / pass: `Password`
-user: `Guest5` / pass: `Password`
+- user: `Guest1` / pass: `Password`
+- user: `Guest2` / pass: `Password`
+- user: `Guest3` / pass: `Password`
+- user: `Guest4` / pass: `Password`
+- user: `Guest5` / pass: `Password`
 
 ## Features
 Dumserver is a reimagined and improved version of https://github.com/wowpin/dum-generic - head over there to check out the implemented features.
