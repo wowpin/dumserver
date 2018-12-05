@@ -14,7 +14,7 @@ DUM is a hobby project aiming to continue developing a feature-rich Python codeb
 
 
 ## Features
-Dumserver is a reimagined and improved version of https://github.com/wowpin/dum-generic - head over there to check out the implemented features.
+Dumserver is a reimagined and improved version of https://github.com/wowpin/dum-generic - head over there to check out the implemented features (also check out http://dumengine.wikidot.com/dum-v0-1-feature-summary).
 
 ## Changelog
 There has been a lot of development since the initial `dum-generic` repository. I mean, A LOT. For a full list, see CHANGELOG.TXT, but to name a few biggies:
