@@ -12,12 +12,13 @@ DUM is a hobby project aiming to continue developing a feature-rich Python codeb
 - user: `Guest4` / pass: `Password`
 - user: `Guest5` / pass: `Password`
 
+If you're struggling to connect, it means I'm probably currently playing with the code etc. Try again in a few minutes and it should be up and running.
 
 ## Features
 Dumserver is a reimagined and improved version of https://github.com/wowpin/dum-generic - head over there to check out the implemented features (also check out http://dumengine.wikidot.com/dum-v0-1-feature-summary).
 
 ## Changelog
-There has been a lot of development since the initial `dum-generic` repository. I mean, A LOT. For a full list, see CHANGELOG.TXT, but to name a few biggies:
+There has been a lot of development since the initial `dum-generic` repository. I mean, A LOT. For a full list, see CHANGELOG.md, but to name a few biggies:
 
 - DUM no longer requires a MySQL database instance. All information is stored within JSON files
 - Introduction of an in-game Event Scheduler and scripted events. (e.g "make the player unable to move for 5 seconds and damage him for 15 HP each second")
@@ -59,6 +60,8 @@ You will be greeted by some boot-time messages - your server is up and running!
 05/12/2018 11:19:23 [info] Executing boot time events
 05/12/2018 11:19:23 [info] State Save interval: 5 seconds
 ```
+
+You now should be able to connect to your server on `<server IP/hostname>:35123`
 
 ## What now?
 I'd love to carry on developing this, it has been pretty fun so far. If anyone feels like they want to take it even further, feel free to get in touch.
