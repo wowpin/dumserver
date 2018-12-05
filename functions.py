@@ -3,6 +3,12 @@ import os
 import commentjson
 import errno
 from copy import deepcopy
+import configparser
+
+# example of config file usage
+# print(str(Config.get('Database', 'Hostname')))
+Config = configparser.ConfigParser()
+Config.read('config.ini')
 
 # Function to silently remove file 
 def silentRemove(filename):
@@ -13,7 +19,8 @@ def silentRemove(filename):
             raise # re-raise exception if a different error occurred
 
 # Function to load all registered players from JSON files
-def loadPlayersDB(location = "./players", forceLowercase = True):
+# def loadPlayersDB(location = "./players", forceLowercase = True):
+def loadPlayersDB(location = str(Config.get('Players', 'Location')), forceLowercase = True):
 	DB = {}
 	playerFiles = [i for i in os.listdir(location) if os.path.splitext(i)[1] == ".player"]
 	for f in playerFiles:
@@ -89,7 +96,7 @@ def loadPlayer(name, db):
 	except Exception:
 		pass
 
-def savePlayer(player, masterDB, path = "./players" + "/"):
+def savePlayer(player, masterDB, path = str(Config.get('Players', 'Location')) + "/"):
 	#print(path)
 	DB = loadPlayersDB(forceLowercase = False)
 	for p in DB:

@@ -89,13 +89,13 @@ eventSchedule = {}
 
 
 # Loading rooms
-with open("rooms.json", "r") as read_file:
+with open(str(Config.get('Rooms', 'Definition')), "r") as read_file:
     rooms = commentjson.load(read_file)
     
 log("Rooms loaded: " + str(len(rooms)), "info")
 
 # Loading environment actors
-with open("actors.json", "r") as read_file:
+with open(str(Config.get('Actors', 'Definition')), "r") as read_file:
     envDB = commentjson.load(read_file)
 
 output_dict = {}
@@ -124,7 +124,7 @@ log("Environment Actors loaded: " + str(len(envDB)), "info")
 		# print (y,':',env[x][y])
 		
 # Loading NPCs
-with open("npcs.json", "r") as read_file:
+with open(str(Config.get('NPCs', 'Definition')), "r") as read_file:
     npcsDB = commentjson.load(read_file)
 
 output_dict = {}
@@ -160,7 +160,7 @@ log("NPCs loaded: " + str(len(npcsDB)), "info")
 		#print (y,':',npcsDB[x][y])
 
 # Loading Items
-with open("items.json", "r") as read_file:
+with open(str(Config.get('Items', 'Definition')), "r") as read_file:
     itemsDB = commentjson.load(read_file)
 
 output_dict = {}
@@ -188,7 +188,7 @@ log("Items loaded: " + str(len(itemsDB)), "info")
 # print(itemsDB)
 
 # Load scripted event declarations from disk
-files=glob.glob("events/*.event")
+files=glob.glob(str(Config.get('Events', 'Location')) + "/*.event")
 counter = 0
 for file in files:
     counter += 1
