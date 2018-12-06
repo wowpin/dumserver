@@ -5,7 +5,7 @@ import time
 '''
 ## Function template
 def (etarget, ebody, players, npcs, items, env):
-    players[etarget]
+	players[etarget]
 '''
 
 def setPlayerCanGo(etarget, ebody, players, npcs, items, env, npcsDB, envDB):
@@ -33,40 +33,40 @@ def setPlayerPrefix(etarget, ebody, players, npcs, items, env, npcsDB, envDB):
 		players[etarget]['prefix'] = str(ebody)
 
 def setPlayerName(etarget, ebody, players, npcs, items, env, npcsDB, envDB):
-    players[etarget]['name'] = str(ebody)
+	players[etarget]['name'] = str(ebody)
 
 def setPlayerRoom(etarget, ebody, players, npcs, items, env, npcsDB, envDB):
-    players[etarget]['name'] = str(ebody)
+	players[etarget]['name'] = str(ebody)
 
 def setPlayerLvl(etarget, ebody, players, npcs, items, env, npcsDB, envDB):
-    players[etarget]['lvl'] = int(ebody)
+	players[etarget]['lvl'] = int(ebody)
 
 def modPlayerLvl(etarget, ebody, players, npcs, items, env, npcsDB, envDB):
-    players[etarget]['lvl'] += int(ebody)
+	players[etarget]['lvl'] += int(ebody)
 
 def setPlayerExp(etarget, ebody, players, npcs, items, env, npcsDB, envDB):
-    players[etarget]['exp'] = int(ebody)
+	players[etarget]['exp'] = int(ebody)
 
 def modPlayerExp(etarget, ebody, players, npcs, items, env, npcsDB, envDB):
-    players[etarget]['exp'] += int(ebody)
+	players[etarget]['exp'] += int(ebody)
 
 def setPlayerStr(etarget, ebody, players, npcs, items, env, npcsDB, envDB):
-    players[etarget]['str'] = int(ebody)
+	players[etarget]['str'] = int(ebody)
 
 def modPlayerStr(etarget, ebody, players, npcs, items, env, npcsDB, envDB):
-    players[etarget]['str'] += int(ebody)
+	players[etarget]['str'] += int(ebody)
 
 def setPlayerPer(etarget, ebody, players, npcs, items, env, npcsDB, envDB):
-    players[etarget]['per'] = int(ebody)
+	players[etarget]['per'] = int(ebody)
 
 def modPlayerPer(etarget, ebody, players, npcs, items, env, npcsDB, envDB):
-    players[etarget]['per'] += int(ebody)
+	players[etarget]['per'] += int(ebody)
 
 def setPlayerEndu(etarget, ebody, players, npcs, items, env, npcsDB, envDB):
-    players[etarget]['endu'] = int(ebody)
+	players[etarget]['endu'] = int(ebody)
 
 def modPlayerEndu(etarget, ebody, players, npcs, items, env, npcsDB, envDB):
-    players[etarget]['endu'] += int(ebody)
+	players[etarget]['endu'] += int(ebody)
 
 def setPlayerCha(etarget, ebody, players, npcs, items, env, npcsDB, envDB):
 	players[etarget]['cha'] = int(ebody)
@@ -211,68 +211,68 @@ def spawnActor(etarget, ebody, players, npcs, items, env, npcsDB, envDB):
 # Function for evaluating an Event
 
 def evaluateEvent(etarget, etype, ebody, players, npcs, items, env, npcsDB, envDB):
-    switcher = {
-        "setPlayerCanGo": setPlayerCanGo, #
-        "setPlayerCanLook": setPlayerCanLook, #
-        "setPlayerCanSay": setPlayerCanSay, #
-        "setPlayerCanAttack": setPlayerCanAttack, #
-        "setPlayerCanDirectMessage": setPlayerCanDirectMessage, #
-        "setPlayerName": setPlayerName, #
-        "setPlayerPrefix": setPlayerPrefix, #
-        "setPlayerRoom": setPlayerRoom, #
-        "setPlayerLvl": setPlayerLvl, #
-        "modPlayerLvl": modPlayerLvl, #
-        "setPlayerExp": setPlayerExp, #
-        "modPlayerExp": modPlayerExp, #
-        "setPlayerStr": setPlayerStr, #
-        "modPlayerStr": modPlayerStr, #
-        "setPlayerPer": setPlayerPer, #
-        "modPlayerPer": modPlayerPer, #
-        "setPlayerEndu": setPlayerEndu, #
-        "modPlayerEndu": modPlayerEndu, #
-        "setPlayerCha": setPlayerCha, #
-        "modPlayerCha": modPlayerCha, #
-        "setPlayerInt": setPlayerInt, #
-        "modPlayerInt": modPlayerInt, #
-        "setPlayerAgi": setPlayerAgi, #
-        "modPlayerAgi": modPlayerAgi, #
-        "setPlayerLuc": setPlayerLuc, #
-        "modPlayerLuc": modPlayerLuc, #
-        "setPlayerCred": setPlayerCred, #
-        "modPlayerCred": modPlayerCred, #
-        "setPlayerInv": setPlayerInv, #
-        "setAuthenticated": setAuthenticated, #
-        "setPlayerClo_head": setPlayerClo_head, #
-        "setPlayerClo_larm": setPlayerClo_larm, #
-        "setPlayerClo_rarm": setPlayerClo_rarm, #
-        "setPlayerClo_lhand": setPlayerClo_lhand, #
-        "setPlayerClo_rhand": setPlayerClo_rhand, #
-        "setPlayerClo_chest": setPlayerClo_chest, #
-        "setPlayerClo_lleg": setPlayerClo_lleg, #
-        "setPlayerClo_rleg": setPlayerClo_rleg, #
-        "setPlayerClo_feet": setPlayerClo_feet, #
-        "setPlayerImp_head": setPlayerImp_head, #
-        "setPlayerImp_larm": setPlayerImp_larm, #
-        "setPlayerImp_rarm": setPlayerImp_rarm, #
-        "setPlayerImp_lhand": setPlayerImp_lhand, #
-        "setPlayerImp_rhand": setPlayerImp_rhand, #
-        "setPlayerImp_chest": setPlayerImp_chest, #
-        "setPlayerImp_lleg": setPlayerImp_lleg, #
-        "setPlayerImp_rleg": setPlayerImp_rleg, #
-        "setPlayerImp_feet": setPlayerImp_feet, #
-        "setPlayerHp": setPlayerHp, #
-        "modPlayerHp": modPlayerHp, #
-        "setPlayerCharge": setPlayerCharge, #
-        "modPlayerCharge": modPlayerCharge, #
-        "setPlayerIsInCombat": setPlayerIsInCombat, #
-        "setPlayerLastCombatAction": setPlayerLastCombatAction, #
-        "modPlayerLastCombatAction": modPlayerLastCombatAction, #
-        "setPlayerIsAttackable": setPlayerIsAttackable, #
-        "setPlayerLastRoom": setPlayerLastRoom, #
-        "setPlayerCorpseTTL": setPlayerCorpseTTL, #
-        "modPlayerCorpseTTL": modPlayerCorpseTTL, #
+	switcher = {
+		"setPlayerCanGo": setPlayerCanGo, #
+		"setPlayerCanLook": setPlayerCanLook, #
+		"setPlayerCanSay": setPlayerCanSay, #
+		"setPlayerCanAttack": setPlayerCanAttack, #
+		"setPlayerCanDirectMessage": setPlayerCanDirectMessage, #
+		"setPlayerName": setPlayerName, #
+		"setPlayerPrefix": setPlayerPrefix, #
+		"setPlayerRoom": setPlayerRoom, #
+		"setPlayerLvl": setPlayerLvl, #
+		"modPlayerLvl": modPlayerLvl, #
+		"setPlayerExp": setPlayerExp, #
+		"modPlayerExp": modPlayerExp, #
+		"setPlayerStr": setPlayerStr, #
+		"modPlayerStr": modPlayerStr, #
+		"setPlayerPer": setPlayerPer, #
+		"modPlayerPer": modPlayerPer, #
+		"setPlayerEndu": setPlayerEndu, #
+		"modPlayerEndu": modPlayerEndu, #
+		"setPlayerCha": setPlayerCha, #
+		"modPlayerCha": modPlayerCha, #
+		"setPlayerInt": setPlayerInt, #
+		"modPlayerInt": modPlayerInt, #
+		"setPlayerAgi": setPlayerAgi, #
+		"modPlayerAgi": modPlayerAgi, #
+		"setPlayerLuc": setPlayerLuc, #
+		"modPlayerLuc": modPlayerLuc, #
+		"setPlayerCred": setPlayerCred, #
+		"modPlayerCred": modPlayerCred, #
+		"setPlayerInv": setPlayerInv, #
+		"setAuthenticated": setAuthenticated, #
+		"setPlayerClo_head": setPlayerClo_head, #
+		"setPlayerClo_larm": setPlayerClo_larm, #
+		"setPlayerClo_rarm": setPlayerClo_rarm, #
+		"setPlayerClo_lhand": setPlayerClo_lhand, #
+		"setPlayerClo_rhand": setPlayerClo_rhand, #
+		"setPlayerClo_chest": setPlayerClo_chest, #
+		"setPlayerClo_lleg": setPlayerClo_lleg, #
+		"setPlayerClo_rleg": setPlayerClo_rleg, #
+		"setPlayerClo_feet": setPlayerClo_feet, #
+		"setPlayerImp_head": setPlayerImp_head, #
+		"setPlayerImp_larm": setPlayerImp_larm, #
+		"setPlayerImp_rarm": setPlayerImp_rarm, #
+		"setPlayerImp_lhand": setPlayerImp_lhand, #
+		"setPlayerImp_rhand": setPlayerImp_rhand, #
+		"setPlayerImp_chest": setPlayerImp_chest, #
+		"setPlayerImp_lleg": setPlayerImp_lleg, #
+		"setPlayerImp_rleg": setPlayerImp_rleg, #
+		"setPlayerImp_feet": setPlayerImp_feet, #
+		"setPlayerHp": setPlayerHp, #
+		"modPlayerHp": modPlayerHp, #
+		"setPlayerCharge": setPlayerCharge, #
+		"modPlayerCharge": modPlayerCharge, #
+		"setPlayerIsInCombat": setPlayerIsInCombat, #
+		"setPlayerLastCombatAction": setPlayerLastCombatAction, #
+		"modPlayerLastCombatAction": modPlayerLastCombatAction, #
+		"setPlayerIsAttackable": setPlayerIsAttackable, #
+		"setPlayerLastRoom": setPlayerLastRoom, #
+		"setPlayerCorpseTTL": setPlayerCorpseTTL, #
+		"modPlayerCorpseTTL": modPlayerCorpseTTL, #
 		"spawnItem": spawnItem,
 		"spawnNPC": spawnNPC,
 		"spawnActor": spawnActor,
-        }
-    switcher[etype](etarget, ebody, players, npcs, items, env, npcsDB, envDB)
+		}
+	switcher[etype](etarget, ebody, players, npcs, items, env, npcsDB, envDB)
