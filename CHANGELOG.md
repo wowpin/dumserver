@@ -1,4 +1,5 @@
 ### `[IN DEVELOPMENT]`
+- `[TODO]` Dynamic events - creating custom events by passing an event definition string to addToScheduler() (rather than event ID, which load an event from a static, preloaded set of .EVENT files)
 - `[TODO]` INSPECT (showing detailed PC/NPC character sheet. Amount of detail depending on player's perception)
 - `[TODO]` code corresponding to player commands to be packaged up into separate .py files and invoked from dumserver.py via some kind of switch statement (?) - research needed.
 - `[TODO]` WHISPER - whispering to players in the same room
