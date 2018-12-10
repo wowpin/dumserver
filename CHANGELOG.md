@@ -1,6 +1,10 @@
 ### `[IN DEVELOPMENT]`
 - `[TODO]` INSPECT (showing detailed PC/NPC character sheet. Amount of detail depending on player's perception)
 - `[TODO]` code corresponding to player commands to be packaged up into separate .py files and invoked from dumserver.py via some kind of switch statement (?) - research needed.
+- `[TODO]` WHISPER - whistering to players in the same room
+- `[TODO]` MESSAGE - in game player to player messages (think 'tell')
+- `[TODO]` Implementation of the CHECK STATS logic for viewing player's own character sheet. Perhaps a diffenrent command name?
+- `[TODO]` Scriptable NPC conversation trees (?) - Research needed
 
 ### `[PUBLISHED]` v0.2.1 - 10-DEC-2018
 - Improvements to LOOK (e.g. 'LOOK <item>/<player>/<NPC>' will show their long_description/lookDescription parameter)
