@@ -32,5 +32,6 @@
 	"imp_rleg": 0, 
 	"imp_feet": 0, 
 	"hp": 100, 
-	"charge": 0
+	"charge": 0,
+	"lookDescription": "This is a Player description"
 }

@@ -1,5 +1,5 @@
 ### `[IN DEVELOPMENT]` v0.2.1
-- `[IN DEVELOPMENT]` Improvements to LOOK (e.g. 'LOOK ITEM/PC/NPC' will show their long_description parameter)
+- `[COMPLETED 10/12/18]` Improvements to LOOK (e.g. 'LOOK ITEM/PC/NPC' will show their long_description/lookDescription parameter)
 - `[IN DEVELOPMENT]` INSPECT (showing detailed PC/NPC character sheet. Amount of detail depending on player's perception)
 - `[TODO]` code correcponding to player commands to be packaged up into separate .py files and invoked from dumserver.py via some kind of switch statement (?) - research needed.
 

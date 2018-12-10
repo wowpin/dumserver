@@ -560,6 +560,7 @@ while True:
 			'canLook': None,
 			'canAttack': None,
 			'canDirectMessage': None,
+			'lookDescription': None,
 			}
 
 		# send the new player a prompt for their name
@@ -706,7 +707,6 @@ while True:
 			dbPass = pl['pwd']
 			#print("PA TO:")
 			#print(dbResponse)
-
 			if dbPass == command:
 				players[id]['authenticated'] = True
 				players[id]['prefix'] = "None"
@@ -744,6 +744,7 @@ while True:
 				players[id]['imp_feet'] = dbResponse[31]
 				players[id]['hp'] = dbResponse[32]
 				players[id]['charge'] = dbResponse[33]
+				players[id]['lookDescription'] = dbResponse[34]
 				players[id]['isInCombat'] = 0
 				players[id]['lastCombatAction'] = int(time.time())
 				players[id]['isAttackable'] = 1
@@ -756,6 +757,7 @@ while True:
 				
 				log("Client ID: " + str(id) + " has successfully authenticated user " + players[id]['name'], "info")
 
+				print(players[id]['lookDescription'])
 				#print(players[id])
 				# go through all the players in the game
 				for (pid, pl) in list(players.items()):
@@ -799,55 +801,104 @@ while True:
 			else:
 				mud.send_message(id, 'To your horror, you realise you somehow cannot force yourself to utter a single word!')
 		elif command.lower() == 'look':
-		# 'look' command
+			# 'look' command
 			if players[id]['canLook'] == 1:
-				# store the player's current room
-				rm = rooms[players[id]['room']]
+				if len(params) < 1:
+					# If no arguments are given, then look around and describe surroundings
 
-				# send the player back the description of their current room
-				mud.send_message(id, "<f42>" + rm['description'])
+					# store the player's current room
+					rm = rooms[players[id]['room']]
 
-				playershere = []
-				
-				itemshere = []
+					# send the player back the description of their current room
+					mud.send_message(id, "<f42>" + rm['description'])
 
-				# go through every player in the game
-				for (pid, pl) in list(players.items()):
-					# if they're in the same room as the player
-					if players[pid]['room'] == players[id]['room']:
-						# ... and they have a name to be shown
-						if players[pid]['name'] is not None and players[pid]['name'] is not players[id]['name']:
-							# add their name to the list
-							if players[pid]['prefix'] == "None":
-								playershere.append(players[pid]['name'])
-							else:
-								playershere.append("[" + players[pid]['prefix'] + "] " + players[pid]['name'])
+					playershere = []
+					
+					itemshere = []
 
-				##### Show corpses in the room
-				for (corpse, pl) in list(corpses.items()):
-					if corpses[corpse]['room'] == players[id]['room']:
-						playershere.append(corpses[corpse]['name'])
-										   
-				##### Show NPCs in the room #####
-				for (nid, pl) in list(npcs.items()):
-					if npcs[nid]['room'] == players[id]['room']:
-						playershere.append(npcs[nid]['name'])
+					# go through every player in the game
+					for (pid, pl) in list(players.items()):
+						# if they're in the same room as the player
+						if players[pid]['room'] == players[id]['room']:
+							# ... and they have a name to be shown
+							if players[pid]['name'] is not None and players[pid]['name'] is not players[id]['name']:
+								# add their name to the list
+								if players[pid]['prefix'] == "None":
+									playershere.append(players[pid]['name'])
+								else:
+									playershere.append("[" + players[pid]['prefix'] + "] " + players[pid]['name'])
 
-				##### Show items in the room
-				for (item, pl) in list(itemsInWorld.items()):
-					if itemsInWorld[item]['room'] == players[id]['room']:
-						itemshere.append(itemsDB[itemsInWorld[item]['id']]['article'] + ' ' + itemsDB[itemsInWorld[item]['id']]['name'])
-				
-				# send player a message containing the list of players in the room
-				if len(playershere) > 0:
-					mud.send_message(id, '<f42>You see: <f77>{}'.format(', '.join(playershere)))
+					##### Show corpses in the room
+					for (corpse, pl) in list(corpses.items()):
+						if corpses[corpse]['room'] == players[id]['room']:
+							playershere.append(corpses[corpse]['name'])
+											   
+					##### Show NPCs in the room #####
+					for (nid, pl) in list(npcs.items()):
+						if npcs[nid]['room'] == players[id]['room']:
+							playershere.append(npcs[nid]['name'])
 
-				# send player a message containing the list of exits from this room
-				mud.send_message(id, '<f42>Exits are: <f94>{}'.format(', '.join(rm['exits'])))
+					##### Show items in the room
+					for (item, pl) in list(itemsInWorld.items()):
+						if itemsInWorld[item]['room'] == players[id]['room']:
+							itemshere.append(itemsDB[itemsInWorld[item]['id']]['article'] + ' ' + itemsDB[itemsInWorld[item]['id']]['name'])
+					
+					# send player a message containing the list of players in the room
+					if len(playershere) > 0:
+						mud.send_message(id, '<f42>You see: <f77>{}'.format(', '.join(playershere)))
 
-				# send player a message containing the list of items in the room
-				if len(itemshere) > 0:
-					mud.send_message(id, '<f42>You notice: <f222>{}'.format(', '.join(itemshere)))
+					# send player a message containing the list of exits from this room
+					mud.send_message(id, '<f42>Exits are: <f94>{}'.format(', '.join(rm['exits'])))
+
+					# send player a message containing the list of items in the room
+					if len(itemshere) > 0:
+						mud.send_message(id, '<f42>You notice: <f222>{}'.format(', '.join(itemshere)))
+				else:
+					# If argument is given, then evaluate it
+					param = params.lower()
+					messageSent = False
+
+					message = ""
+					
+					## Go through all players in game
+					for p in players:
+						if players[p]['name'].lower() == param and players[p]['room'] == players[id]['room']:
+							message += players[p]['lookDescription']
+					
+					if len(message) > 0:
+						mud.send_message(id, message)
+						messageSent = True
+
+					message = ""
+					
+					## Go through all NPCs in game
+					for n in npcs:
+						if npcs[n]['name'].lower() == param and npcs[n]['room'] == players[id]['room']:
+							message += npcs[n]['lookDescription']
+
+					if len(message) > 0:
+						mud.send_message(id, message)
+						messageSent = True
+
+					message = ""
+					
+					## Go through all Items in game
+					itemCounter = 0
+					for i in itemsInWorld:
+						if itemsInWorld[i]['room'].lower() == players[id]['room'] and itemsDB[itemsInWorld[i]['id']]['name'].lower() == param:
+							if itemCounter == 0:
+								message += itemsDB[itemsInWorld[i]['id']]['long_description']
+							itemCounter += 1
+
+					if len(message) > 0:
+						mud.send_message(id, message)
+						messageSent = True
+						if itemCounter > 1:
+							mud.send_message(id, "You can see " + str(itemCounter) + " of those in the vicinity.")
+
+					## If no message has been sent, it means no player/npc/item was found
+					if messageSent == False:
+						mud.send_message(id, "Look at what?")
 			else:
 				mud.send_message(id, 'You somehow cannot muster enough perceptive powers to perceive and describe your immediate surroundings...')
 
