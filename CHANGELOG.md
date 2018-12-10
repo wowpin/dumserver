@@ -1,9 +1,9 @@
-### [in progress] v0.2.1
-- [in progress] Improvements to LOOK (e.g. 'LOOK ITEM/PC/NPC' will show their long_description parameter)
-- [in progress] INSPECT (showing detailed PC/NPC character sheet. Amount of detail depending on player's perception)
-- [todo] code correcponding to player commands to be packaged up into separate .py files and invoked from dumserver.py via some kind of switch statement (?) - research needed.
+### `[in progress]` v0.2.1
+- `[in progress]` Improvements to LOOK (e.g. 'LOOK ITEM/PC/NPC' will show their long_description parameter)
+- `[in progress]` INSPECT (showing detailed PC/NPC character sheet. Amount of detail depending on player's perception)
+- `[todo]` code correcponding to player commands to be packaged up into separate .py files and invoked from dumserver.py via some kind of switch statement (?) - research needed.
 
-### [STABLE]  v0.2 - 5-DEC-2018
+### `[STABLE]`  v0.2 - 5-DEC-2018
 - MySQL database instance is no longer required. All player, npc, item, room and actor information is stored in JSON files.
 - In-game event scheduler has been introduced allowing events to bescheduled for execution at set times. E.g "Send message "ABC" to player X in 5 seconds and make him unable to walk and talk for 30 seconds.".
 - Improved cmsg.py addressing efficiency concerns.
