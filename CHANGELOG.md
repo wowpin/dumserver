@@ -1,7 +1,11 @@
-### `[IN DEVELOPMENT]` v0.2.1
-- `[COMPLETED 10/12/18]` Improvements to LOOK (e.g. 'LOOK ITEM/PC/NPC' will show their long_description/lookDescription parameter)
-- `[IN DEVELOPMENT]` INSPECT (showing detailed PC/NPC character sheet. Amount of detail depending on player's perception)
-- `[TODO]` code correcponding to player commands to be packaged up into separate .py files and invoked from dumserver.py via some kind of switch statement (?) - research needed.
+### `[IN DEVELOPMENT]`
+- `[TODO]` INSPECT (showing detailed PC/NPC character sheet. Amount of detail depending on player's perception)
+- `[TODO]` code corresponding to player commands to be packaged up into separate .py files and invoked from dumserver.py via some kind of switch statement (?) - research needed.
+
+### `[PUBLISHED]` v0.2.1 - 10-DEC-2018
+- Improvements to LOOK (e.g. 'LOOK <item>/<player>/<NPC>' will show their long_description/lookDescription parameter)
+- lookDescription and long_description (for items) are defined within relevant JSON definition files.
+- If a number of the same items are found in the room, one description will be shown, followed by "You can see X of those in the vicinity"
 
 ### `[PUBLISHED]`  v0.2 - 5-DEC-2018
 - Brief summary of features implemented in 0.1 available at http://dumengine.wikidot.com/dum-v0-1-feature-summary
