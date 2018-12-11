@@ -6,6 +6,7 @@
 - `[TODO]` MESSAGE - in game player to player messages (think 'tell')
 - `[TODO]` Implementation of the CHECK STATS logic for viewing player's own character sheet. Perhaps a different command name?
 - `[TODO]` Script-able NPC conversation trees (?) - Research needed
+- `[TODO]` Dynamic room exits / run-time remapping exits to alternative destinations (perhaps via sutom events?)
 
 ### `[PUBLISHED]` v0.2.1 - 10-DEC-2018
 - Improvements to LOOK (e.g. 'LOOK item/player/NPC' will show their long_description/lookDescription parameter)
