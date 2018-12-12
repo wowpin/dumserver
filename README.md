@@ -1,3 +1,4 @@
+![Dum!](docs/logo.png)
 # dumserver
 A modern Python MU* engine - re-imagined, actively developed and properly tracked.
 
