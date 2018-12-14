@@ -1,3 +1,6 @@
+## Dum Server!
+## v0.3.1
+
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
@@ -84,6 +87,8 @@ scriptedEventsDB = []
 # Declare eventSchedule dict
 eventSchedule = {}
 
+# Specify allowe player idle time
+allowedPlayerIdle = int(Config.get('World', 'IdleTimeBeforeDisconnect'))
 
 
 # Loading rooms
@@ -468,6 +473,16 @@ while True:
 				evaluateEvent(eventSchedule[event]['target'], eventSchedule[event]['type'], eventSchedule[event]['body'], players, npcs, itemsInWorld, env, npcsDB, envDB)
 			del eventSchedule[event]
 	
+	# Evaluate player idle time and disconnect if required
+	now = int(time.time())
+	playersCopy = deepcopy(players)
+	for p in playersCopy:
+		if playersCopy[p]['authenticated'] != None:
+			if now - playersCopy[p]['idleStart'] > allowedPlayerIdle:
+				mud.send_message(p, "Your body starts tingling. You instinctively hold your hand up to your face and notice you slowly begin to vanish. You are being disconnected due to inactivity...")
+				log("Character " + str(players[p]['name']) + " is being logged out due to inactivity.", "warning")
+				del players[p]
+
 	npcsTemplate = deepcopy(npcs)
 	
 	# go through any newly connected players
@@ -524,6 +539,7 @@ while True:
 			'canAttack': None,
 			'canDirectMessage': None,
 			'lookDescription': None,
+			'idleStart': None
 			}
 
 		# send the new player a prompt for their name
@@ -556,7 +572,7 @@ while True:
 		mud.send_message(id, " ")
 		mud.send_message(id, "<b46> Development Server 1      ")
 		mud.send_message(id, " ")
-		mud.send_message(id, "<b46> Codebase: [4-DEC-18]     ")
+		mud.send_message(id, "<b46> Codebase: [14-DEC-18]     ")
 		mud.send_message(id, " ")
 		mud.send_message(id, '<f15>What is your username?')
 		mud.send_message(id, " ")
@@ -686,6 +702,8 @@ while True:
 					players[id]['canLook'] = 1
 					players[id]['canAttack'] = 1
 					players[id]['canDirectMessage'] = 1
+					players[id]['idleStart'] = int(time.time())
+					
 					
 					log("Client ID: " + str(id) + " has successfully authenticated user " + players[id]['name'], "info")
 
@@ -713,5 +731,7 @@ while True:
 				mud.send_message(id, '<f15>What is your username?')
 
 		else:
+			players[id]['idleStart'] = int(time.time())
 			runCommand(command, params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, itemsInWorld, envDB, env, scriptedEventsDB, eventSchedule, id, fights, corpses)
+			
 

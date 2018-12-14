@@ -95,8 +95,9 @@ def look(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items, e
 			
 			## Go through all players in game
 			for p in players:
-				if players[p]['name'].lower() == param and players[p]['room'] == players[id]['room']:
-					message += players[p]['lookDescription']
+				if players[p]['authenticated'] != None:
+					if players[p]['name'].lower() == param and players[p]['room'] == players[id]['room']:
+						message += players[p]['lookDescription']
 			
 			if len(message) > 0:
 				mud.send_message(id, message)
