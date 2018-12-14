@@ -1,12 +1,15 @@
 ### `[IN DEVELOPMENT]`
 - `[TODO]` Dynamic events - creating custom events by passing an event definition string to addToScheduler() (rather than event ID, which load an event from a static, preloaded set of .EVENT files)
 - `[TODO]` INSPECT (showing detailed PC/NPC character sheet. Amount of detail depending on player's perception)
-- `[TODO]` code corresponding to player commands to be packaged up into separate .py files and invoked from dumserver.py via some kind of switch statement (?) - research needed.
 - `[TODO]` WHISPER - whispering to players in the same room
 - `[TODO]` MESSAGE - in game player to player messages (think 'tell')
 - `[TODO]` Implementation of the CHECK STATS logic for viewing player's own character sheet. Perhaps a different command name?
 - `[TODO]` Script-able NPC conversation trees (?) - Research needed
 - `[TODO]` Dynamic room exits / run-time remapping exits to alternative destinations (perhaps via sutom events?)
+
+### `[PUBLISHED]` v0.3 - 14-DEC-2018
+- Command source code has been separated into individual functions in commands.py
+- Issue with multiple logins allowed for one character has been fixed - only one session per character is allowed now.
 
 ### `[PUBLISHED]` v0.2.1 - 10-DEC-2018
 - Improvements to LOOK (e.g. 'LOOK item/player/NPC' will show their long_description/lookDescription parameter)
