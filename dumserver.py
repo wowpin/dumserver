@@ -19,9 +19,6 @@ from commands import runCommand
 
 import time
 
-# import the database library
-# import pymysql
-
 # import the MUD server class
 from mudserver import MudServer
 
@@ -34,8 +31,7 @@ from copy import deepcopy
 # import config parser
 import configparser
 
-# import json module
-# import json
+# import the json parser
 import commentjson
 
 # import glob module
@@ -209,10 +205,6 @@ log("Scripted Events loaded: " + str(counter), "info")
 playersDB = loadPlayersDB()
 log("Registered player accounts loaded: " + str(len(playersDB)), "info")
 
-#print(playersDB)
-#print(" ")
-#print(loadPlayer("BaRtEK", playersDB))
-
 # Execute Reserved Event 1 and 2
 # Using -1 for target since no players can be targeted with an event at this time
 log("Executing boot time events", "info")
@@ -229,17 +221,6 @@ log("State Save interval: " + str(stateSaveInterval) + " seconds", "info")
 # Set last state save to 'now' on server boot
 lastStateSave = int(time.time())
 
-# Database connection details
-# DBhost = Config.get('Database', 'Hostname')
-# DBport = int(Config.get('Database', 'Port'))
-# DBuser = Config.get('Database', 'User')
-# DBpasswd = Config.get('Database', 'Pass')
-# DBdatabase = Config.get('Database', 'DB')
-
-#log("Connecting to database", "info")
-#cnxn = pymysql.connect(host=DBhost, port=DBport, user=DBuser, passwd=DBpasswd, db=DBdatabase)
-#cursor = cnxn.cursor()
-
 # Deepcopy npcs fetched from a database into a master template
 npcsTemplate = deepcopy(npcs)
 
@@ -249,23 +230,11 @@ npcsTemplate = deepcopy(npcs)
 	# for y in itemsInWorld[x]:
 		# print(y,':',itemsInWorld[x][y])
 		
-# Close a database connection, all data has been fetched to memory
-#log("Closing database connection", "info")
-#cursor.close()
-#cnxn.close()
-
-# Connect to the database
-# cnxn = pymysql.connect(host=DBhost, port=DBport, user=DBuser, passwd=DBpasswd, db=DBdatabase)
-
 # stores the players in the game
 players = {}
 
 # start the server
 mud = MudServer()
-
-#test = loadPlayer("Bartek")
-#print(test)
-#savePlayer("BartekTest", test)
 
 # main game loop. We loop forever (i.e. until the program is terminated)
 while True:
@@ -280,19 +249,13 @@ while True:
 
 	# Check if State Save is due and execute it if required
 	now = int(time.time())
-	if int(now >= lastStateSave + stateSaveInterval):
-		# print("[info] Saving player state")
-		
+	if int(now >= lastStateSave + stateSaveInterval):		
 		# State Save logic Start
-		# cnxn = pymysql.connect(host=DBhost, port=DBport, user=DBuser, passwd=DBpasswd, db=DBdatabase)
-		# cursor = cnxn.cursor()
 		for (pid, pl) in list(players.items()):
 			if players[pid]['authenticated'] is not None:
 				# print('Saving' + players[pid]['name'])
 				saveState(players[pid], playersDB)
 				playersDB = loadPlayersDB()
-				#print(playersDB)
-		# cnxn.close()
 		# State Save logic End
 		lastStateSave = now
 
@@ -342,9 +305,7 @@ while True:
 								players[fights[fid]['s1id']]['lastCombatAction'] = int(time.time())
 								mud.send_message(fights[fid]['s1id'], 'You manage to hit <f32><u>' + players[fights[fid]['s2id']]['name'] + '<r> for <f0><b2>' + str(players[fights[fid]['s1id']]['str'] + modifier) + '<r> points of damage.')
 								mud.send_message(fights[fid]['s2id'], '<f32>' + players[fights[fid]['s1id']]['name'] + '<r> has managed to hit you for <f15><b88>' + str(players[fights[fid]['s1id']]['str'] + modifier) + '<r> points of damage.')
-								# print('----------')
-								# print(players[fights[fid]['s1id']]['name'] + ': ' + str(players[fights[fid]['s1id']]['hp']))
-								# print(players[fights[fid]['s2id']]['name'] + ': ' + str(players[fights[fid]['s2id']]['hp']))
+
 						else:
 							players[fights[fid]['s1id']]['lastCombatAction'] = int(time.time())
 							mud.send_message(fights[fid]['s1id'], 'You miss trying to hit <f32><u>' + players[fights[fid]['s2id']]['name'] + '')
@@ -369,7 +330,7 @@ while True:
 								npcs[fights[fid]['s2id']]['hp'] = npcs[fights[fid]['s2id']]['hp'] - (players[fights[fid]['s1id']]['str'] + modifier)
 								players[fights[fid]['s1id']]['lastCombatAction'] = int(time.time())
 								mud.send_message(fights[fid]['s1id'], 'You manage to hit <f21><u>' + npcs[fights[fid]['s2id']]['name'] + '<r> for <b2><f0>' + str(players[fights[fid]['s1id']]['str'] + modifier)  + '<r> points of damage')
-								# print(npcs[fights[fid]['s2id']]['hp'])
+
 						else:
 							players[fights[fid]['s1id']]['lastCombatAction'] = int(time.time())
 							mud.send_message(fights[fid]['s1id'], 'You miss <u><f21>' + npcs[fights[fid]['s2id']]['name'] + '<r> completely!')
@@ -628,12 +589,6 @@ while True:
 			log("Player disconnected, saving state", "info")
 			saveState(players[id], playersDB)
 			playersDB = loadPlayersDB()
-			#print(playersDB)
-			'''
-			cnxn = pymysql.connect(host=DBhost, port=DBport, user=DBuser, passwd=DBpasswd, db=DBdatabase)
-			saveState(players[id], cnxn)
-			cnxn.close()
-			'''
 		
 		# TODO: IDEA - Some sort of a timer to have the character remain in the game for some time after disconnection?
 
@@ -658,33 +613,13 @@ while True:
 		# if the player hasn't given their name yet, use this first command as
 		# their name and move them to the starting room.
 		if players[id]['name'] is None:
-			'''
-			cnxn = pymysql.connect(host=DBhost, port=DBport, user=DBuser, passwd=DBpasswd, db=DBdatabase)
-			cursor = cnxn.cursor()
-			cursor.execute("SELECT * FROM tbl_Players WHERE name = '" + command + "'")
-			dbResponse = cursor.fetchone()
-			'''
 			dbResponse = None
 			file = loadPlayer(command, playersDB)
 			if file is not None:
 				dbResponse = tuple(file.values())
 
-			#print(dbResponse)
-			#dbResponse = tuple(loadPlayer(command).values())
-			#print("dbresponse: ")
-			#print(type(dbResponse))
-			#print(dbResponse)
-			#tup = tuple(loadPlayer("Bartek").values())
-			#print(tup)
-			#print(str(type(dbResponse)) + " : " + str(type(tup)))
 			if dbResponse != None:
 				players[id]['name'] = dbResponse[0]
-
-				# Closing DB cursor, all required data has been extracted from the database
-				'''
-				cursor.close()
-				cnxn.close()
-				'''
 
 				log("Client ID: " + str(id) + " has requested existing user (" + command + ")", "info")
 				mud.send_message(id, 'Hi <u><f32>' + command + '<r>!')
@@ -694,27 +629,14 @@ while True:
 				log("Client ID: " + str(id) + " has requested non existent user (" + command + ")", "info")
 		elif players[id]['name'] is not None \
 			and players[id]['authenticated'] is None:
-			'''
-			cnxn = pymysql.connect(host=DBhost, port=DBport, user=DBuser, passwd=DBpasswd, db=DBdatabase)
-			cursor = cnxn.cursor()
-			cursor.execute("SELECT pwd FROM tbl_Players WHERE name = '" + players[id]['name'] + "'")
-			dbPass = cursor.fetchone()
-			cursor.close()
-			cnxn.close()
-			'''
-			#print("PLAYER: " + str(players[id]['name']))
-			#print(loadPlayer(players[id]['name'], playersDB))
 			pl = loadPlayer(players[id]['name'], playersDB)
-			#print(pl)
 			dbPass = pl['pwd']
-			#print("PA TO:")
-			#print(dbResponse)
+
 			# Iterate through players in game and see if our newly connected players is not already in game.
 			playerFound = False
 			for pl in players:
 				if players[id]['name'] != None and players[pl]['name'] != None and players[id]['name'] == players[pl]['name'] and pl != id:
 					playerFound = True
-			#print(str(playerFound))
 
 			if dbPass == command:
 				if playerFound == False:
@@ -766,20 +688,17 @@ while True:
 					players[id]['canDirectMessage'] = 1
 					
 					log("Client ID: " + str(id) + " has successfully authenticated user " + players[id]['name'], "info")
-	
-					#print(players[id]['lookDescription'])
-					#print(players[id])
+
 					# go through all the players in the game
 					for (pid, pl) in list(players.items()):
 						# send each player a message to tell them about the new player
-						# print("player pid: " + players[pid]["room"] + ", player id: " + players[id]["room"])
 						if players[pid]['authenticated'] is not None \
 							and players[pid]['room'] == players[id]['room'] \
 							and players[pid]['name'] != players[id]['name']:
 							mud.send_message(pid, '{} has materialised out of thin air nearby.'.format(players[id]['name']))
 	
 					# send the new player a welcome message
-					mud.send_message(id, '<f15>Welcome to the game, {}. '.format(players[id]['name']))
+					mud.send_message(id, '<f15>Welcome to DUM!, {}. '.format(players[id]['name']))
 					mud.send_message(id, '<f15>-------------------------------------------------')
 					mud.send_message(id, "<f15>Type 'help' for a list of commands. Have fun!")
 				else:

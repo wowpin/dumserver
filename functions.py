@@ -52,17 +52,6 @@ def log(content, type):
 	log.close()
 
 # Function for returning a first available key value for appending a new element to a dictionary
-'''
-def getFreeKey(itemsDict):
-	try:
-		for x in range(0, len(itemsDict) + 1):
-			if len(itemsDict[x]) > 0:
-				pass
-	except Exception:
-		pass
-	return(x)
-'''
-
 def getFreeKey(itemsDict, start = None):
 	if start is None:
 		try:
@@ -122,14 +111,6 @@ def savePlayer(player, masterDB, path = str(Config.get('Players', 'Location')) +
 			#print("Updating playerd DB")
 			masterDB = loadPlayersDB()
 			#print(masterDB)
-	'''
-	if name.lower() + ".player" is in playersDB:
-		tempVar=0
-	silentRemove(path + name + ".player")
-	with open(path + name + ".player", 'w') as fp:
-		commentjson.dump(dict, fp)
-	db = loadPlayersDB()
-	'''
 
 
 # State Save Function
@@ -138,74 +119,5 @@ def saveState(player, masterDB):
 	savePlayer(player, masterDB)
 	#masterDB = loadPlayersDB()
 
-'''
-# State save function
-def saveState(p, connector):
-			cursor = connector.cursor()
-			cursor.execute("UPDATE tbl_Players SET room = %s WHERE name = %s", [p["room"], p["name"]])
-			connector.commit()
-			cursor.execute("UPDATE tbl_Players SET lvl = %s WHERE name = %s", [p["lvl"], p["name"]])
-			connector.commit()
-			cursor.execute("UPDATE tbl_Players SET exp = %s WHERE name = %s", [p["exp"], p["name"]])
-			connector.commit()
-			cursor.execute("UPDATE tbl_Players SET str = %s WHERE name = %s", [p["str"], p["name"]])
-			connector.commit()
-			cursor.execute("UPDATE tbl_Players SET per = %s WHERE name = %s", [p["per"], p["name"]])
-			connector.commit()
-			cursor.execute("UPDATE tbl_Players SET endu = %s WHERE name = %s", [p["endu"], p["name"]])
-			connector.commit()
-			cursor.execute("UPDATE tbl_Players SET cha = %s WHERE name = %s", [p["cha"], p["name"]])
-			connector.commit()
-			cursor.execute("UPDATE tbl_Players SET inte = %s WHERE name = %s", [p["int"], p["name"]])
-			connector.commit()
-			cursor.execute("UPDATE tbl_Players SET agi = %s WHERE name = %s", [p["agi"], p["name"]])
-			connector.commit()
-			cursor.execute("UPDATE tbl_Players SET luc = %s WHERE name = %s", [p["luc"], p["name"]])
-			connector.commit()
-			cursor.execute("UPDATE tbl_Players SET cred = %s WHERE name = %s", [p["cred"], p["name"]])
-			connector.commit()
-			cursor.execute("UPDATE tbl_Players SET inv = %s WHERE name = %s", [str(",".join(p["inv"])), p["name"]])
-			connector.commit()
-			cursor.execute("UPDATE tbl_Players SET clo_head = %s WHERE name = %s", [p["clo_head"], p["name"]])
-			connector.commit()
-			cursor.execute("UPDATE tbl_Players SET clo_larm = %s WHERE name = %s", [p["clo_larm"], p["name"]])
-			connector.commit()
-			cursor.execute("UPDATE tbl_Players SET clo_rarm = %s WHERE name = %s", [p["clo_rarm"], p["name"]])
-			connector.commit()
-			cursor.execute("UPDATE tbl_Players SET clo_lhand = %s WHERE name = %s", [p["clo_lhand"], p["name"]])
-			connector.commit()
-			cursor.execute("UPDATE tbl_Players SET clo_rhand = %s WHERE name = %s", [p["clo_rhand"], p["name"]])
-			connector.commit()
-			cursor.execute("UPDATE tbl_Players SET clo_chest = %s WHERE name = %s", [p["clo_chest"], p["name"]])
-			connector.commit()
-			cursor.execute("UPDATE tbl_Players SET clo_lleg = %s WHERE name = %s", [p["clo_lleg"], p["name"]])
-			connector.commit()
-			cursor.execute("UPDATE tbl_Players SET clo_rleg = %s WHERE name = %s", [p["clo_rleg"], p["name"]])
-			connector.commit()
-			cursor.execute("UPDATE tbl_Players SET clo_feet = %s WHERE name = %s", [p["clo_feet"], p["name"]])
-			connector.commit()
-			cursor.execute("UPDATE tbl_Players SET imp_head = %s WHERE name = %s", [p["imp_head"], p["name"]])
-			connector.commit()
-			cursor.execute("UPDATE tbl_Players SET imp_larm = %s WHERE name = %s", [p["imp_larm"], p["name"]])
-			connector.commit()
-			cursor.execute("UPDATE tbl_Players SET imp_rarm = %s WHERE name = %s", [p["imp_rarm"], p["name"]])
-			connector.commit()
-			cursor.execute("UPDATE tbl_Players SET imp_lhand = %s WHERE name = %s", [p["imp_lhand"], p["name"]])
-			connector.commit()
-			cursor.execute("UPDATE tbl_Players SET imp_rhand = %s WHERE name = %s", [p["imp_rhand"], p["name"]])
-			connector.commit()
-			cursor.execute("UPDATE tbl_Players SET imp_chest = %s WHERE name = %s", [p["imp_chest"], p["name"]])
-			connector.commit()
-			cursor.execute("UPDATE tbl_Players SET imp_lleg = %s WHERE name = %s", [p["imp_lleg"], p["name"]])
-			connector.commit()
-			cursor.execute("UPDATE tbl_Players SET imp_rleg = %s WHERE name = %s", [p["imp_rleg"], p["name"]])
-			connector.commit()
-			cursor.execute("UPDATE tbl_Players SET imp_feet = %s WHERE name = %s", [p["imp_feet"], p["name"]])
-			connector.commit()
-			cursor.execute("UPDATE tbl_Players SET hp = %s WHERE name = %s", [p["hp"], p["name"]])
-			connector.commit()
-			cursor.execute("UPDATE tbl_Players SET charge = %s WHERE name = %s", [p["charge"], p["name"]])
-			connector.commit()
-'''
 def str2bool(v):
   return v.lower() in ("yes", "true", "True", "t", "1")
