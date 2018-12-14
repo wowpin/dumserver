@@ -1,26 +1,26 @@
-### `[IN DEVELOPMENT]`
-- `[TODO]` Dynamic events - creating custom events by passing an event definition string to addToScheduler() (rather than event ID, which load an event from a static, preloaded set of .EVENT files)
-- `[TODO]` INSPECT (showing detailed PC/NPC character sheet. Amount of detail depending on player's perception)
-- `[TODO]` WHISPER - whispering to players in the same room
-- `[TODO]` MESSAGE - in game player to player messages (think 'tell')
-- `[TODO]` Implementation of the CHECK STATS logic for viewing player's own character sheet. Perhaps a different command name?
-- `[TODO]` Script-able NPC conversation trees (?) - Research needed
-- `[TODO]` Dynamic room exits / run-time remapping exits to alternative destinations (perhaps via sutom events?)
+### ![In Development](https://img.shields.io/badge/%20-in%20development-blue.svg)
+- Dynamic events - creating custom events by passing an event definition string to addToScheduler() (rather than event ID, which load an event from a static, preloaded set of .EVENT files)
+- INSPECT (showing detailed PC/NPC character sheet. Amount of detail depending on player's perception)
+- WHISPER - whispering to players in the same room
+- MESSAGE - in game player to player messages (think 'tell')
+- Implementation of the CHECK STATS logic for viewing player's own character sheet. Perhaps a different command name?
+- Script-able NPC conversation trees (?) - Research needed
+- Dynamic room exits / run-time remapping exits to alternative destinations (perhaps via sutom events?)
 
 ### ![Current Version](https://img.shields.io/badge/%20-Current%20Version-green.svg) ![0.3.1](https://img.shields.io/badge/%20-0.3.1-lightgrey.svg) - 14-DEC-2018
 - Nasty bug causing server crashes in certain scenarios when looking at objects/players/npcs has been fixed. You don't want v0.3.
 - Added a functionality to remove idling players from the game. Idle timer is counted from the moment player has sent his last command. When idle time reaches allowed idle time, player is removed from the world without actually disconnecting the client. It's be nice to have them physically disconnected, although it'll require some mudserver.py wizardry..
 
-### `[PUBLISHED]` v0.3 - 14-DEC-2018
+### ![Legacy Version](https://img.shields.io/badge/%20-Legacy%20Version-orange.svg) ![0.3](https://img.shields.io/badge/%20-0.3-lightgrey.svg) - 14-DEC-2018
 - Command source code has been separated into individual functions in commands.py
 - Issue with multiple logins allowed for one character has been fixed - only one session per character is allowed now.
 
-### `[PUBLISHED]` v0.2.1 - 10-DEC-2018
+### ![Legacy Version](https://img.shields.io/badge/%20-Legacy%20Version-orange.svg) ![0.2.1](https://img.shields.io/badge/%20-0.2.1-lightgrey.svg) - 10-DEC-2018
 - Improvements to LOOK (e.g. 'LOOK item/player/NPC' will show their long_description/lookDescription parameter)
 - lookDescription and long_description (for items) are defined within relevant JSON definition files.
 - If a number of the same items are found in the room, one description will be shown, followed by "You can see X of those in the vicinity"
 
-### `[PUBLISHED]`  v0.2 - 5-DEC-2018
+### ![Legacy Version](https://img.shields.io/badge/%20-Legacy%20Version-orange.svg) ![0.2](https://img.shields.io/badge/%20-0.2-lightgrey.svg) - 5-DEC-2018
 - Brief summary of features implemented in 0.1 available at http://dumengine.wikidot.com/dum-v0-1-feature-summary
 - MySQL database instance is no longer required. All player, npc, item, room and actor information is stored in JSON files.
 - In-game event scheduler has been introduced allowing events to be scheduled for execution at set times. E.g "Send message "ABC" to player X in 5 seconds and make him unable to walk and talk for 30 seconds.".
