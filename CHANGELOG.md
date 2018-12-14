@@ -7,7 +7,7 @@
 - `[TODO]` Script-able NPC conversation trees (?) - Research needed
 - `[TODO]` Dynamic room exits / run-time remapping exits to alternative destinations (perhaps via sutom events?)
 
-### `[PUBLISHED]` v0.3.1 - 14-DEC-2018
+### ![Current Version](https://img.shields.io/badge/%20-Current%20Version-green.svg) ![0.3.1](https://img.shields.io/badge/%20-0.3.1-lightgrey.svg) - 14-DEC-2018
 - Nasty bug causing server crashes in certain scenarios when looking at objects/players/npcs has been fixed. You don't want v0.3.
 - Added a functionality to remove idling players from the game. Idle timer is counted from the moment player has sent his last command. When idle time reaches allowed idle time, player is removed from the world without actually disconnecting the client. It's be nice to have them physically disconnected, although it'll require some mudserver.py wizardry..
 
