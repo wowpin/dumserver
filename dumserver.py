@@ -492,7 +492,7 @@ while True:
 		# The dictionary key is the player's id number. We set their room to
 		# None initially until they have entered a name
 		# Try adding more player stats - level, gold, inventory, etc
-		players[id] = {look
+		players[id] = {
 			'name': None,
 			'prefix': None,
 			'room': None,
