@@ -7,6 +7,10 @@
 - `[TODO]` Script-able NPC conversation trees (?) - Research needed
 - `[TODO]` Dynamic room exits / run-time remapping exits to alternative destinations (perhaps via sutom events?)
 
+### `[PUBLISHED]` v0.3.1 - 14-DEC-2018
+- Nasty bug causing server crashes in certain scenarios when looking at objects/players/npcs has been fixed. You don't want v0.3.
+- Added a functionality to remove idling players from the game. Idle timer is counted from the moment player has sent his last command. When idle time reaches allowed idle time, player is removed from the world without actually disconnecting the client. It's be nice to have them physically disconnected, although it'll require some mudserver.py wizardry..
+
 ### `[PUBLISHED]` v0.3 - 14-DEC-2018
 - Command source code has been separated into individual functions in commands.py
 - Issue with multiple logins allowed for one character has been fixed - only one session per character is allowed now.
