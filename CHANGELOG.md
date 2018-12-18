@@ -9,15 +9,15 @@
 ### ![Current Version](https://img.shields.io/badge/%20-Current%20Version-green.svg) ![0.3.2](https://img.shields.io/badge/%20-0.3.1-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/18%20DEC%202018-lightgrey.svg)
 - Implemented custom events that can be injected directly from within the code. Function `addToScheduler()` now accepts a string eventID in addition to standard id number. E.g.
 
-Rather than executing predefined event ID:3 on player ID:32 as per below:
-`addToScheduler(3, 32, scheduler, eventDB)`
+Rather than executing predefined event ID:3 on player ID:32 as per below: <br/>
+`addToScheduler(3, 32, scheduler, eventDB)`<br/>
 
-It is now possible to inject an event definition directly:
-`addToScheduler('5|msg|Hello World!!', 32, scheduler, eventDB)`
+It is now possible to inject an event definition directly: <br/>
+`addToScheduler('5|msg|Hello World!!', 32, scheduler, eventDB)` <br/>
 
 The above will send `Hello World!!` message to player ID:32 in 5 seconds.
 
-### ![Legacy Version](https://img.shields.io/badge/%20-Current%20Version-orange.svg) ![0.3.1](https://img.shields.io/badge/%20-0.3.1-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/14%20DEC%202018-lightgrey.svg)
+### ![Legacy Version](https://img.shields.io/badge/%20-Legacy%20Version-orange.svg) ![0.3.1](https://img.shields.io/badge/%20-0.3.1-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/14%20DEC%202018-lightgrey.svg)
 - Nasty bug causing server crashes in certain scenarios when looking at objects/players/npcs has been fixed. You don't want v0.3.
 - Added a functionality to remove idling players from the game. Idle timer is counted from the moment player has sent his last command. When idle time reaches allowed idle time, player is removed from the world without actually disconnecting the client. It's be nice to have them physically disconnected, although it'll require some mudserver.py wizardry..
 
