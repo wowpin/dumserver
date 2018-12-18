@@ -216,6 +216,7 @@ log("Executing boot time events", "info")
 addToScheduler(1, -1, eventSchedule, scriptedEventsDB)
 addToScheduler(2, -1, eventSchedule, scriptedEventsDB)
 addToScheduler(3, -1, eventSchedule, scriptedEventsDB)
+# addToScheduler('0|spawnItem|1;$rid=3$;0;0', -1, eventSchedule, scriptedEventsDB)
 
 # Declare number of seconds to elapse between State Saves
 # A State Save takes values held in memory and updates the database

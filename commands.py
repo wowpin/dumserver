@@ -157,6 +157,7 @@ def attack(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items,
 						if players[pid]['room'] == players[id]['room']:
 							fights[len(fights)] = { 's1': players[id]['name'], 's2': target, 's1id': attackerId, 's2id': victimId, 's1type': 'pc', 's2type': 'pc', 'retaliated': 0 }
 							mud.send_message(id, '<f214>Attacking <r><u><f32>' + target + '!')
+							# addToScheduler('0|msg|<b63>You are being attacked by ' + players[id]['name'] + "!", pid, eventSchedule, eventDB)
 						else:
 							targetFound = False
 	

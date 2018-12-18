@@ -72,9 +72,13 @@ def getFreeKey(itemsDict, start = None):
 
 # Function for adding events to event scheduler
 def addToScheduler(eventID, targetID, scheduler, database):
-	for item in database:
-		if int(item[0]) == eventID:
-			scheduler[getFreeKey(scheduler)] = { 'time': int(time.time() + int(item[1])), 'target': int(targetID), 'type': item[2], 'body': item[3] }
+	if isinstance(eventID, int):
+		for item in database:
+			if int(item[0]) == eventID:
+				scheduler[getFreeKey(scheduler)] = { 'time': int(time.time() + int(item[1])), 'target': int(targetID), 'type': item[2], 'body': item[3] }
+	elif isinstance(eventID, str):
+		item = eventID.split('|')
+		scheduler[getFreeKey(scheduler)] = { 'time': int(time.time() + int(item[0])), 'target': int(targetID), 'type': item[1], 'body': item[2] }
 
 def loadPlayer(name, db):
 	try:
