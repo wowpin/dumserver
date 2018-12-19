@@ -8,11 +8,11 @@
 
 ### ![Current Version](https://img.shields.io/badge/%20-Current%20Version-green.svg) ![0.3.3](https://img.shields.io/badge/%20-0.3.3-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/19%20DEC%202018-lightgrey.svg)
 - Added NPC ability to drop loot on death. It's controlled within NPC definition (npcs.json) by manipulating the "inv" attribute as per example below:
-<br/>
+
 ```
 "inv" : [[1,19], [2,12]]
 ```
-<br/>
+
 In the example above, NPC will drop two items - Item ID:1 with probability of 19% and Item ID:2 with probability of 12%
 
 ### ![Legacy Version](https://img.shields.io/badge/%20-Legacy%20Version-orange.svg) ![0.3.2](https://img.shields.io/badge/%20-0.3.2-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/18%20DEC%202018-lightgrey.svg)
