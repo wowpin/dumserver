@@ -36,7 +36,7 @@ def setPlayerName(etarget, ebody, players, npcs, items, env, npcsDB, envDB):
 	players[etarget]['name'] = str(ebody)
 
 def setPlayerRoom(etarget, ebody, players, npcs, items, env, npcsDB, envDB):
-	players[etarget]['name'] = str(ebody)
+	players[etarget]['room'] = str(ebody)
 
 def setPlayerLvl(etarget, ebody, players, npcs, items, env, npcsDB, envDB):
 	players[etarget]['lvl'] = int(ebody)
