@@ -4,7 +4,7 @@
 {
     "1": {
 	"name" : "Cleaning Robot",
-	"inv" : "inventory",
+	"inv" : [[1,19], [2,12]],
 	"vocabulary" : "Beep Bop!|Eeeeek!|Whir Whirrr!|Systems operational!|Buzzzzz!",
 	"talkDelay" : "3",
 	"randomFactor": "15",
@@ -43,7 +43,7 @@
 
     "2": {
 	"name" : "Security Enforcer",
-	"inv" : "inventory",
+	"inv" : [[1,66], [2,12]],
 	"vocabulary" : "Move along citizen.|Can I help you?|It must be getting late...|Huh? Why would you sneak up on me like this?",
 	"talkDelay" : "30",
 	"randomFactor": "120",

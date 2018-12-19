@@ -147,6 +147,7 @@ for k in npcsDB:
 		v == "vocabulary" or \
 		v == "lookDescription" or \
 		v == "lastRoom" or \
+		v == "loot" or \
 		v == "whenDied"):
 			npcsDB[k][v] = int(npcsDB[k][v])
 
@@ -216,7 +217,6 @@ log("Executing boot time events", "info")
 addToScheduler(1, -1, eventSchedule, scriptedEventsDB)
 addToScheduler(2, -1, eventSchedule, scriptedEventsDB)
 addToScheduler(3, -1, eventSchedule, scriptedEventsDB)
-# addToScheduler('0|spawnItem|1;$rid=3$;0;0', -1, eventSchedule, scriptedEventsDB)
 
 # Declare number of seconds to elapse between State Saves
 # A State Save takes values held in memory and updates the database
@@ -241,6 +241,13 @@ players = {}
 
 # start the server
 mud = MudServer()
+
+for x in itemsDB:
+	print (x)
+	for y in itemsDB[x]:
+		print(y,':',itemsDB[x][y])
+
+	
 
 # main game loop. We loop forever (i.e. until the program is terminated)
 while True:
@@ -421,6 +428,21 @@ while True:
 			npcs[nid]['lastRoom'] = npcs[nid]['room']
 			npcs[nid]['room'] = None
 			npcs[nid]['hp'] = npcsTemplate[nid]['hp']
+			
+			# Drop NPC loot on the floor
+			droppedItems = []
+			for i in npcs[nid]['inv']:
+				# print("Dropping item " + str(i[0]) + " likelihood of " + str(i[1]) + "%")
+				if randint(0, 100) < int(i[1]):
+					addToScheduler("0|spawnItem|" + str(i[0]) + ";" + str(npcs[nid]['lastRoom']) + ";0;0", -1, eventSchedule, scriptedEventsDB)
+					# print("Dropped!" + str(itemsDB[int(i[0])]['name']))
+					droppedItems.append(str(itemsDB[int(i[0])]['name']))
+
+			# Inform other players in the room what items got dropped on NPC death
+			if len(droppedItems) > 0:
+				for p in players:
+					if players[p]['room'] == npcs[nid]['lastRoom']:
+						mud.send_message(p, "Right before <f32><u>" + str(npcs[nid]['name']) +"<r>'s lifeless body collapsed to the floor, it had dropped the following items: <f222>{}".format(', '.join(droppedItems)))
 
 	# Iterate through ENV elements and see if it's time to send a message to players in the same room as the ENV elements
 	for (eid, pl) in list(env.items()):
@@ -462,7 +484,7 @@ while True:
 			#npcs[nid]['room'] = npcsTemplate[nid]['room']
 			npcs[nid]['room'] = npcs[nid]['lastRoom']
 			# print("respawning " + npcs[nid]['name'])
-			print(npcs[nid]['hp'])
+			# print(npcs[nid]['hp'])
 
 	# Evaluate the Event Schedule
 	for (event, pl) in list(eventSchedule.items()):

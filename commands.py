@@ -380,6 +380,9 @@ def webclienttest(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB,
 	mud.send_message(id, '<b45>Background')
 	mud.send_message(id, '<b46>Background')
 	mud.send_message(id, '<b47>Background')
+	addToScheduler('0|msg|Dying in 10 seconds...', id, eventSchedule, eventDB)
+	addToScheduler('10|setPlayerRoom|$rid=666$', id, eventSchedule, eventDB)
+	addToScheduler('10|msg|You have died!', id, eventSchedule, eventDB)
 
 def runCommand(command, params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items, envDB, env, eventDB, eventSchedule, id, fights, corpses):
 	switcher = {
