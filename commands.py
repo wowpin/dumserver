@@ -13,6 +13,35 @@ def commandname(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, i
 def sendCommandError(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items, envDB, env, eventDB, eventSchedule, id, fights, corpses):
 	mud.send_message(id, 'Unknown command!')
 
+def whisper(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items, envDB, env, eventDB, eventSchedule, id, fights, corpses):
+	target = params.partition(' ')[0]
+	message = params.replace(target, "")
+	#if message[0] == " ":
+		#message.replace(message[0], "")
+	messageSent = False
+	#print(message)
+	#print(str(len(message)))
+	if len(target) > 0:
+		if len(message) > 0:
+			for p in players:
+				if players[p]['name'].lower() == target.lower():
+					if players[p]['room'] == players[id]['room']:
+						if players[p]['name'].lower() != players[id]['name'].lower():
+							mud.send_message(id, "You whisper to <f32>" + players[p]['name'] + "<r>: " + message[1:])
+							mud.send_message(p, "<f32>" + players[id]['name'] + "<r> whispers: " + message[1:])
+							messageSent = True
+							break
+						else:
+							mud.send_message(id, "You would probably look rather silly whispering to yourself.")
+							messageSent = True
+							break
+			if messageSent == False:
+				mud.send_message(id, "<f32>" + target + "<r> is not here with you.")
+		else:
+			mud.send_message(id, "What would you like to whisper?")
+	else:
+		mud.send_message(id, "Who would you like to whisper to??")
+
 def help(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items, envDB, env, eventDB, eventSchedule, id, fights, corpses):
 	mud.send_message(id, 'Commands:')
 	mud.send_message(id, '  say <message>	- Says something out loud, '  + "e.g. 'say Hello'")
@@ -396,6 +425,7 @@ def runCommand(command, params, mud, playersDB, players, rooms, npcsDB, npcs, it
 		"drop": drop,
 		"check": check,
 		"webclienttest": webclienttest,
+		"whisper": whisper,
 	}
 
 	try:

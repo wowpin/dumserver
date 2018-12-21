@@ -242,10 +242,6 @@ players = {}
 # start the server
 mud = MudServer()
 
-for x in itemsDB:
-	print (x)
-	for y in itemsDB[x]:
-		print(y,':',itemsDB[x][y])
 
 	
 
