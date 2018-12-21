@@ -1,12 +1,14 @@
 ### ![In Development](https://img.shields.io/badge/%20-in%20development-blue.svg)
 - INSPECT (showing detailed PC/NPC character sheet. Amount of detail depending on player's perception)
-- WHISPER - whispering to players in the same room
 - MESSAGE - in game player to player messages (think 'tell')
 - Implementation of the CHECK STATS logic for viewing player's own character sheet. Perhaps a different command name?
 - Script-able NPC conversation trees (?) - Research needed
 - Dynamic room exits / run-time remapping exits to alternative destinations (perhaps via sutom events?)
 
-### ![Current Version](https://img.shields.io/badge/%20-Current%20Version-green.svg) ![0.3.3](https://img.shields.io/badge/%20-0.3.3-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/19%20DEC%202018-lightgrey.svg)
+### ![Current Version](https://img.shields.io/badge/%20-Current%20Version-green.svg) ![0.3.4](https://img.shields.io/badge/%20-0.3.4-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/21%20DEC%202018-lightgrey.svg)
+- Implemented WHISPER command allowing players to send private messages to players in the same room. Usage: `WHISPER <target> <message>`
+
+### ![Legacy Version](https://img.shields.io/badge/%20-Legacy%20Version-orange.svg) ![0.3.3](https://img.shields.io/badge/%20-0.3.3-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/19%20DEC%202018-lightgrey.svg)
 - Added NPC ability to drop loot on death. It's controlled within NPC definition (npcs.json) by manipulating the "inv" attribute as per example below:
 
 ```
