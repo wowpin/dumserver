@@ -1,5 +1,6 @@
 ### ![Development Ideas](https://img.shields.io/badge/%20-Development%20Ideas-blue.svg)
-- NEW: In-game chat channels (custom built or https://gossip.haus/ - still to be decided)
+- A brand new Webclient with proper ANSI support - replacing Phudbase with Dome Client
+- In-game chat channels (custom built or https://gossip.haus/ - still to be decided)
 - INSPECT (showing detailed PC/NPC character sheet. Amount of detail depending on player's perception)
 - MESSAGE - in game player to player messages (think 'tell')
 - Implementation of the CHECK STATS logic for viewing player's own character sheet. Perhaps a different command name?
