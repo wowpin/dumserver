@@ -1,4 +1,4 @@
-### ![In Development](https://img.shields.io/badge/%20-in%20development-blue.svg)
+### ![Development Ideas](https://img.shields.io/badge/%20-Development%20Ideas-blue.svg)
 - NEW: In-game chat channels (custom built or https://gossip.haus/ - still to be decided)
 - INSPECT (showing detailed PC/NPC character sheet. Amount of detail depending on player's perception)
 - MESSAGE - in game player to player messages (think 'tell')
