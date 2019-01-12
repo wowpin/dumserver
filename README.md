@@ -1,17 +1,11 @@
 ![Dum!](docs/logo.png)
-# dumserver ![Build](https://img.shields.io/badge/build-0.3.4-green.svg)
+# dumserver ![Build](https://img.shields.io/badge/build-0.4-green.svg)
 A modern Python MU* engine - re-imagined, actively developed and properly tracked.
 
 ## What is it?
 DUM is a hobby project aiming to continue developing a feature-rich Python codebase for a MUD style game. It is building on brillinat work by Mark Frimston, be sure to check out his Mud-Pi project (https://github.com/Frimkron/mud-pi).
 
-> Note: A **Test Server** running this repository of `dumserver` is live! It's accessible via a webclient -> http://dum.dynu.net , alternatively use a MUD client of your choice and point it to dum-devworld01.dynu.net:35123. If you'd like to try DUM out, you can log in and explore a couple of example rooms. Use one of the account credentials below:
-
-- user: `Guest1` / pass: `Password`
-- user: `Guest2` / pass: `Password`
-- user: `Guest3` / pass: `Password`
-- user: `Guest4` / pass: `Password`
-- user: `Guest5` / pass: `Password`
+> New Webclient is live! Go ahead an check out DUM at http://playdum.dynu.net
 
 If you're struggling to connect, it means I'm probably currently playing with the code etc. Try again in a few minutes and it should be up and running.
 
