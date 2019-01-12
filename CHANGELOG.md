@@ -7,7 +7,18 @@
 - Script-able NPC conversation trees (?) - Research needed
 - Dynamic room exits / run-time remapping exits to alternative destinations (perhaps via sutom events?)
 
-### ![Current Version](https://img.shields.io/badge/%20-Current%20Version-green.svg) ![0.3.4](https://img.shields.io/badge/%20-0.3.4-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/21%20DEC%202018-lightgrey.svg)
+### ![Current Version](https://img.shields.io/badge/%20-Current%20Version-green.svg) ![0.4](https://img.shields.io/badge/%20-0.4-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/12%20JAN%202019-lightgrey.svg)
+- New Web Client!! (Such wow) - courtesy of https://github.com/JavaChilly/dome-client.js - now correctly handling ANSI colours.
+- Cosmetic improvements to LOOK
+- Text formatting improvements to adapt to new webclient. Improved readability and colour scheme.
+- Included WHISPER command in the help page.
+- Help page formatting fix.
+- Implemented client connection termination when idle time is reached (rather just removing player from the game world)
+- Commands are now case-insensitive - helps while using the webclient on a phone
+- The 'Unknown command!' message now shows you what you have typed
+- Improvements and fixes to escape character handling in cmsg.py
+
+### ![Legacy Version](https://img.shields.io/badge/%20-Legacy%20Version-orange.svg) ![0.3.4](https://img.shields.io/badge/%20-0.3.4-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/21%20DEC%202018-lightgrey.svg)
 - Implemented WHISPER command allowing players to send private messages to players in the same room. Usage: `WHISPER <target> <message>`
 
 ### ![Legacy Version](https://img.shields.io/badge/%20-Legacy%20Version-orange.svg) ![0.3.3](https://img.shields.io/badge/%20-0.3.3-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/19%20DEC%202018-lightgrey.svg)
