@@ -19,13 +19,6 @@ If you're struggling to connect, it means I'm probably currently playing with th
 ## Features
 Head over to the [Wiki](http://dumengine.wikidot.com/dum-v0-1-feature-summary) for small breakdown of core features in the initial version 0.1. All changes/improvements/fixes since 0.1 are being documented in [CHANGELOG.md](CHANGELOG.md)
 
-## Changelog
-There has been a lot of development since the initial `dum-generic` repository. I mean, A LOT. For a full list, see CHANGELOG.md, but to name a few biggies:
-
-- DUM no longer requires a MySQL database instance. All information is stored within JSON files
-- Introduction of an in-game Event Scheduler and scripted events. (e.g "make the player unable to move for 5 seconds and damage him for 15 HP each second")
-- Dedicated Web-Client - soon to be published in a separate repository
-
 ## Running the Server
 Running your own instance is really straight-forward, instructions below tested on an Ubuntu instance.
 
