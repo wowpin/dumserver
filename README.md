@@ -8,6 +8,12 @@ DUM is a hobby project aiming to continue developing a feature-rich Python codeb
 ## Try it out!
 New Webclient is live! Go ahead an check out DUM at http://playdum.dynu.net
 
+Connection details:
+'''
+Host: dum-devworld01.dynu.net
+Port: 35123
+'''
+
 If you're struggling to connect, it means I'm probably currently playing with the code etc. Try again in a few minutes and it should be up and running.
 
 ## Features
