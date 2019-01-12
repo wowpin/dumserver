@@ -3,6 +3,8 @@ from functions import getFreeKey
 from copy import deepcopy
 import time
 
+#from gossip import gsocket
+
 '''
 Command function template:
 
@@ -11,7 +13,7 @@ def commandname(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, i
 '''
 
 def sendCommandError(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items, envDB, env, eventDB, eventSchedule, id, fights, corpses):
-	mud.send_message(id, 'Unknown command!')
+	mud.send_message(id, "Unknown command " + str(params) + "!")
 
 def whisper(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items, envDB, env, eventDB, eventSchedule, id, fights, corpses):
 	target = params.partition(' ')[0]
@@ -44,15 +46,17 @@ def whisper(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items
 
 def help(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items, envDB, env, eventDB, eventSchedule, id, fights, corpses):
 	mud.send_message(id, 'Commands:')
-	mud.send_message(id, '  say <message>	- Says something out loud, '  + "e.g. 'say Hello'")
-	mud.send_message(id, '  look			 - Examines the ' + "surroundings, e.g. 'look'")
-	mud.send_message(id, '  go <exit>		- Moves through the exit ' + "specified, e.g. 'go outside'")
-	mud.send_message(id, '  attack <target>  - attack target ' + "specified, e.g. 'attack cleaning bot'")
-	mud.send_message(id, '  check inventory  - check the contents of ' + "your inventory")
-	mud.send_message(id, '  take <item>	  - pick up an item lying ' + "on the floor")
-	mud.send_message(id, '  drop <item>	  - drop an item from your inventory ' + "on the floor")
+	mud.send_message(id, '  say <message>              - Says something out loud, '  + "e.g. 'say Hello'")
+	mud.send_message(id, '  look                       - Examines the ' + "surroundings, items in the room, NPCs or other players e.g. 'look tin can' or 'look cleaning robot'")
+	mud.send_message(id, '  go <exit>                  - Moves through the exit ' + "specified, e.g. 'go outside'")
+	mud.send_message(id, '  attack <target>            - Attack target ' + "specified, e.g. 'attack cleaning bot'")
+	mud.send_message(id, '  check inventory            - Check the contents of ' + "your inventory")
+	mud.send_message(id, '  take <item>                - Pick up an item lying ' + "on the floor")
+	mud.send_message(id, '  drop <item>                - Drop an item from your inventory ' + "on the floor")
+	mud.send_message(id, '  whisper <target> <message> - Whisper to a player in the same room')
 
 def say(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items, envDB, env, eventDB, eventSchedule, id, fights, corpses):
+			#print(gsocket.inbound_frame_buffer)
 			if players[id]['canSay'] == 1:
 				# go through every player in the game
 				for (pid, pl) in list(players.items()):
@@ -72,7 +76,7 @@ def look(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items, e
 			rm = rooms[players[id]['room']]
 	
 			# send the player back the description of their current room
-			mud.send_message(id, "<f42>" + rm['description'])
+			mud.send_message(id, "<f230>" + rm['description'])
 	
 			playershere = []
 			
@@ -107,14 +111,14 @@ def look(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items, e
 			
 			# send player a message containing the list of players in the room
 			if len(playershere) > 0:
-				mud.send_message(id, '<f42>You see: <f77>{}'.format(', '.join(playershere)))
+				mud.send_message(id, '<f230>You see: <f220>{}'.format(', '.join(playershere)))
 	
 			# send player a message containing the list of exits from this room
-			mud.send_message(id, '<f42>Exits are: <f94>{}'.format(', '.join(rm['exits'])))
+			mud.send_message(id, '<f230>Exits are: <f220>{}'.format(', '.join(rm['exits'])))
 	
 			# send player a message containing the list of items in the room
 			if len(itemshere) > 0:
-				mud.send_message(id, '<f42>You notice: <f222>{}'.format(', '.join(itemshere)))
+				mud.send_message(id, '<f230>You notice: <f220>{}'.format(', '.join(itemshere)))
 		else:
 			# If argument is given, then evaluate it
 			param = params.lower()
@@ -151,9 +155,11 @@ def look(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items, e
 				if items[i]['room'].lower() == players[id]['room'] and itemsDB[items[i]['id']]['name'].lower() == param:
 					if itemCounter == 0:
 						message += itemsDB[items[i]['id']]['long_description']
+						itemName = itemsDB[items[i]['id']]['article'] + " " + itemsDB[items[i]['id']]['name']
 					itemCounter += 1
 	
 			if len(message) > 0:
+				mud.send_message(id, "It's " + itemName + ".")
 				mud.send_message(id, message)
 				messageSent = True
 				if itemCounter > 1:
@@ -185,7 +191,7 @@ def attack(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items,
 						attackerId = id
 						if players[pid]['room'] == players[id]['room']:
 							fights[len(fights)] = { 's1': players[id]['name'], 's2': target, 's1id': attackerId, 's2id': victimId, 's1type': 'pc', 's2type': 'pc', 'retaliated': 0 }
-							mud.send_message(id, '<f214>Attacking <r><u><f32>' + target + '!')
+							mud.send_message(id, '<f214>Attacking <r><f255>' + target + '!')
 							# addToScheduler('0|msg|<b63>You are being attacked by ' + players[id]['name'] + "!", pid, eventSchedule, eventDB)
 						else:
 							targetFound = False
@@ -409,9 +415,6 @@ def webclienttest(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB,
 	mud.send_message(id, '<b45>Background')
 	mud.send_message(id, '<b46>Background')
 	mud.send_message(id, '<b47>Background')
-	addToScheduler('0|msg|Dying in 10 seconds...', id, eventSchedule, eventDB)
-	addToScheduler('10|setPlayerRoom|$rid=666$', id, eventSchedule, eventDB)
-	addToScheduler('10|msg|You have died!', id, eventSchedule, eventDB)
 
 def runCommand(command, params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items, envDB, env, eventDB, eventSchedule, id, fights, corpses):
 	switcher = {
@@ -431,5 +434,5 @@ def runCommand(command, params, mud, playersDB, players, rooms, npcsDB, npcs, it
 	try:
 		switcher[command](params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items, envDB, env, eventDB, eventSchedule, id, fights, corpses)
 	except Exception as e:
-		print(str(e))
-		switcher["sendCommandError"](params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items, envDB, env, eventDB, eventSchedule, id, fights, corpses)
+		# print(str(e))
+		switcher["sendCommandError"](e, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items, envDB, env, eventDB, eventSchedule, id, fights, corpses)

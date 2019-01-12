@@ -184,7 +184,8 @@ class MudServer(object):
 		# we make sure to put a newline on the end so the client receives the
 		# message on its own line
 		# print("sending...")
-		self._attempt_send(to, cmsg(message)+"\n\r")
+		# self._attempt_send(to, cmsg(message)+"\n\r")
+		self._attempt_send(to, "\n" + cmsg(message))
 
 	def shutdown(self):
 		"""Closes down the server, disconnecting all clients and
@@ -266,6 +267,7 @@ class MudServer(object):
 			# matter what we send, we're really just checking that data can
 			# still be written to the socket. If it can't, an error will be
 			# raised and we'll know that the client has disconnected.
+			# self._attempt_send(id, "\x00")
 			self._attempt_send(id, "\x00")
 
 			# update the last check time

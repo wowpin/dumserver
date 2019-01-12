@@ -22,6 +22,9 @@ from commands import runCommand
 
 import time
 
+#import gossip
+#from gossip import gsocket
+
 # import the MUD server class
 from mudserver import MudServer
 
@@ -247,6 +250,16 @@ mud = MudServer()
 
 # main game loop. We loop forever (i.e. until the program is terminated)
 while True:
+	# print(type(gsocket.outbound_frame_buffer))
+	# Gossip test
+	#inbound = gsocket.handle_read()
+	#if inbound != None:
+		#print(type(inbound))
+		#print(inbound)
+	#gsocket.handle_write()
+
+	#print(type(readtest))
+	#print(readtest)
 	# pause for 1/5 of a second on each loop, so that we don't constantly
 	# use 100% CPU time
 	time.sleep(0.1)
@@ -338,11 +351,11 @@ while True:
 							if players[fights[fid]['s1id']]['hp'] > 0:
 								npcs[fights[fid]['s2id']]['hp'] = npcs[fights[fid]['s2id']]['hp'] - (players[fights[fid]['s1id']]['str'] + modifier)
 								players[fights[fid]['s1id']]['lastCombatAction'] = int(time.time())
-								mud.send_message(fights[fid]['s1id'], 'You manage to hit <f21><u>' + npcs[fights[fid]['s2id']]['name'] + '<r> for <b2><f0>' + str(players[fights[fid]['s1id']]['str'] + modifier)  + '<r> points of damage')
+								mud.send_message(fights[fid]['s1id'], 'You manage to hit <f220>' + npcs[fights[fid]['s2id']]['name'] + '<r> for <b2><f0>' + str(players[fights[fid]['s1id']]['str'] + modifier)  + '<r> points of damage')
 
 						else:
 							players[fights[fid]['s1id']]['lastCombatAction'] = int(time.time())
-							mud.send_message(fights[fid]['s1id'], 'You miss <u><f21>' + npcs[fights[fid]['s2id']]['name'] + '<r> completely!')
+							mud.send_message(fights[fid]['s1id'], 'You miss <f220>' + npcs[fights[fid]['s2id']]['name'] + '<r> completely!')
 					else:
 						mud.send_message(fights[fid]['s1id'], '<f225>Suddenly you stop. It wouldn`t be a good idea to attack <u><f21>' + npcs[fights[fid]['s2id']]['name'] + '<r> at this time.')
 						fightsCopy = deepcopy(fights)
@@ -361,10 +374,10 @@ while True:
 						if npcs[fights[fid]['s1id']]['hp'] > 0:
 							players[fights[fid]['s2id']]['hp'] = players[fights[fid]['s2id']]['hp'] - (npcs[fights[fid]['s1id']]['str'] + modifier)
 							npcs[fights[fid]['s1id']]['lastCombatAction'] = int(time.time())
-							mud.send_message(fights[fid]['s2id'], '<f21><u>' + npcs[fights[fid]['s1id']]['name'] + '<r> has managed to hit you for <f15><b88>' + str(npcs[fights[fid]['s1id']]['str'] + modifier) + '<r> points of damage.')
+							mud.send_message(fights[fid]['s2id'], '<f220>' + npcs[fights[fid]['s1id']]['name'] + '<r> has managed to hit you for <f15><b88>' + str(npcs[fights[fid]['s1id']]['str'] + modifier) + '<r> points of damage.')
 					else:
 						npcs[fights[fid]['s1id']]['lastCombatAction'] = int(time.time())
-						mud.send_message(fights[fid]['s2id'], '<f21><u>' + npcs[fights[fid]['s1id']]['name'] + '<r> has missed you completely!')
+						mud.send_message(fights[fid]['s2id'], '<f220>' + npcs[fights[fid]['s1id']]['name'] + '<r> has missed you completely!')
 		elif fights[fid]['s1type'] == 'npc' and fights[fid]['s2type'] == 'npc':
 			test = 1
 			# NPC -> NPC
@@ -381,16 +394,17 @@ while True:
 				if npcs[nid]['room'] == players[pid]['room']:
 					if len(npcs[nid]['vocabulary']) > 1:
 						#mud.send_message(pid, npcs[nid]['vocabulary'][rnd])
-						msg = '<f21><u>' + npcs[nid]['name'] + '<r> says: <f86>' + npcs[nid]['vocabulary'][rnd]
+						msg = '<f220>' + npcs[nid]['name'] + '<r> says: <f86>' + npcs[nid]['vocabulary'][rnd]
 						mud.send_message(pid, msg)
 						npcs[nid]['randomizer'] = randint(0, npcs[nid]['randomFactor'])
 						npcs[nid]['lastSaid'] = rnd
 					else:
 						#mud.send_message(pid, npcs[nid]['vocabulary'][0])
-						msg = '<f21><u>' + npcs[nid]['name'] + '<r> says: <f86>' + npcs[nid]['vocabulary'][0]
+						msg = '<f220>' + npcs[nid]['name'] + '<r> says: <f86>' + npcs[nid]['vocabulary'][0]
 						mud.send_message(pid, msg)
 						npcs[nid]['randomizer'] = randint(0, npcs[nid]['randomFactor'])
 			npcs[nid]['timeTalked'] =  now
+
 		# Iterate through fights and see if anyone is attacking an NPC - if so, attack him too if not in combat (TODO: and isAggressive = true)
 		for (fid, pl) in list(fights.items()):
 			if fights[fid]['s2id'] == nid and npcs[fights[fid]['s2id']]['isInCombat'] == 1 and fights[fid]['s1type'] == 'pc' and fights[fid]['retaliated'] == 0:
@@ -420,7 +434,7 @@ while True:
 			for (pid, pl) in list(players.items()):
 				if players[pid]['authenticated'] is not None:
 					if players[pid]['authenticated'] is not None and players[pid]['room'] == npcs[nid]['room']:
-						mud.send_message(pid, "<f32><u>{}<r> <f88>has been killed.".format(npcs[nid]['name']))
+						mud.send_message(pid, "<f220>{}<r> <f88>has been killed.".format(npcs[nid]['name']))
 			npcs[nid]['lastRoom'] = npcs[nid]['room']
 			npcs[nid]['room'] = None
 			npcs[nid]['hp'] = npcsTemplate[nid]['hp']
@@ -438,7 +452,7 @@ while True:
 			if len(droppedItems) > 0:
 				for p in players:
 					if players[p]['room'] == npcs[nid]['lastRoom']:
-						mud.send_message(p, "Right before <f32><u>" + str(npcs[nid]['name']) +"<r>'s lifeless body collapsed to the floor, it had dropped the following items: <f222>{}".format(', '.join(droppedItems)))
+						mud.send_message(p, "Right before <f220>" + str(npcs[nid]['name']) +"<r>'s lifeless body collapsed to the floor, it had dropped the following items: <f220>{}".format(', '.join(droppedItems)))
 
 	# Iterate through ENV elements and see if it's time to send a message to players in the same room as the ENV elements
 	for (eid, pl) in list(env.items()):
@@ -498,9 +512,11 @@ while True:
 	for p in playersCopy:
 		if playersCopy[p]['authenticated'] != None:
 			if now - playersCopy[p]['idleStart'] > allowedPlayerIdle:
-				mud.send_message(p, "Your body starts tingling. You instinctively hold your hand up to your face and notice you slowly begin to vanish. You are being disconnected due to inactivity...")
-				log("Character " + str(players[p]['name']) + " is being logged out due to inactivity.", "warning")
+				mud.send_message(p, "<f232><b11>Your body starts tingling. You instinctively hold your hand up to your face and notice you slowly begin to vanish. You are being disconnected due to inactivity...")
+				log("Character " + str(players[p]['name']) + " is being disconnected due to inactivity.", "warning")
 				del players[p]
+				log("Disconnecting client " + str(p), "warning")
+				mud._handle_disconnect(p)
 
 	npcsTemplate = deepcopy(npcs)
 	
@@ -564,38 +580,48 @@ while True:
 		# send the new player a prompt for their name
 		# mud.send_message(id, 'Connected to server!')
 
-		mud.send_message(id, "<f236>                                                  <f243>,o88888    ")
-		mud.send_message(id, "<f236>                                               <f243>,o8888888'    ")
-		mud.send_message(id, "<f236>                         ,:o:o:oooo.        <f243>,8O88Pd8888\"     ")
-		mud.send_message(id, "<f236>                     ,.::.::o:ooooOoOoO. <f243>,oO8O8Pd888'\"       ")
-		mud.send_message(id, "<f236>                   ,.:.::o:ooOoOoOO8O8OOo.<f243>8OOPd8O8O\"         ")
-		mud.send_message(id, "<f236>                  , ..:.::o:ooOoOOOO8OOOOo.<f243>FdO8O8\"           ")
-		mud.send_message(id, "<f236>                 , ..:.::o:ooOoOO8O888O8O,<f243>COCOO\"             ")
-		mud.send_message(id, "<f236>                , . ..:.::o:ooOoOOOO8OOO<f243>OCOCO\"               ")
-		mud.send_message(id, "<f236>                 . ..:.::o:ooOoOoOO8O8<f243>OCCCC\"<f236>o                ")
-		mud.send_message(id, "<f236>                    . ..:.::o:ooooOo<f243>CoCCC\"<f236>o:o                ")
-		mud.send_message(id, "<f236>                    . ..:.::o:o:,<f243>cooooCo\"<f236>oo:o:               ")
-		mud.send_message(id, "<f236>                 `   . . ..:.:<f243>cocoooo\"<f236>'o:o:::'               ")
-		mud.send_message(id, "<f236>                 <f243>.<f236>`   . ..::<f243>ccccoc\"<f236>'o:o:o:::'                ")
-		mud.send_message(id, "<f236>                <f243>:.:.<f236>    <f243>,c:cccc\"'<f236>:.:.:.:.:.'                 ")
-		mud.send_message(id, "<f236>              <f243>..:.:\"'`::::c:\"'<f236>..:.:.:.:.:.'                  ")
-		mud.send_message(id, "<f236>            <f243>...:.'.:.::::\"<f236>'    . . . . .'                    ")
-		mud.send_message(id, "<f236>           <f243>.. . ....:.\"' <f236>`   .  . . ''                       ")
-		mud.send_message(id, "<f236>         <f243>. . . ....\"'                                        ")
-		mud.send_message(id, "<f236>        <f243> .. . .\"'<f236>     -<f230>DUM<f236>-                                  ")
-		mud.send_message(id, "<f236>        <f243>.                                                    ")		
+		mud.send_message(id, "\x00")
+		mud.send_message(id, "\x00")
+		mud.send_message(id, "<f94>                                                  <f246>,o88888    ")
+		mud.send_message(id, "<f94>                                               <f246>,o8888888'    ")
+		mud.send_message(id, "<f94>                         ,:o:o:oooo.        <f246>,8O88Pd8888\"     ")
+		mud.send_message(id, "<f94>                     ,.::.::o:ooooOoOoO. <f246>,oO8O8Pd888'\"       ")
+		mud.send_message(id, "<f94>                   ,.:.::o:ooOoOoOO8O8OOo.<f246>8OOPd8O8O\"         ")
+		mud.send_message(id, "<f94>                  , ..:.::o:ooOoOOOO8OOOOo.<f246>FdO8O8\"           ")
+		mud.send_message(id, "<f94>                 , ..:.::o:ooOoOO8O888O8O,<f246>COCOO\"             ")
+		mud.send_message(id, "<f94>                , . ..:.::o:ooOoOOOO8OOO<f246>OCOCO\"               ")
+		mud.send_message(id, "<f94>                 . ..:.::o:ooOoOoOO8O8<f246>OCCCC\"<f94>o                ")
+		mud.send_message(id, "<f94>                    . ..:.::o:ooooOo<f246>CoCCC\"<f94>o:o                ")
+		mud.send_message(id, "<f94>                    . ..:.::o:o:,<f246>cooooCo\"<f94>oo:o:               ")
+		mud.send_message(id, "<f94>                 `   . . ..:.:<f246>cocoooo\"<f94>'o:o:::'               ")
+		mud.send_message(id, "<f94>                 <f246>.<f94>`   . ..::<f246>ccccoc\"<f94>'o:o:o:::'                ")
+		mud.send_message(id, "<f94>                <f246>:.:.<f94>    <f246>,c:cccc\"'<f94>:.:.:.:.:.'                 ")
+		mud.send_message(id, "<f94>              <f246>..:.:\"'`::::c:\"'<f94>..:.:.:.:.:.'                  ")
+		mud.send_message(id, "<f94>            <f246>...:.'.:.::::\"<f94>'    . . . . .'                    ")
+		mud.send_message(id, "<f94>           <f246>.. . ....:.\"' <f94>`   .  . . ''                       ")
+		mud.send_message(id, "<f94>         <f246>. . . ....\"'                                        ")
+		mud.send_message(id, "<f94>        <f246> .. . .\"'<f94>     -<f230>DUM<f94>-                                  ")
+		mud.send_message(id, "<f94>        <f246>.                                                    ")		
 		mud.send_message(id, " ")
 		mud.send_message(id, " ")
-		mud.send_message(id, "<b46> a modern MU* engine       ")
-		mud.send_message(id, "<b46>    dumengine.wikidot.com  ")
+		mud.send_message(id, "<f250><b24> a modern MU* engine             ")
+		mud.send_message(id, "<f250><b24>    github.com/wowpin/dumserver  ")
 		mud.send_message(id, " ")
-		mud.send_message(id, "<b46> Development Server 1      ")
+		mud.send_message(id, "<f250><b24> Development Server 1            ")
 		mud.send_message(id, " ")
-		mud.send_message(id, "<b46> Codebase: v0.3.4     ")
+		mud.send_message(id, "<f250><b24> Codebase: v0.3.4                ")
 		mud.send_message(id, " ")
-		mud.send_message(id, '<f15>What is your username?')
+		mud.send_message(id, "<f15>Following guest accounts are available, get logging!\n")
+		mud.send_message(id, "<f15>Username: <r><f220>Guest1<r><f15> Password: <r><f220>Password")
+		mud.send_message(id, "<f15>Username: <r><f220>Guest2<r><f15> Password: <r><f220>Password")
+		mud.send_message(id, "<f15>Username: <r><f220>Guest3<r><f15> Password: <r><f220>Password")
+		mud.send_message(id, "<f15>Username: <r><f220>Guest4<r><f15> Password: <r><f220>Password")
+		mud.send_message(id, "<f15>Username: <r><f220>Guest5<r><f15> Password: <r><f220>Password")
+		
 		mud.send_message(id, " ")
-		mud.send_message(id, " ")
+		mud.send_message(id, '<f15>What is your username?\n')
+
+		# mud.send_message(id, " ")
 		log("Client ID: " + str(id) + " has connected", "info")
 
 	# go through any recently disconnected players
@@ -660,7 +686,8 @@ while True:
 				mud.send_message(id, 'Hi <u><f32>' + command + '<r>!')
 				mud.send_message(id, '<f15>What is your password?')
 			else:
-				mud.send_message(id, '<f202>User <f32>' + command + '<r> was not found!')
+				mud.send_message(id, '<f202>User <f32>' + command + '<r> was not found!\n')
+				mud.send_message(id, '<f15>What is your username?')
 				log("Client ID: " + str(id) + " has requested non existent user (" + command + ")", "info")
 		elif players[id]['name'] is not None \
 			and players[id]['authenticated'] is None:
@@ -735,22 +762,23 @@ while True:
 							mud.send_message(pid, '{} has materialised out of thin air nearby.'.format(players[id]['name']))
 	
 					# send the new player a welcome message
-					mud.send_message(id, '<f15>Welcome to DUM!, {}. '.format(players[id]['name']))
-					mud.send_message(id, '<f15>-------------------------------------------------')
-					mud.send_message(id, "<f15>Type 'help' for a list of commands. Have fun!")
+					mud.send_message(id, '\n<f220>Welcome to DUM!, {}. '.format(players[id]['name']))
+					mud.send_message(id, '\n<f255>Hello there traveller! You have connected to a DUM development server, which currently consists of a few test rooms, npcs, items and environment actors. You can move around the rooms along with other players (if you are lucky to meet any), attack each other (including NPCs), pick up and drop items and chat. Make sure to visit the github repo for further info, make sure to check out the CHANGELOG. Thanks for your interest in DUM, high five!')
+					mud.send_message(id, "\n<f255>Type '<r><f220>help<r><f255>' for a list of all currently implemented commands. Have fun!")
 				else:
 					mud.send_message(id, '<f202>This character is already in the world!')
 					log("Client ID: " + str(id) + " has requested a character which is already in the world!", "info")
 					players[id]['name'] = None
-					mud.send_message(id, '<f15>What is your username?')
+					mud.send_message(id, '<f15>What is your username?\n')
 			else:
-				mud.send_message(id, '<f202>Password incorrect!')
+				mud.send_message(id, '<f202>Password incorrect!\n')
 				log("Client ID: " + str(id) + " has failed authentication", "info")
 				players[id]['name'] = None
 				mud.send_message(id, '<f15>What is your username?')
 
 		else:
 			players[id]['idleStart'] = int(time.time())
-			runCommand(command, params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, itemsInWorld, envDB, env, scriptedEventsDB, eventSchedule, id, fights, corpses)
+			mud.send_message(id, "\x00")
+			runCommand(command.lower(), params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, itemsInWorld, envDB, env, scriptedEventsDB, eventSchedule, id, fights, corpses)
 			
 
