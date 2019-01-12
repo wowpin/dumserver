@@ -1,5 +1,5 @@
 ## Dum Server!
-## v0.3.4
+## v0.4
 
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
@@ -609,7 +609,7 @@ while True:
 		mud.send_message(id, " ")
 		mud.send_message(id, "<f250><b24> Development Server 1            ")
 		mud.send_message(id, " ")
-		mud.send_message(id, "<f250><b24> Codebase: v0.3.4                ")
+		mud.send_message(id, "<f250><b24> Codebase: v0.4                  ")
 		mud.send_message(id, " ")
 		mud.send_message(id, "<f15>Following guest accounts are available, get logging!\n")
 		mud.send_message(id, "<f15>Username: <r><f220>Guest1<r><f15> Password: <r><f220>Password")
