@@ -8,7 +8,7 @@
 - Dynamic room exits / run-time remapping exits to alternative destinations (perhaps via sutom events?)
 
 ### ![Current Version](https://img.shields.io/badge/%20-Current%20Version-green.svg) ![0.4](https://img.shields.io/badge/%20-0.4-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/12%20JAN%202019-lightgrey.svg)
-- **New Web Client!!** (Such wow) - courtesy of https://github.com/JavaChilly/dome-client.js - now correctly handling ANSI colours.
+- **New Web Client!!** (such wow) - courtesy of https://github.com/JavaChilly/dome-client.js - now correctly handling ANSI colours.
 - Cosmetic improvements to LOOK
 - Text formatting improvements to adapt to new webclient. Improved readability and colour scheme.
 - Included WHISPER command in the help page.
