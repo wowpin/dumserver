@@ -3,7 +3,7 @@
 A modern Python MU* engine - re-imagined, actively developed and properly tracked.
 
 ## What is it?
-DUM is a hobby project aiming to continue developing a feature-rich Python codebase for a MUD style game. It is building on brillinat work by Mark Frimston, be sure to check out his Mud-Pi project (https://github.com/Frimkron/mud-pi).
+DUM is a hobby project aiming to develop a feature-rich Python codebase for a sci-fi MUD style game. It is building on brillinat work by Mark Frimston, be sure to check out his Mud-Pi project (https://github.com/Frimkron/mud-pi).
 
 ## Try it out!
 New Webclient is live! Go ahead an check out DUM at http://playdum.dynu.net
@@ -27,9 +27,8 @@ There has been a lot of development since the initial `dum-generic` repository. 
 - Dedicated Web-Client - soon to be published in a separate repository
 
 ## Running the Server
-Running your own instance is really straight-forward.
+Running your own instance is really straight-forward, instructions below tested on an Ubuntu instance.
 
-### For Linux:
 1. `sudo apt-get update` and `sudo apt-get upgrade`
 2. Install Python3: `sudo apt-get install python3`
 3. Install Pip3: `sudo apt-get install python3-pip`
@@ -39,19 +38,6 @@ Running your own instance is really straight-forward.
 7. CD into dumserver folder and run the server: `python3 dumserver.py`
 
 You will be greeted by some boot-time messages - your server is up and running!
-
-```
-05/12/2018 11:19:23 [Server Boot] 
-05/12/2018 11:19:23 [Loading configuration file] 
-05/12/2018 11:19:23 [info] Rooms loaded: 6
-05/12/2018 11:19:23 [info] Environment Actors loaded: 1
-05/12/2018 11:19:23 [info] NPCs loaded: 2
-05/12/2018 11:19:23 [info] Items loaded: 2
-05/12/2018 11:19:23 [info] Scripted Events loaded: 6
-05/12/2018 11:19:23 [info] Registered player accounts loaded: 0
-05/12/2018 11:19:23 [info] Executing boot time events
-05/12/2018 11:19:23 [info] State Save interval: 5 seconds
-```
 
 You now should be able to connect to your server on `<server IP/hostname>:35123`
 
