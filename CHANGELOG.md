@@ -7,7 +7,40 @@
 - Script-able NPC conversation trees (?) - Research needed
 - Dynamic room exits / run-time remapping exits to alternative destinations (perhaps via sutom events?)
 
-### ![Current Version](https://img.shields.io/badge/%20-Current%20Version-green.svg) ![0.4](https://img.shields.io/badge/%20-0.4-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/12%20JAN%202019-lightgrey.svg)
+### ![Current Version](https://img.shields.io/badge/%20-Current%20Version-green.svg) ![0.5](https://img.shields.io/badge/%20-0.5-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/14%20JAN%202019-lightgrey.svg)
+- *New player account creation wizard* - accessible by typing `new` on the login screen. It's currently simply asking for player name and password, then creates an account which can later be used to login with.
+- *Implemented AT commands (@commands)* - meant to be OOC commands for configuration, server management etc. They are distinguished from standard in-character commands by an '@' prefix (hence the name AT commands).
+- *Custom player chat channels have been implemented.* Players can `@subscribe` and `@unsubscribe` from them at any time. It is possible to subscribe and send messages to any valid channel name (alphanumeric, no spaces). Any other players which have subscribed to the same channel name will receive messages which are sent to it. Channel messages can be sent using the `/<channel name>` command. To illustrate:
+
+You and your team can all subscribe to channel "fwends" by typing:
+
+`@subscribe fwends`
+
+Any player can send messages to any channel at any time by typing
+
+`/fwends Hello there guys!`
+
+If you decide you no longer want to receive messages from `fwends`, you can unsubscribe at any time by typing:
+
+`@unsubscribe fwends`
+
+There is a dedicated "system" channel used for server messages. All players are subscribed to it by default, although nothing would stop you if you wanted to unsubscribe by typing:
+
+`@unsubscribe system`
+
+- Webclient is now showing correct command auto-correct suggestions
+- Added a `@quit` command for disconnecting from the game.
+- Player will now be disconnected and removed from the game world when a webclient browser window is closed.	
+- Cosmetic changes to `WHISPER`
+- Added a `permissionLevel` attribute to player account. It is meant for controlling access to certain commands. By default all players can access all regular and @ commands, but you might want to lock some management commands to GMs only (highest `permissionLevel=0`) within the command implementation.
+- Implemented a `@who` command, which shows all currently logged players to anyone with `permissionLevel=0` (highest GM permission level)
+- Restricted dending messages to the SYSTEM channel - it now requires `permissionLevel=0`
+- Implemented extended attributes for player accounts. Those are meant to be used for setting player flags during  quests/conversations etc. Currently `exAttribute0`, `exAttribute1` and `exAttribute2` are used for new player creation.
+
+
+
+
+### ![Legacy Version](https://img.shields.io/badge/%20-Current%20Version-orange.svg) ![0.4](https://img.shields.io/badge/%20-0.4-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/12%20JAN%202019-lightgrey.svg)
 - **New Web Client!!** (such wow) - courtesy of https://github.com/JavaChilly/dome-client.js - now correctly handling ANSI colours.
 - Cosmetic improvements to LOOK
 - Text formatting improvements to adapt to new webclient. Improved readability and colour scheme.
