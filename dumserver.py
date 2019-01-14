@@ -699,13 +699,13 @@ while True:
 		if command.lower() == "exit" and players[id]['exAttribute0'] != None and players[id]['authenticated'] == None:
 			mud.send_message(id, "<f220>Ok, leaving the character creation.\n")
 			players[id]['exAttribute0'] = None
-			mud.send_message(id, "<f15>What is your username?<r>\n<f246>Type '<f253>new<r><f246>' to create a character.\n")
+			mud.send_message(id, "<f15>What is your username?<r>\n<f246>Type '<f253>new<r><f246>' to create a character.")
 			log("Client ID: " + str(id) + " has aborted character creation.", "info")
 			break
 
 		if players[id]['exAttribute0'] == 1000:
 			# First step of char creation
-			mud.send_message(id, "<f220>What is going to be your name?\n")
+			mud.send_message(id, "<f220>\nWhat is going to be your name?")
 			players[id]['exAttribute0'] = 1001
 			break
 		
@@ -713,15 +713,15 @@ while True:
 			taken = False
 			for p in playersDB:
 				if playersDB[p]['name'].lower() == command.lower():
-					mud.send_message(id, "<f220>This character name is already taken!")
-					mud.send_message(id, "Press ENTER to continue...\n")
+					mud.send_message(id, "\n<f220>This character name is already taken!")
+					mud.send_message(id, "Press ENTER to continue...")
 					taken = True
 					break
 			if taken == False:	
 				players[id]['exAttribute1'] = command
 				# print(players[id]['exAttribute1'])
-				mud.send_message(id, "<f220>Ahh.. <r><f32>" + command + "<r><f220>! That's a strong name!\n")
-				mud.send_message(id, "<f220>Now what would you like your password to be?\n")
+				mud.send_message(id, "<f220>\nAhh.. <r><f32>" + command + "<r><f220>! That's a strong name!\n")
+				mud.send_message(id, "<f220>Now what would you like your password to be?")
 				players[id]['exAttribute0'] = 1002
 				break
 			else:
@@ -729,7 +729,7 @@ while True:
 				break
 			
 		if players[id]['exAttribute0'] == 1002:
-			mud.send_message(id, "<f220>Ok, got that.")
+			mud.send_message(id, "<f220>\nOk, got that.")
 			players[id]['exAttribute2'] = command
 			
 			# Load the player template from a file
@@ -750,7 +750,8 @@ while True:
 			
 			players[id]['exAttribute0'] = None
 			mud.send_message(id, '<f220>Your character has now been created, you can log in using credentials you have provided.\n')
-			mud.send_message(id, '<f15>What is your username?\n')
+			# mud.send_message(id, '<f15>What is your username?')
+			mud.send_message(id, "<f15>What is your username?<r>\n<f246>Type '<f253>new<r><f246>' to create a character.")
 			log("Client ID: " + str(id) + " has completed character creation (" + template['name'] + ").", "info")
 			break
 
@@ -778,7 +779,7 @@ while True:
 				log("Client ID: " + str(id) + " has initiated character creation.", "info")
 				mud.send_message(id, "<f220>Welcome Traveller! So you have decided to create an account, that's awesome! Thank you for your interest in DUM, hope you enjoy yourself while you're here.")
 				mud.send_message(id, "Note: You can type 'startover' at any time to restart the character creation process.\n")
-				mud.send_message(id, "<f230>Press ENTER to continue...\n")
+				mud.send_message(id, "<f230>Press ENTER to continue...")
 				# mud.send_message(id, "<f220>What is going to be your name?")
 				# Set eAttribute0 to 1000, signifying this client has initialised a player creation process.
 				players[id]['exAttribute0'] = 1000
