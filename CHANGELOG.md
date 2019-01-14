@@ -7,9 +7,9 @@
 - Gossip.haus
 
 ### ![Current Version](https://img.shields.io/badge/%20-Current%20Version-green.svg) ![0.5](https://img.shields.io/badge/%20-0.5-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/14%20JAN%202019-lightgrey.svg)
-- *New player account creation wizard* - accessible by typing `new` on the login screen. It's currently simply asking for player name and password, then creates an account which can later be used to login with.
-- *Implemented AT commands (@commands)* - meant to be OOC commands for configuration, server management etc. They are distinguished from standard in-character commands by an '@' prefix (hence the name AT commands).
-- *Custom player chat channels have been implemented.* Players can `@subscribe` and `@unsubscribe` from them at any time. It is possible to subscribe and send messages to any valid channel name (alphanumeric, no spaces). Any other players which have subscribed to the same channel name will receive messages which are sent to it. Channel messages can be sent using the `/<channel name>` command. To illustrate:
+- **New player account creation wizard** - accessible by typing `new` on the login screen. It's currently simply asking for player name and password, then creates an account which can later be used to login with.
+- **Implemented AT commands (@commands)** - meant to be OOC commands for configuration, server management etc. They are distinguished from standard in-character commands by an '@' prefix (hence the name AT commands).
+- **Custom player chat channels have been implemented.** Players can `@subscribe` and `@unsubscribe` from them at any time. It is possible to subscribe and send messages to any valid channel name (alphanumeric, no spaces). Any other players which have subscribed to the same channel name will receive messages which are sent to it. Channel messages can be sent using the `/<channel name>` command. To illustrate:
 
 You and your team can all subscribe to channel "fwends" by typing:
 
