@@ -19,7 +19,17 @@ def who(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items, en
 	counter = 1
 	if players[id]['permissionLevel'] == 0:
 		for p in players:
-			mud.send_message(id, str(counter) + ". Client ID: [" + str(p) + "] Player name: [" + players[p]['name'] + "] Room: [" + players[p]['room'] + "]")
+			if players[p]['name'] == None:
+				name = "None"
+			else:
+				name = players[p]['name']
+				
+			if players[p]['room'] == None:
+				room = "None"
+			else:
+				room = players[p]['room']
+
+			mud.send_message(id, str(counter) + ". Client ID: [" + str(p) + "] Player name: [" + name + "] Room: [" + room + "]")
 			counter += 1
 	else:
 		mud.send_message(id, "You do not have permission to do this.")
