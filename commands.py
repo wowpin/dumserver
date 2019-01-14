@@ -30,7 +30,7 @@ def whisper(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items
 					if players[p]['room'] == players[id]['room']:
 						if players[p]['name'].lower() != players[id]['name'].lower():
 							mud.send_message(id, "You whisper to <f32>" + players[p]['name'] + "<r>: " + message[1:])
-							mud.send_message(p, "<f32>" + players[id]['name'] + "<r> whispers: " + message[1:])
+							mud.send_message(p, "<f162>" + players[id]['name'] + " whispers: " + message[1:])
 							messageSent = True
 							break
 						else:
@@ -56,16 +56,17 @@ def help(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items, e
 	mud.send_message(id, '  whisper <target> <message> - Whisper to a player in the same room')
 
 def say(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items, envDB, env, eventDB, eventSchedule, id, fights, corpses):
-			#print(gsocket.inbound_frame_buffer)
-			if players[id]['canSay'] == 1:
-				# go through every player in the game
-				for (pid, pl) in list(players.items()):
-					# if they're in the same room as the player
-					if players[pid]['room'] == players[id]['room']:
-						# send them a message telling them what the player said
-						mud.send_message(pid, '<f32>{}<r> says: <f159>{}'.format(players[id]['name'], params))
-			else:
-				mud.send_message(id, 'To your horror, you realise you somehow cannot force yourself to utter a single word!')
+	# print(channels)
+	#print(gsocket.inbound_frame_buffer)
+	if players[id]['canSay'] == 1:
+		# go through every player in the game
+		for (pid, pl) in list(players.items()):
+			# if they're in the same room as the player
+			if players[pid]['room'] == players[id]['room']:
+				# send them a message telling them what the player said
+				mud.send_message(pid, '<f32>{}<r> says: <f159>{}'.format(players[id]['name'], params))
+	else:
+		mud.send_message(id, 'To your horror, you realise you somehow cannot force yourself to utter a single word!')
 
 def look(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items, envDB, env, eventDB, eventSchedule, id, fights, corpses):
 	if players[id]['canLook'] == 1:

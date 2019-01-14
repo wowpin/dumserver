@@ -1,5 +1,5 @@
 ## Dum Server!
-## v0.4
+## v0.5
 
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
@@ -15,10 +15,12 @@ from functions import addToScheduler
 from functions import loadPlayer
 from functions import savePlayer
 from functions import loadPlayersDB
+from functions import sendToChannel
 
 from events import evaluateEvent
 
 from commands import runCommand
+from atcommands import runAtCommand
 
 import time
 
@@ -89,6 +91,9 @@ scriptedEventsDB = []
 
 # Declare eventSchedule dict
 eventSchedule = {}
+
+# Declare channels message queue dictionary
+channels = {}
 
 # Specify allowe player idle time
 allowedPlayerIdle = int(Config.get('World', 'IdleTimeBeforeDisconnect'))
@@ -246,7 +251,6 @@ players = {}
 mud = MudServer()
 
 
-	
 
 # main game loop. We loop forever (i.e. until the program is terminated)
 while True:
@@ -271,7 +275,8 @@ while True:
 
 	# Check if State Save is due and execute it if required
 	now = int(time.time())
-	if int(now >= lastStateSave + stateSaveInterval):		
+	if int(now >= lastStateSave + stateSaveInterval):
+		sendToChannel("Server", "system", "Saving server state...", channels)
 		# State Save logic Start
 		for (pid, pl) in list(players.items()):
 			if players[pid]['authenticated'] is not None:
@@ -520,6 +525,20 @@ while True:
 
 	npcsTemplate = deepcopy(npcs)
 	
+	# go through channels messages queue and send messages to subscribed players
+	ch = deepcopy(channels)
+	for p in players:
+		if players[p]['channels'] != None:
+			for c in players[p]['channels']:
+				# print(c)
+				for m in ch:
+					if ch[m]['channel'] == c:
+						mud.send_message(p, "[<f191>" + ch[m]['channel'] + "<r>] <f32>" + ch[m]['sender'] + "<r>: " + ch[m]['message'])
+						# del channels[m]
+	channels.clear()
+	
+	
+
 	# go through any newly connected players
 	for id in mud.get_new_players():
 		# add the new player to the dictionary, noting that they've not been
@@ -574,7 +593,12 @@ while True:
 			'canAttack': None,
 			'canDirectMessage': None,
 			'lookDescription': None,
-			'idleStart': None
+			'idleStart': None,
+			'channels': None,
+			'permissionLevel': None,
+			'exAttribute0': None,
+			'exAttribute1': None,
+			'exAttribute2': None
 			}
 
 		# send the new player a prompt for their name
@@ -611,15 +635,11 @@ while True:
 		mud.send_message(id, " ")
 		mud.send_message(id, "<f250><b24> Codebase: v0.4                  ")
 		mud.send_message(id, " ")
-		mud.send_message(id, "<f15>Following guest accounts are available, get logging!\n")
-		mud.send_message(id, "<f15>Username: <r><f220>Guest1<r><f15> Password: <r><f220>Password")
-		mud.send_message(id, "<f15>Username: <r><f220>Guest2<r><f15> Password: <r><f220>Password")
-		mud.send_message(id, "<f15>Username: <r><f220>Guest3<r><f15> Password: <r><f220>Password")
-		mud.send_message(id, "<f15>Username: <r><f220>Guest4<r><f15> Password: <r><f220>Password")
-		mud.send_message(id, "<f15>Username: <r><f220>Guest5<r><f15> Password: <r><f220>Password")
+		mud.send_message(id, "<f15>You can create a new Character, or use the following guest account:\n")
+		mud.send_message(id, "<f15>Username: <r><f220>Guest<r><f15> Password: <r><f220>Password")
 		
 		mud.send_message(id, " ")
-		mud.send_message(id, '<f15>What is your username?\n')
+		mud.send_message(id, "<f15>What is your username?<r>\n<f246>Type '<f253>new<r><f246>' to create a character.\n")
 
 		# mud.send_message(id, " ")
 		log("Client ID: " + str(id) + " has connected", "info")
@@ -670,25 +690,98 @@ while True:
 		# move on to the next one
 		if id not in players:
 			continue
+		
+		# print(str(players[id]['authenticated']))
+		if command.lower() == "startover" and players[id]['exAttribute0'] != None and players[id]['authenticated'] == None:
+			mud.send_message(id, "<f220>Ok, Starting character creation from the beginning!\n")
+			players[id]['exAttribute0'] = 1000
+		
+		if command.lower() == "exit" and players[id]['exAttribute0'] != None and players[id]['authenticated'] == None:
+			mud.send_message(id, "<f220>Ok, leaving the character creation.\n")
+			players[id]['exAttribute0'] = None
+			mud.send_message(id, "<f15>What is your username?<r>\n<f246>Type '<f253>new<r><f246>' to create a character.\n")
+			log("Client ID: " + str(id) + " has aborted character creation.", "info")
+			break
+
+		if players[id]['exAttribute0'] == 1000:
+			# First step of char creation
+			mud.send_message(id, "<f220>What is going to be your name?\n")
+			players[id]['exAttribute0'] = 1001
+			break
+		
+		if players[id]['exAttribute0'] == 1001:
+			taken = False
+			for p in playersDB:
+				if playersDB[p]['name'].lower() == command.lower():
+					mud.send_message(id, "<f220>This character name is already taken!")
+					mud.send_message(id, "Press ENTER to continue...\n")
+					taken = True
+					break
+			if taken == False:	
+				players[id]['exAttribute1'] = command
+				# print(players[id]['exAttribute1'])
+				mud.send_message(id, "<f220>Ahh.. <r><f32>" + command + "<r><f220>! That's a strong name!\n")
+				mud.send_message(id, "<f220>Now what would you like your password to be?\n")
+				players[id]['exAttribute0'] = 1002
+				break
+			else:
+				players[id]['exAttribute0'] = 1000
+				break
+			
+		if players[id]['exAttribute0'] == 1002:
+			mud.send_message(id, "<f220>Ok, got that.")
+			players[id]['exAttribute2'] = command
+			
+			# Load the player template from a file
+			with open(str(Config.get('Players', 'Location')) + "/player.template", "r") as read_file:
+				template = commentjson.load(read_file)
+			
+			# Make required changes to template before saving again into <Name>.player
+			template['name'] = players[id]['exAttribute1']
+			template['pwd'] = players[id]['exAttribute2']
+			
+			# Save template into a new player file
+			# print(template)
+			with open(str(Config.get('Players', 'Location')) + "/" + template['name'] + ".player", 'w') as fp:
+				commentjson.dump(template, fp)
+			
+			# Reload PlayersDB to include this newly created player
+			playersDB = loadPlayersDB()
+			
+			players[id]['exAttribute0'] = None
+			mud.send_message(id, '<f220>Your character has now been created, you can log in using credentials you have provided.\n')
+			mud.send_message(id, '<f15>What is your username?\n')
+			log("Client ID: " + str(id) + " has completed character creation (" + template['name'] + ").", "info")
+			break
 
 		# if the player hasn't given their name yet, use this first command as
 		# their name and move them to the starting room.
-		if players[id]['name'] is None:
-			dbResponse = None
-			file = loadPlayer(command, playersDB)
-			if file is not None:
-				dbResponse = tuple(file.values())
+		if players[id]['name'] is None and players[id]['exAttribute0'] == None:
+			if command.lower() != "new":
+				dbResponse = None
+				file = loadPlayer(command, playersDB)
+				if file is not None:
+					dbResponse = tuple(file.values())
 
-			if dbResponse != None:
-				players[id]['name'] = dbResponse[0]
+				if dbResponse != None:
+					players[id]['name'] = dbResponse[0]
 
-				log("Client ID: " + str(id) + " has requested existing user (" + command + ")", "info")
-				mud.send_message(id, 'Hi <u><f32>' + command + '<r>!')
-				mud.send_message(id, '<f15>What is your password?')
+					log("Client ID: " + str(id) + " has requested existing user (" + command + ")", "info")
+					mud.send_message(id, 'Hi <u><f32>' + command + '<r>!')
+					mud.send_message(id, '<f15>What is your password?')
+				else:
+					mud.send_message(id, '<f202>User <f32>' + command + '<r> was not found!\n')
+					mud.send_message(id, '<f15>What is your username?')
+					log("Client ID: " + str(id) + " has requested non existent user (" + command + ")", "info")
 			else:
-				mud.send_message(id, '<f202>User <f32>' + command + '<r> was not found!\n')
-				mud.send_message(id, '<f15>What is your username?')
-				log("Client ID: " + str(id) + " has requested non existent user (" + command + ")", "info")
+				# New player creation here
+				log("Client ID: " + str(id) + " has initiated character creation.", "info")
+				mud.send_message(id, "<f220>Welcome Traveller! So you have decided to create an account, that's awesome! Thank you for your interest in DUM, hope you enjoy yourself while you're here.")
+				mud.send_message(id, "Note: You can type 'startover' at any time to restart the character creation process.\n")
+				mud.send_message(id, "<f230>Press ENTER to continue...\n")
+				# mud.send_message(id, "<f220>What is going to be your name?")
+				# Set eAttribute0 to 1000, signifying this client has initialised a player creation process.
+				players[id]['exAttribute0'] = 1000
 		elif players[id]['name'] is not None \
 			and players[id]['authenticated'] is None:
 			pl = loadPlayer(players[id]['name'], playersDB)
@@ -749,10 +842,15 @@ while True:
 					players[id]['canAttack'] = 1
 					players[id]['canDirectMessage'] = 1
 					players[id]['idleStart'] = int(time.time())
+					players[id]['channels'] = dbResponse[35]
+					players[id]['permissionLevel'] = dbResponse[36]
+					players[id]['exAttribute0'] = dbResponse[37]
+					players[id]['exAttribute1'] = dbResponse[38]
+					players[id]['exAttribute2'] = dbResponse[39]
 					
 					
 					log("Client ID: " + str(id) + " has successfully authenticated user " + players[id]['name'], "info")
-
+					# print(players[id])
 					# go through all the players in the game
 					for (pid, pl) in list(players.items()):
 						# send each player a message to tell them about the new player
@@ -778,7 +876,28 @@ while True:
 
 		else:
 			players[id]['idleStart'] = int(time.time())
-			mud.send_message(id, "\x00")
-			runCommand(command.lower(), params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, itemsInWorld, envDB, env, scriptedEventsDB, eventSchedule, id, fights, corpses)
+			# mud.send_message(id, "\x00")
+			# print(str(command.lower()[0]))
+			if players[id]['exAttribute0'] < 1000:
+				#print("gone into command eval")
+				if len(command) > 0:
+					if str(command[0]) == "@":
+						runAtCommand(command.lower()[1:], params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, itemsInWorld, envDB, env, scriptedEventsDB, eventSchedule, id, fights, corpses)
+					elif str(command[0]) == "/":
+						if len(command[1:]) > 0:
+							if len(params) > 0:
+								if command[1:].lower() == "system":
+									if players[id]['permissionLevel'] == 0:
+										sendToChannel(players[id]['name'], command[1:], params, channels)
+									else:
+										mud.send_message(id, "You do not have permision to send messages to this channel.")
+								else:
+									sendToChannel(players[id]['name'], command[1:], params, channels)
+							else:
+								mud.send_message(id, "What message would you like to send?")
+						else:
+							mud.send_message(id, "Which channel would you like to message?")
+					else:
+						runCommand(command.lower(), params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, itemsInWorld, envDB, env, scriptedEventsDB, eventSchedule, id, fights, corpses)
 			
 

@@ -125,3 +125,7 @@ def saveState(player, masterDB):
 
 def str2bool(v):
   return v.lower() in ("yes", "true", "True", "t", "1")
+  
+def sendToChannel(sender, channel, message, channels):
+	channels[getFreeKey(channels)] = {"channel": str(channel), "message": str(message), "sender": str(sender)}
+	#print(channels)
