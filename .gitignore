@@ -1,3 +1,4 @@
+.gitignore
 players/*.player
 __pycache__
 backup
