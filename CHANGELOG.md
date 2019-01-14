@@ -7,7 +7,7 @@
 - Gossip.haus
 
 ### ![Current Version](https://img.shields.io/badge/%20-Current%20Version-green.svg) ![0.5.1](https://img.shields.io/badge/%20-0.5.1-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/14%20JAN%202019-lightgrey.svg)
-- @who bugfix - it no longer throws an exception when clients are connected, but not authenticated.
+- `@who` bugfix - it no longer throws an exception when clients are connected, but not authenticated.
 
 ### ![Legacy Version](https://img.shields.io/badge/%20-Legacy%20Version-orange.svg) ![0.5](https://img.shields.io/badge/%20-0.5-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/14%20JAN%202019-lightgrey.svg)
 - **New player account creation wizard** - accessible by typing `new` on the login screen. It's currently simply asking for player name and password, then creates an account which can later be used to login with.
