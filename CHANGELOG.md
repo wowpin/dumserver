@@ -1,11 +1,10 @@
 ### ![Development Ideas](https://img.shields.io/badge/%20-Development%20Ideas-blue.svg)
-- A brand new Webclient with proper ANSI support - replacing Phudbase with Dome Client
-- In-game chat channels (custom built or https://gossip.haus/ - still to be decided)
 - INSPECT (showing detailed PC/NPC character sheet. Amount of detail depending on player's perception)
 - MESSAGE - in game player to player messages (think 'tell')
 - Implementation of the CHECK STATS logic for viewing player's own character sheet. Perhaps a different command name?
 - Script-able NPC conversation trees (?) - Research needed
 - Dynamic room exits / run-time remapping exits to alternative destinations (perhaps via sutom events?)
+- Gossip.haus
 
 ### ![Current Version](https://img.shields.io/badge/%20-Current%20Version-green.svg) ![0.5](https://img.shields.io/badge/%20-0.5-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/14%20JAN%202019-lightgrey.svg)
 - *New player account creation wizard* - accessible by typing `new` on the login screen. It's currently simply asking for player name and password, then creates an account which can later be used to login with.
