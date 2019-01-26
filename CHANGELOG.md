@@ -6,7 +6,12 @@
 - Dynamic room exits / run-time remapping exits to alternative destinations (perhaps via sutom events?)
 - Gossip.haus
 
-### ![Current Version](https://img.shields.io/badge/%20-Current%20Version-green.svg) ![0.5.1](https://img.shields.io/badge/%20-0.5.1-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/14%20JAN%202019-lightgrey.svg)
+### ![Current Version](https://img.shields.io/badge/%20-Current%20Version-green.svg) ![0.5.2](https://img.shields.io/badge/%20-0.5.2-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/26%20JAN%202019-lightgrey.svg)
+- Idle timer now also affects non-authenticated players (You will get disconnected due to inactivity while on the login screen/inside character creation wizard etc.)
+- Text formatting fixes
+- Unsubscribing from a SYSTEM channel will now give player a warning about potentially missing important game-wide info
+
+### ![Legacy Version](https://img.shields.io/badge/%20-Legacy%20Version-orange.svg) ![0.5.1](https://img.shields.io/badge/%20-0.5.1-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/14%20JAN%202019-lightgrey.svg)
 - `@who` bugfix - it no longer throws an exception when clients are connected, but not authenticated.
 - Formatting changes in new player wizard
 
