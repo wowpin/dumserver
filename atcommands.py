@@ -57,6 +57,9 @@ def unsubscribe(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, i
 			mud.send_message(id, "You are not currently subscribed to [" + params.lower() + "]")
 	else:
 		mud.send_message(id, "What channel would you like to unsubscribe from?")
+	
+	if params.lower() == "system":
+		mud.send_message(id, "<f230>You have un-subscribed from a SYSTEM channel. From now on, you will not receive any game-wide system messages (including server reboot notifications etc.). You can subscribe to SYSTEM at any time by typing '<f255>@subscribe system<r>'")
 
 def channels(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items, envDB, env, eventDB, eventSchedule, id, fights, corpses):
 	if len(players[id]['channels']):

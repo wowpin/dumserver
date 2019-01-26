@@ -515,13 +515,16 @@ while True:
 	now = int(time.time())
 	playersCopy = deepcopy(players)
 	for p in playersCopy:
-		if playersCopy[p]['authenticated'] != None:
-			if now - playersCopy[p]['idleStart'] > allowedPlayerIdle:
+		#if playersCopy[p]['authenticated'] != None:
+		if now - playersCopy[p]['idleStart'] > allowedPlayerIdle:
+			if players[p]['authenticated'] != None:
 				mud.send_message(p, "<f232><b11>Your body starts tingling. You instinctively hold your hand up to your face and notice you slowly begin to vanish. You are being disconnected due to inactivity...")
-				log("Character " + str(players[p]['name']) + " is being disconnected due to inactivity.", "warning")
-				del players[p]
-				log("Disconnecting client " + str(p), "warning")
-				mud._handle_disconnect(p)
+			else:
+				mud.send_message(p, "<f232><b11>You are being disconnected due to inactivity. Bye!")
+			log("Character " + str(players[p]['name']) + " is being disconnected due to inactivity.", "warning")
+			del players[p]
+			log("Disconnecting client " + str(p), "warning")
+			mud._handle_disconnect(p)
 
 	npcsTemplate = deepcopy(npcs)
 	
@@ -593,7 +596,8 @@ while True:
 			'canAttack': None,
 			'canDirectMessage': None,
 			'lookDescription': None,
-			'idleStart': None,
+			#'idleStart': None,
+			'idleStart': int(time.time()),
 			'channels': None,
 			'permissionLevel': None,
 			'exAttribute0': None,
@@ -639,7 +643,7 @@ while True:
 		mud.send_message(id, "<f15>Username: <r><f220>Guest<r><f15> Password: <r><f220>Password")
 		
 		mud.send_message(id, " ")
-		mud.send_message(id, "<f15>What is your username?<r>\n<f246>Type '<f253>new<r><f246>' to create a character.\n")
+		mud.send_message(id, "<f15>What is your username?<r>\n<f246>Type '<f253>new<r><f246>' to create a character.")
 
 		# mud.send_message(id, " ")
 		log("Client ID: " + str(id) + " has connected", "info")
@@ -693,10 +697,12 @@ while True:
 		
 		# print(str(players[id]['authenticated']))
 		if command.lower() == "startover" and players[id]['exAttribute0'] != None and players[id]['authenticated'] == None:
+			players[id]['idleStart'] = int(time.time())
 			mud.send_message(id, "<f220>Ok, Starting character creation from the beginning!\n")
 			players[id]['exAttribute0'] = 1000
 		
 		if command.lower() == "exit" and players[id]['exAttribute0'] != None and players[id]['authenticated'] == None:
+			players[id]['idleStart'] = int(time.time())
 			mud.send_message(id, "<f220>Ok, leaving the character creation.\n")
 			players[id]['exAttribute0'] = None
 			mud.send_message(id, "<f15>What is your username?<r>\n<f246>Type '<f253>new<r><f246>' to create a character.")
@@ -704,12 +710,16 @@ while True:
 			break
 
 		if players[id]['exAttribute0'] == 1000:
+			players[id]['idleStart'] = int(time.time())
 			# First step of char creation
 			mud.send_message(id, "<f220>\nWhat is going to be your name?")
+			for c in mud._clients:
+				print(str(mud._clients[c].address))
 			players[id]['exAttribute0'] = 1001
 			break
 		
 		if players[id]['exAttribute0'] == 1001:
+			players[id]['idleStart'] = int(time.time())
 			taken = False
 			for p in playersDB:
 				if playersDB[p]['name'].lower() == command.lower():
@@ -725,10 +735,12 @@ while True:
 				players[id]['exAttribute0'] = 1002
 				break
 			else:
+				players[id]['idleStart'] = int(time.time())
 				players[id]['exAttribute0'] = 1000
 				break
 			
 		if players[id]['exAttribute0'] == 1002:
+			players[id]['idleStart'] = int(time.time())
 			mud.send_message(id, "<f220>\nOk, got that.")
 			players[id]['exAttribute2'] = command
 			
@@ -759,6 +771,7 @@ while True:
 		# their name and move them to the starting room.
 		if players[id]['name'] is None and players[id]['exAttribute0'] == None:
 			if command.lower() != "new":
+				players[id]['idleStart'] = int(time.time())
 				dbResponse = None
 				file = loadPlayer(command, playersDB)
 				if file is not None:
@@ -776,6 +789,7 @@ while True:
 					log("Client ID: " + str(id) + " has requested non existent user (" + command + ")", "info")
 			else:
 				# New player creation here
+				players[id]['idleStart'] = int(time.time())
 				log("Client ID: " + str(id) + " has initiated character creation.", "info")
 				mud.send_message(id, "<f220>Welcome Traveller! So you have decided to create an account, that's awesome! Thank you for your interest in DUM, hope you enjoy yourself while you're here.")
 				mud.send_message(id, "Note: You can type 'startover' at any time to restart the character creation process.\n")
