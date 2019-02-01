@@ -6,7 +6,7 @@ A modern Python MU* engine - re-imagined, actively developed and properly tracke
 DUM is a hobby project aiming to develop a feature-rich Python codebase for a sci-fi MUD style game. It is building on brillinat work by Mark Frimston, be sure to check out his Mud-Pi project (https://github.com/Frimkron/mud-pi).
 
 ## Try it out!
-New Webclient is live! Go ahead an check out the fancy webclient at http://playdum.dynu.net
+New Webclient is live! Go ahead an check out the fancy webclient at http://playdum.dynu.net:8000
 
 You can also use a mud client of your choice if you wish - use connection details below:
 
