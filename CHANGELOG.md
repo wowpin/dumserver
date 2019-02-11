@@ -11,6 +11,8 @@
 - Text formatting fixes
 - Unsubscribing from a SYSTEM channel will now give player a warning about potentially missing important game-wide info
 
+Additionally ![playdum.dynu.net](http://playdum.dynu.net) has been migrated to a new, improved development environment.
+
 ### ![Legacy Version](https://img.shields.io/badge/%20-Legacy%20Version-orange.svg) ![0.5.1](https://img.shields.io/badge/%20-0.5.1-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/14%20JAN%202019-lightgrey.svg)
 - `@who` bugfix - it no longer throws an exception when clients are connected, but not authenticated.
 - Formatting changes in new player wizard
