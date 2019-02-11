@@ -635,7 +635,7 @@ while True:
 		mud.send_message(id, "<f250><b160> a modern MU* engine             ")
 		mud.send_message(id, "<f250><b160>    github.com/wowpin/dumserver  ")
 		mud.send_message(id, " ")
-		mud.send_message(id, "<f250><b160> Development Server 1            ")
+		mud.send_message(id, "<f250><b160> Development Server 2            ")
 		mud.send_message(id, " ")
 		mud.send_message(id, "<f250><b160> Codebase: v0.5.2                ")
 		mud.send_message(id, " ")
