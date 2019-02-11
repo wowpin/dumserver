@@ -17,8 +17,6 @@ Host: playdum.dynu.net
 Port: 35123
 ```
 
-If you're struggling to connect, it means I'm probably currently playing with the code etc. Try again in a few minutes and it should be up and running.
-
 ## Features
 Head over to the [Wiki](http://dumengine.wikidot.com/dum-v0-1-feature-summary) for small breakdown of core features in the initial version 0.1. All changes/improvements/fixes since 0.1 are being documented in [CHANGELOG.md](CHANGELOG.md)
 
