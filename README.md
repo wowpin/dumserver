@@ -8,7 +8,7 @@ DUM is a hobby project aiming to develop a feature-rich Python codebase for a sc
 ## Try it out!
 **_Please note the webclient is currently down for maintenance, as I move it to a new hosting solution_**
 
-New Webclient is live! Go ahead an check out the fancy webclient at http://playdum.dynu.net:8000
+Go ahead an check out the webclient at http://playdum.dynu.net:8000
 
 You can also use a mud client of your choice if you wish - use connection details below:
 
