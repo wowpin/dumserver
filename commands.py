@@ -15,6 +15,28 @@ def commandname(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, i
 def sendCommandError(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items, envDB, env, eventDB, eventSchedule, id, fights, corpses):
 	mud.send_message(id, "Unknown command " + str(params) + "!")
 
+def tell(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items, envDB, env, eventDB, eventSchedule, id, fights, corpses):
+	told = False
+	target = params.partition(' ')[0]
+	message = params.replace(target, "")[1:]
+	if len(target) != 0 and len(message) != 0:
+		for p in players:
+			if players[p]['authenticated'] != None and players[p]['name'].lower() == target.lower():
+				#print("sending a tell")
+				if players[id]['name'].lower() == target.lower():
+					mud.send_message(id, "It'd be pointless to send a tell message to yourself")
+					told = True
+					break
+				else:
+					addToScheduler("0|msg|<f90>From " + players[id]['name'] + ": " + message, p, eventSchedule, eventDB)
+					mud.send_message(id, "<f90>To " + players[p]['name'] + ": " + message)
+					told = True
+					break
+		if told == False:
+			mud.send_message(id, "<f32>" + target + "<r> does not appear to be reachable at this moment.")
+	else:
+		mud.send_message(id, "Huh?")
+
 def whisper(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items, envDB, env, eventDB, eventSchedule, id, fights, corpses):
 	target = params.partition(' ')[0]
 	message = params.replace(target, "")
@@ -430,6 +452,7 @@ def runCommand(command, params, mud, playersDB, players, rooms, npcsDB, npcs, it
 		"check": check,
 		"webclienttest": webclienttest,
 		"whisper": whisper,
+		"tell": tell,
 	}
 
 	try:
