@@ -1,10 +1,10 @@
 ### ![Development Ideas](https://img.shields.io/badge/%20-Development%20Ideas-blue.svg)
+- **Fleshing out of the combat system**
 - INSPECT (showing detailed PC/NPC character sheet. Amount of detail depending on player's perception)
 - Implementation of the CHECK STATS logic for viewing player's own character sheet. Perhaps a different command name?
 - Script-able NPC conversation trees (?) - Research needed
 - Dynamic room exits / run-time remapping exits to alternative destinations (perhaps via sutom events?)
 - Gossip.haus
-- Fleshing out of the combat system
 
 ### ![Current Version](https://img.shields.io/badge/%20-Current%20Version-green.svg) ![0.5.3](https://img.shields.io/badge/%20-0.5.3-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/12%20FEB%202019-lightgrey.svg)
 - **New regular command**: `tell <plyer> <message>` for sending tell message to online players wherever they are.
