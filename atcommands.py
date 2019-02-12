@@ -2,6 +2,14 @@ from functions import addToScheduler
 from functions import getFreeKey
 from copy import deepcopy
 import time
+import configparser
+from pathlib import Path
+import os
+
+# example of config file usage
+# print(str(Config.get('Database', 'Hostname')))
+Config = configparser.ConfigParser()
+Config.read('config.ini')
 
 '''
 Command function template:
@@ -9,6 +17,44 @@ Command function template:
 def atcommandname(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items, envDB, env, eventDB, eventSchedule, id, fights, corpses):
 	print("I'm in!")
 '''
+
+def serverlog(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items, envDB, env, eventDB, eventSchedule, id, fights, corpses):
+	if players[id]['permissionLevel'] == 0:
+		if params.lower() == 'show':
+			logLocation = str(Config.get('Logs', 'ServerLog'))
+			#print(logLocation)
+			logFile = Path(logLocation)
+			if logFile.is_file():
+				'''
+				with open(fname) as f:
+				content = f.readlines()
+				# you may also want to remove whitespace characters like `\n` at the end of each line
+				content = [x.strip() for x in content] 
+				'''
+				with open(logLocation) as f:
+					content = f.readlines()
+				f.close()
+				content = [x.strip() for x in content]
+				
+				for l in content:
+					mud.send_message(id, l)
+				
+				mud.send_message(id, "<f255>Total of " + str(len(content)) + " lines read from server log.")
+			else:
+				mud.send_message(id, "Nothing to show!")
+		elif params.lower() == 'clear':
+			logLocation = str(Config.get('Logs', 'ServerLog'))
+			logFile = Path(logLocation)
+			if logFile.is_file():
+				os.remove(logLocation)
+				mud.send_message(id, "<f255>Server log has been cleared!")
+			else:
+				mud.send_message(id, "Nothing to clear!")
+		else:
+			mud.send_message(id, "Invalid @serverlog parameter '" + params + "'")
+	else:
+		mud.send_message(id, "You do not have permission to do this.")
+
 def sendAtCommandError(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items, envDB, env, eventDB, eventSchedule, id, fights, corpses):
 	mud.send_message(id, "Unknown @command " + str(params) + "!")
 
@@ -78,6 +124,7 @@ def runAtCommand(command, params, mud, playersDB, players, rooms, npcsDB, npcs, 
 		"unsubscribe": unsubscribe,
 		"channels": channels,
 		"who": who,
+		"serverlog": serverlog,
 	}
 
 	try:

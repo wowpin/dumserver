@@ -42,7 +42,8 @@ def loadPlayersDB(location = str(Config.get('Players', 'Location')), forceLowerc
 
 # Function used for loggin messages to stdout and a disk file
 def log(content, type):
-	logfile = 'dum.log'
+	#logfile = './dum.log'
+	logfile = str(Config.get('Logs', 'ServerLog'))
 	print(str(time.strftime("%d/%m/%Y") + " " + time.strftime("%I:%M:%S") + " [" + type + "] " + content))
 	if os.path.exists(logfile):
 		log = open(logfile, 'a')
