@@ -24,7 +24,7 @@ Head over to the [Wiki](http://dumengine.wikidot.com/dum-v0-1-feature-summary) f
 ```
 1. Update your system `sudo apt-get update && sudo apt-get upgrade`
 2. Install the server `sudo wget -O - https://raw.githubusercontent.com/wowpin/dumserver/master/installer.sh | bash`
-3. CD into 'dumserver' and run it by typing 'python3 dumserver.py'
+3. CD into 'dumserver' and run it by typing `python3 dumserver.py`
 
 You now should be able to connect to your server on `<server IP/hostname>:35123`
 
