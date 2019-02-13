@@ -20,7 +20,7 @@ Head over to the [Wiki](http://dumengine.wikidot.com/dum-v0-1-feature-summary) f
 
 ## Running the Server
 ```diff
-- IMPORTANT - Ubuntu 18.04 LTS is required!
+- IMPORTANT - Python >= 3.6.7 is required (Ubuntu >= 18.04 LTS)!
 ```
 1. Update your system `sudo apt update && sudo apt upgrade`
 2. Install the server `sudo wget -O - https://raw.githubusercontent.com/wowpin/dumserver/master/installer.sh | bash`
