@@ -19,8 +19,9 @@ Port: 35123
 Head over to the [Wiki](http://dumengine.wikidot.com/dum-v0-1-feature-summary) for small breakdown of core features in the initial version 0.1. All changes/improvements/fixes since 0.1 are being documented in [CHANGELOG.md](CHANGELOG.md)
 
 ## Running the Server
-**IMPORTANT:** Ubuntu 18.04 LTS is required!
-
+```diff
+- **IMPORTANT:** Ubuntu 18.04 LTS is required!
+```
 1. Update your system `sudo apt-get update && sudo apt-get upgrade`
 2. Install the server `sudo wget -O - https://raw.githubusercontent.com/wowpin/dumserver/master/installer.sh | bash`
 3. CD into 'dumserver' and run it by typing 'python3 dumserver.py'
