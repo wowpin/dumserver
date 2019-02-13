@@ -1,7 +1,6 @@
 ### ![Current Version](https://img.shields.io/badge/%20-Current%20Version-green.svg) ![0.5.3](https://img.shields.io/badge/%20-0.5.3-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/12%20FEB%202019-lightgrey.svg)
 - **New regular command**: `tell <plyer> <message>` for sending tell message to online players wherever they are.
-- **New AT command**: `@serverlog <show/clear>` for displaying or clearing the contents of dum runtime log (ServerLog in config.ini). It is an admin command and `permissionLevel=0` (set in players/<name>.player) is required to access it.
-  
+- **New AT command**: `@serverlog <show/clear>` for displaying or clearing the contents of dum runtime log (ServerLog in config.ini). It is an admin command and `permissionLevel=0` (set in players/<name>.player) is required to access it.  
 - **Server Installer script**: To make it even easier to get Dum up and running, it is now possible to install it (along with all dependencies) on your machine with a one-liner command - see README.MD
 - Modified the logging function to allow custom log locations. You can now control where server creates it's runtime log by modifying the ServerLog line in `config.ini`.
 - Overhaul of the Webclient, removed unused options, added custom graphics etc.
