@@ -630,14 +630,15 @@ while True:
 		mud.send_message(id, "<f94>         <f246>. . . ....\"'                                        ")
 		mud.send_message(id, "<f94>        <f246> .. . .\"'<f94>     -<f230>DUM<f94>-                                  ")
 		mud.send_message(id, "<f94>        <f246>.                                                    ")		
+
 		mud.send_message(id, " ")
 		mud.send_message(id, " ")
-		mud.send_message(id, "<f250><b160> a modern MU* engine             ")
-		mud.send_message(id, "<f250><b160>    github.com/wowpin/dumserver  ")
+		mud.send_message(id, "<f0><b220> a modern MU* engine             ")
+		mud.send_message(id, "<f0><b220>    github.com/wowpin/dumserver  ")
 		mud.send_message(id, " ")
-		mud.send_message(id, "<f250><b160> Development Server 2            ")
-		mud.send_message(id, " ")
-		mud.send_message(id, "<f250><b160> Codebase: v0.5.3                ")
+		#mud.send_message(id, "<f250><b160> Development Server 2            ")
+		#mud.send_message(id, " ")
+		mud.send_message(id, "<f0><b220> Codebase: v0.5.3                ")
 		mud.send_message(id, " ")
 		mud.send_message(id, "<f15>You can create a new Character, or use the following guest account:\n")
 		mud.send_message(id, "<f15>Username: <r><f220>Guest<r><f15> Password: <r><f220>Password")
@@ -776,7 +777,9 @@ while True:
 				file = loadPlayer(command, playersDB)
 				if file is not None:
 					dbResponse = tuple(file.values())
-
+				
+				print(dbResponse)
+				
 				if dbResponse != None:
 					players[id]['name'] = dbResponse[0]
 
@@ -800,6 +803,7 @@ while True:
 		elif players[id]['name'] is not None \
 			and players[id]['authenticated'] is None:
 			pl = loadPlayer(players[id]['name'], playersDB)
+			#print(pl)
 			dbPass = pl['pwd']
 
 			# Iterate through players in game and see if our newly connected players is not already in game.
@@ -907,7 +911,7 @@ while True:
 									else:
 										mud.send_message(id, "You do not have permision to send messages to this channel.")
 								else:
-									sendToChannel(players[id]['name'], command[1:], params, channels)
+									sendToChannel(players[id]['name'], command[1:].lower(), params, channels)
 							else:
 								mud.send_message(id, "What message would you like to send?")
 						else:

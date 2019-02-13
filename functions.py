@@ -86,6 +86,7 @@ def loadPlayer(name, db):
 		#with open(path + name + ".player", "r") as read_file:
 			#dict = commentjson.load(read_file)
 			#return(dict)
+		#print(str(db[name.lower() + ".player"]))
 		return(db[name.lower() + ".player"])
 	except Exception:
 		pass
