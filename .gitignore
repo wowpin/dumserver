@@ -1,5 +1,6 @@
 .gitignore
-players/*.player
+players/*
+!players/Guest.player
 __pycache__
 backup
 dum.log
