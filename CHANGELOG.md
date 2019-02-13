@@ -9,7 +9,7 @@
 - Idle timer now also affects non-authenticated players (You will get disconnected due to inactivity while on the login screen/inside character creation wizard etc.)
 - Text formatting fixes
 - Unsubscribing from a SYSTEM channel will now give player a warning about potentially missing important game-wide info
-- http://playdum.dynu.net has been migrated to a new, improved development environment.
+- [Webclient](http://playdum.dynu.net "Webclient") has been migrated to a new, improved development environment.
 - Small Webclient adaptations 
 
 ### ![Legacy Version](https://img.shields.io/badge/%20-Legacy%20Version-orange.svg) ![0.5.1](https://img.shields.io/badge/%20-0.5.1-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/14%20JAN%202019-lightgrey.svg)
