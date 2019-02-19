@@ -1,4 +1,54 @@
-### ![Current Version](https://img.shields.io/badge/%20-Current%20Version-green.svg) ![0.5.3](https://img.shields.io/badge/%20-0.5.3-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/12%20FEB%202019-lightgrey.svg)
+### ![Current Version](https://img.shields.io/badge/%20-Current%20Version-green.svg) ![0.6.0](https://img.shields.io/badge/%20-0.6.0-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/12%20FEB%202019-lightgrey.svg)
+- **Grapevine.haus support!** Yay! Grapevine is a brilliant initiative, bringing a number of MUDs together by providing cross-game chat channels, player status and tells. DUM is heading towrds full Grapevine support, currently the following has been introduced:
+***Default grapevine channels (gossip, testing, announcements)***
+***Integration into existing DUM in-game channels***
+
+It is now possible to subscribe, unsubscribe and send messages to '@grapevine' channels. 
+
+Note: Concept of a channel location has been introduced. In this scenario, '@grapevine' is what we call a channel location. This is to signify that we can now use channels both local and external to DUM. To give a quick example - you can subscribe and send a message to a channel local to DUM by invoking the following:
+
+`@subscribe MyTestChannel`
+`/MyTestChannel Hello World!`
+
+Lack of '@<channel location>' suffix in channel name means we are talking to a channel local to the server.
+
+At the same time, you can now subscribe and send messages to one of Grapevine's channels by invoking:
+
+`@subscribe gosspi@grapevine`
+`/gossip@grapevine Hey there guys!`
+
+From this moment you subscribe, you will receive any messages sent to Gossip channel on Grapevine by any other player in any other game. Keep in mind all three default gossip channels are supported - you can subscribe to them using following commands:
+
+`@subscribe gossip@grapevine`
+`@subscribe testing@grapevine`
+`@subscribe announcements@grapevine`
+
+Note: Remaining Grapevine functionality will follow soon (player tells, game status, players status etc.)
+
+- **New AT command** `@config` - meant for controlling various admin and non admin aspects of the server/player experience via setting varius `config items`
+
+- **New Config Item** `defaultchannel` - allows setting a default chat channel to post messages to. For example if a player is having a discussion in `announcements@grapevine`, it would quickly become inconvenient to type `/announcements@grapevine` every time he wishes to send a message in that channel. It is now possible to set a default channel using the following command:
+
+`@config defaultchannel <channel>`
+
+From now on, it is possible to send a message by simply typing:
+
+`/ Hello World!`
+
+Note: Mind the space which follows the forward slash! In the above example, lack of space would send message "World!" to channel [Hello]! You would likely not receive any output either (unless by coincidence you had earlier subscribed to Hello by invoking `@subscribe Hello`.
+
+You can check which channel you have set as default and clear it at any time by typing the following:
+
+`@config defaultchannel show`
+`@config defaultchannel clear`
+
+Note: 'show' and 'clear' are now reserved words and are no longer valid channel names - it is impossible to subscribe to them.
+Note: Default channel is only valid per session - if a player log out and back in, he will have it's default channel cleared.
+
+- Channels names are now case-insensitive
+- Updates to in-game help
+
+### ![Legacy Version](https://img.shields.io/badge/%20-Current%20Version-orange.svg) ![0.5.3](https://img.shields.io/badge/%20-0.5.3-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/12%20FEB%202019-lightgrey.svg)
 - **New regular command**: `tell <plyer> <message>` for sending tell message to online players wherever they are.
 - **New AT command**: `@serverlog <show/clear>` for displaying or clearing the contents of dum runtime log (ServerLog in config.ini). It is an admin command and `permissionLevel=0` (set in players/<name>.player) is required to access it.  
 - **Server Installer script**: To make it even easier to get Dum up and running, it is now possible to install it (along with all dependencies) on your machine with a one-liner command - see README.md
