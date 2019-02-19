@@ -1,5 +1,5 @@
 ## Dum Server!
-## v0.5.3
+## v0.6.0
 
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
@@ -45,6 +45,9 @@ import commentjson
 # import glob module
 import glob
 
+# import grapevine client
+import grapevine
+
 log("", "Server Boot")
 
 log("", "Loading configuration file")
@@ -52,9 +55,27 @@ log("", "Loading configuration file")
 # load the configuration file
 Config = configparser.ConfigParser()
 Config.read('config.ini')
-
 # example of config file usage
 # print(str(Config.get('Database', 'Hostname')))
+
+# check the config file to see if we should use grapevine at all
+if int(Config.get('Grapevine', 'Enabled')) != 0:
+	useGrapevine = True
+	log("Grapevine enabled in config!", "grapevine")
+else:
+	useGrapevine = False
+	log("Grapevine disabled in config!", "grapevine")
+
+# initialise grapevine connection
+if useGrapevine:
+	log("Initialising...", "grapevine")
+	gsocket = grapevine.GrapevineSocket()
+	if gsocket.gsocket_connect() == True:
+		log("Connection Successful", "grapevine")
+	else:
+		log("Connection Failed", "grapevine")
+		useGrapevine = False
+		log("Grapevine features have been disabled", "grapevine")
 
 # Declare rooms dictionary
 rooms = {}
@@ -247,6 +268,9 @@ npcsTemplate = deepcopy(npcs)
 # stores the players in the game
 players = {}
 
+#list of players for Grapevine
+playerList = []
+
 # start the server
 mud = MudServer()
 
@@ -254,16 +278,32 @@ mud = MudServer()
 
 # main game loop. We loop forever (i.e. until the program is terminated)
 while True:
-	# print(type(gsocket.outbound_frame_buffer))
-	# Gossip test
-	#inbound = gsocket.handle_read()
-	#if inbound != None:
-		#print(type(inbound))
-		#print(inbound)
-	#gsocket.handle_write()
+	if useGrapevine:
+		gsocket.import_players(playerList)
+		gsocket.handle_read()
+		gsocket.handle_write()
 
-	#print(type(readtest))
-	#print(readtest)
+		rcvd_msg = None
+		ret_value = None
+		
+		if len(gsocket.inbound_frame_buffer) > 0:
+			rcvd_msg = gsocket.receive_message()
+			#print(rcvd_msg.event)
+			ret_value = rcvd_msg.parse_frame()
+			#print(ret_value)
+			if rcvd_msg.event == "channels/broadcast":
+				#print("sending to channels in game")
+				sendToChannel(str(ret_value['name']) + "@" + ret_value['game'], ret_value['channel'] + "@grapevine", ret_value['message'], channels)
+
+		# update player list for grapevine heartbeats
+		playerList = []
+		for p in players:
+			if players[p]['name'] != None and players[p]['authenticated'] != None:
+				if players[p]['name'] not in playerList:
+					playerList.append(players[p]['name'])
+		
+	#print(playerList)
+	
 	# pause for 1/5 of a second on each loop, so that we don't constantly
 	# use 100% CPU time
 	time.sleep(0.1)
@@ -600,6 +640,7 @@ while True:
 			'idleStart': int(time.time()),
 			'channels': None,
 			'permissionLevel': None,
+			'defaultChannel': None,
 			'exAttribute0': None,
 			'exAttribute1': None,
 			'exAttribute2': None
@@ -638,7 +679,7 @@ while True:
 		mud.send_message(id, " ")
 		#mud.send_message(id, "<f250><b160> Development Server 2            ")
 		#mud.send_message(id, " ")
-		mud.send_message(id, "<f0><b220> Codebase: v0.5.3                ")
+		mud.send_message(id, "<f0><b220> Codebase: v0.6.0                ")
 		mud.send_message(id, " ")
 		mud.send_message(id, "<f15>You can create a new Character, or use the following guest account:\n")
 		mud.send_message(id, "<f15>Username: <r><f220>Guest<r><f15> Password: <r><f220>Password")
@@ -715,7 +756,8 @@ while True:
 			# First step of char creation
 			mud.send_message(id, "<f220>\nWhat is going to be your name?")
 			for c in mud._clients:
-				print(str(mud._clients[c].address))
+				#print(str(mud._clients[c].address))
+				pass
 			players[id]['exAttribute0'] = 1001
 			break
 		
@@ -778,7 +820,7 @@ while True:
 				if file is not None:
 					dbResponse = tuple(file.values())
 				
-				print(dbResponse)
+				#print(dbResponse)
 				
 				if dbResponse != None:
 					players[id]['name'] = dbResponse[0]
@@ -881,7 +923,13 @@ while True:
 					# send the new player a welcome message
 					mud.send_message(id, '\n<f220>Welcome to DUM!, {}. '.format(players[id]['name']))
 					mud.send_message(id, '\n<f255>Hello there traveller! You have connected to a DUM development server, which currently consists of a few test rooms, npcs, items and environment actors. You can move around the rooms along with other players (if you are lucky to meet any), attack each other (including NPCs), pick up and drop items and chat. Make sure to visit the github repo for further info, make sure to check out the CHANGELOG. Thanks for your interest in DUM, high five!')
-					mud.send_message(id, "\n<f255>Type '<r><f220>help<r><f255>' for a list of all currently implemented commands. Have fun!")
+					mud.send_message(id, "\n<f220>Some feature highlights in v0.6.0:")
+					mud.send_message(id, "<f255> * Grapevine.haus support! 3 default channels are supported, chat away!")
+					mud.send_message(id, "<f255> * Seamless Grapevine integration into existing in-game channel system")
+					mud.send_message(id, "<f255> * New AT command - @config")
+					mud.send_message(id, "<f255> * New Config Item - defaultchannel")
+					mud.send_message(id, "<f255> * Number of bugfixes")
+					mud.send_message(id, "\n<f255>Type '<r><f220>help<r><f255>' for a list of all currently implemented commands/functions. Have fun!")
 				else:
 					mud.send_message(id, '<f202>This character is already in the world!')
 					log("Client ID: " + str(id) + " has requested a character which is already in the world!", "info")
@@ -903,19 +951,43 @@ while True:
 					if str(command[0]) == "@":
 						runAtCommand(command.lower()[1:], params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, itemsInWorld, envDB, env, scriptedEventsDB, eventSchedule, id, fights, corpses)
 					elif str(command[0]) == "/":
-						if len(command[1:]) > 0:
+						c = command[1:]
+						if len(c) == 0 and players[id]['defaultChannel'] != None:
+							c = players[id]['defaultChannel']
+							
+						if len(c) > 0:
 							if len(params) > 0:
-								if command[1:].lower() == "system":
+								if c.lower() == "system":
 									if players[id]['permissionLevel'] == 0:
-										sendToChannel(players[id]['name'], command[1:], params, channels)
+										sendToChannel(players[id]['name'], c, params, channels)
 									else:
 										mud.send_message(id, "You do not have permision to send messages to this channel.")
+								elif "@" in c:
+									chan = c
+									l = chan.split('@')
+									if len(l) == 2 and len(l[0]) > 0 and len(l[1]) > 0:
+										if l[1].lower() == "grapevine":
+											if useGrapevine:
+												gsocket.msg_gen_message_channel_send(players[id]['name'], l[0].lower(), params)
+												sendToChannel(players[id]['name'], chan, params, channels)
+											else:
+												mud.send_message(id, "Grapevine is disabled!")
+										else:
+											#print("Unrecognised channel location '" + l[1] + "'")
+											mud.send_message(id, "Unrecognised channel location '" + l[1] + "'")
+									else:
+										#print("Invalid channel '" + chan + "'")
+										mud.send_message(id, "Invalid channel '" + chan + "'")
 								else:
-									sendToChannel(players[id]['name'], command[1:].lower(), params, channels)
+									sendToChannel(players[id]['name'], c.lower(), params, channels)
 							else:
 								mud.send_message(id, "What message would you like to send?")
 						else:
+							#if players[id]['defaultChannel'] != None:
+								#sendToChannel(players[id]['name'], players[id]['defaultChannel'], params, channels)
+							#else:
 							mud.send_message(id, "Which channel would you like to message?")
+							
 					else:
 						runCommand(command.lower(), params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, itemsInWorld, envDB, env, scriptedEventsDB, eventSchedule, id, fights, corpses)
 			

@@ -34,8 +34,8 @@
 	"hp": 100, 
 	"charge": 0,
 	"lookDescription": "This is a Player description",
-	"channels": ["system"],
-	"permissionLevel": 100,
+	"channels": ["gossip@grapevine", "announcements@grapevine", "testing@grapevine", "system"],
+	"permissionLevel": 0,
 	"exAttribute0": 0,
 	"exAttribute1": 0,
 	"exAttribute2": 0

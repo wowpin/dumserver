@@ -18,6 +18,26 @@ def atcommandname(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB,
 	print("I'm in!")
 '''
 
+def config(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items, envDB, env, eventDB, eventSchedule, id, fights, corpses):
+	configitem = params.split(" ")[0]
+	parameter = " ".join(params.split(" ")[1:])
+	#print(configitem)
+	#print(parameter)
+	if configitem.lower() == "defaultchannel":
+		if parameter.lower() == "clear":
+			players[id]['defaultChannel'] = None
+			mud.send_message(id, "Default channel has been cleared.")
+		elif parameter.lower() == "show":
+			if players[id]['defaultChannel'] != None:
+				mud.send_message(id, "Your default channel is currently set to [" + players[id]['defaultChannel'] + "]")
+			else:
+				mud.send_message(id, "You do not have a default channel set.")
+		else:
+			mud.send_message(id, "Setting default channel to: " + parameter)
+			players[id]['defaultChannel'] = parameter
+	else:
+		mud.send_message(id, "Not sure what you would like to configure.")
+
 def serverlog(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items, envDB, env, eventDB, eventSchedule, id, fights, corpses):
 	if players[id]['permissionLevel'] == 0:
 		if params.lower() == 'show':
@@ -37,7 +57,7 @@ def serverlog(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, ite
 				content = [x.strip() for x in content]
 				
 				for l in content:
-					mud.send_message(id, l)
+					mud.send_message(id, l.encode('utf-8').decode('latin-1'))
 				
 				mud.send_message(id, "<f255>Total of " + str(len(content)) + " lines read from server log.")
 			else:
@@ -87,8 +107,11 @@ def subscribe(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, ite
 		if str(params.lower()) in players[id]['channels']:
 			mud.send_message(id, "You are already subscribed to [" + params.lower() + "]")
 		else:
-			players[id]['channels'].append(str(params.lower()))
-			mud.send_message(id, "You have subscribed to [" + params + "]")
+			if str(params.lower()) != 'clear':
+				players[id]['channels'].append(str(params.lower()))
+				mud.send_message(id, "You have subscribed to [" + params + "]")
+			else:
+				mud.send_message(id, "Invalid channel name [" + params + "]")
 	else:
 		mud.send_message(id, "What channel would you like to subscribe to?")
 
@@ -125,6 +148,7 @@ def runAtCommand(command, params, mud, playersDB, players, rooms, npcsDB, npcs, 
 		"channels": channels,
 		"who": who,
 		"serverlog": serverlog,
+		"config": config,
 	}
 
 	try:
