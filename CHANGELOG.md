@@ -9,6 +9,7 @@ It is now possible to subscribe, unsubscribe and send messages to '@grapevine' c
 Note: Concept of a channel location has been introduced. In this scenario, '@grapevine' is what we call a channel location. This is to signify that we can now use channels both local and external to DUM. To give a quick example - you can subscribe and send a message to a channel local to DUM by invoking the following:
 
 `@subscribe MyTestChannel`
+
 `/MyTestChannel Hello World!`
 
 Lack of '@<channel location>' suffix in channel name means we are talking to a channel local to the server.
@@ -16,13 +17,17 @@ Lack of '@<channel location>' suffix in channel name means we are talking to a c
 At the same time, you can now subscribe and send messages to one of Grapevine's channels by invoking:
 
 `@subscribe gosspi@grapevine`
+
 `/gossip@grapevine Hey there guys!`
 
 From this moment you subscribe, you will receive any messages sent to Gossip channel on Grapevine by any other player in any other game. Keep in mind all three default gossip channels are supported - you can subscribe to them using following commands:
 
 `@subscribe gossip@grapevine`
+
 `@subscribe testing@grapevine`
+
 `@subscribe announcements@grapevine`
+
 
 Note: Remaining Grapevine functionality will follow soon (player tells, game status, players status etc.)
 
