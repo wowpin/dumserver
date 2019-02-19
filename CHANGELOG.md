@@ -1,4 +1,4 @@
-### ![Current Version](https://img.shields.io/badge/%20-Current%20Version-green.svg) ![0.6.0](https://img.shields.io/badge/%20-0.6.0-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/12%20FEB%202019-lightgrey.svg)
+### ![Current Version](https://img.shields.io/badge/%20-Current%20Version-green.svg) ![0.6.0](https://img.shields.io/badge/%20-0.6.0-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/19%20FEB%202019-lightgrey.svg)
 - **Grapevine.haus support!** Yay! Grapevine is a brilliant initiative, bringing a number of MUDs together by providing cross-game chat channels, player status and tells. DUM is heading towrds full Grapevine support, currently the following has been introduced:
 ***Default grapevine channels (gossip, testing, announcements)***
 ***Integration into existing DUM in-game channels***
