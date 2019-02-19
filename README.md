@@ -1,5 +1,5 @@
 ![Dum!](docs/logo.png)
-# dumserver ![Build](https://img.shields.io/badge/build-0.5.3-green.svg)
+# dumserver ![Build](https://img.shields.io/badge/build-0.6.0-green.svg)
 A modern Python MU* engine - re-imagined, actively developed and properly tracked.
 
 ## What is it?
