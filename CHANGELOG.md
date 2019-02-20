@@ -54,7 +54,7 @@ Note: Default channel is only valid per session - if a player log out and back i
 - Channels names are now case-insensitive
 - Updates to in-game help
 
-### ![Legacy Version](https://img.shields.io/badge/%20-Current%20Version-orange.svg) ![0.5.3](https://img.shields.io/badge/%20-0.5.3-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/12%20FEB%202019-lightgrey.svg)
+### ![Legacy Version](https://img.shields.io/badge/%20-Legacy%20Version-orange.svg) ![0.5.3](https://img.shields.io/badge/%20-0.5.3-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/12%20FEB%202019-lightgrey.svg)
 - **New regular command**: `tell <plyer> <message>` for sending tell message to online players wherever they are.
 - **New AT command**: `@serverlog <show/clear>` for displaying or clearing the contents of dum runtime log (ServerLog in config.ini). It is an admin command and `permissionLevel=0` (set in players/<name>.player) is required to access it.  
 - **Server Installer script**: To make it even easier to get Dum up and running, it is now possible to install it (along with all dependencies) on your machine with a one-liner command - see README.md
