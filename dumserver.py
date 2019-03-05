@@ -660,7 +660,7 @@ while True:
 		for l in motdLines:
 			mud.send_message(id, l[:-1])
 
-		# mud.send_message(id, " ")
+		mud.send_message(id, "\nWhat is your username? (type <f255>new<r> for new character)")
 		log("Client ID: " + str(id) + " has connected", "info")
 
 	# go through any recently disconnected players
