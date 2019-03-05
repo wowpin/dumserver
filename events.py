@@ -1,3 +1,12 @@
+__filename__ = "events.py"
+__author__ = "Bartek Radwanski"
+__credits__ = ["Bartek Radwanski"]
+__license__ = "MIT"
+__version__ = "0.6.1"
+__maintainer__ = "Bartek Radwanski"
+__email__ = "bartek.radwanski@gmail.com"
+__status__ = "Production"
+
 from functions import str2bool
 from functions import getFreeKey
 import time

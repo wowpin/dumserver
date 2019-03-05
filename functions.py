@@ -1,3 +1,12 @@
+__filename__ = "functions.py"
+__author__ = "Bartek Radwanski"
+__credits__ = ["Bartek Radwanski"]
+__license__ = "MIT"
+__version__ = "0.6.1"
+__maintainer__ = "Bartek Radwanski"
+__email__ = "bartek.radwanski@gmail.com"
+__status__ = "Production"
+
 import time
 import os
 import commentjson
@@ -129,5 +138,6 @@ def str2bool(v):
   return v.lower() in ("yes", "true", "True", "t", "1")
   
 def sendToChannel(sender, channel, message, channels):
+	#print("Im in!")
 	channels[getFreeKey(channels)] = {"channel": str(channel), "message": str(message), "sender": str(sender)}
 	#print(channels)

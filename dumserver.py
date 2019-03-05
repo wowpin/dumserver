@@ -1,5 +1,11 @@
-## Dum Server!
-## v0.6.0
+__filename__ = "dumserver.py"
+__author__ = "Bartek Radwanski"
+__credits__ = ["Bartek Radwanski", "Mark Frimston"]
+__license__ = "MIT"
+__version__ = "0.6.1"
+__maintainer__ = "Bartek Radwanski"
+__email__ = "bartek.radwanski@gmail.com"
+__status__ = "Production"
 
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
@@ -646,46 +652,13 @@ while True:
 			'exAttribute2': None
 			}
 
-		# send the new player a prompt for their name
-		# mud.send_message(id, 'Connected to server!')
-
-		mud.send_message(id, "\x00")
-		mud.send_message(id, "\x00")
-		mud.send_message(id, "<f94>                                                  <f246>,o88888    ")
-		mud.send_message(id, "<f94>                                               <f246>,o8888888'    ")
-		mud.send_message(id, "<f94>                         ,:o:o:oooo.        <f246>,8O88Pd8888\"     ")
-		mud.send_message(id, "<f94>                     ,.::.::o:ooooOoOoO. <f246>,oO8O8Pd888'\"       ")
-		mud.send_message(id, "<f94>                   ,.:.::o:ooOoOoOO8O8OOo.<f246>8OOPd8O8O\"         ")
-		mud.send_message(id, "<f94>                  , ..:.::o:ooOoOOOO8OOOOo.<f246>FdO8O8\"           ")
-		mud.send_message(id, "<f94>                 , ..:.::o:ooOoOO8O888O8O,<f246>COCOO\"             ")
-		mud.send_message(id, "<f94>                , . ..:.::o:ooOoOOOO8OOO<f246>OCOCO\"               ")
-		mud.send_message(id, "<f94>                 . ..:.::o:ooOoOoOO8O8<f246>OCCCC\"<f94>o                ")
-		mud.send_message(id, "<f94>                    . ..:.::o:ooooOo<f246>CoCCC\"<f94>o:o                ")
-		mud.send_message(id, "<f94>                    . ..:.::o:o:,<f246>cooooCo\"<f94>oo:o:               ")
-		mud.send_message(id, "<f94>                 `   . . ..:.:<f246>cocoooo\"<f94>'o:o:::'               ")
-		mud.send_message(id, "<f94>                 <f246>.<f94>`   . ..::<f246>ccccoc\"<f94>'o:o:o:::'                ")
-		mud.send_message(id, "<f94>                <f246>:.:.<f94>    <f246>,c:cccc\"'<f94>:.:.:.:.:.'                 ")
-		mud.send_message(id, "<f94>              <f246>..:.:\"'`::::c:\"'<f94>..:.:.:.:.:.'                  ")
-		mud.send_message(id, "<f94>            <f246>...:.'.:.::::\"<f94>'    . . . . .'                    ")
-		mud.send_message(id, "<f94>           <f246>.. . ....:.\"' <f94>`   .  . . ''                       ")
-		mud.send_message(id, "<f94>         <f246>. . . ....\"'                                        ")
-		mud.send_message(id, "<f94>        <f246> .. . .\"'<f94>     -<f230>DUM<f94>-                                  ")
-		mud.send_message(id, "<f94>        <f246>.                                                    ")		
-
-		mud.send_message(id, " ")
-		mud.send_message(id, " ")
-		mud.send_message(id, "<f0><b220> a modern MU* engine             ")
-		mud.send_message(id, "<f0><b220>    github.com/wowpin/dumserver  ")
-		mud.send_message(id, " ")
-		#mud.send_message(id, "<f250><b160> Development Server 2            ")
-		#mud.send_message(id, " ")
-		mud.send_message(id, "<f0><b220> Codebase: v0.6.0                ")
-		mud.send_message(id, " ")
-		mud.send_message(id, "<f15>You can create a new Character, or use the following guest account:\n")
-		mud.send_message(id, "<f15>Username: <r><f220>Guest<r><f15> Password: <r><f220>Password")
-		
-		mud.send_message(id, " ")
-		mud.send_message(id, "<f15>What is your username?<r>\n<f246>Type '<f253>new<r><f246>' to create a character.")
+		# Read in the MOTD file and send to the player
+		motdFile = open(str(Config.get('System', 'Motd')) ,"r")
+		motdLines = motdFile.readlines()
+		motdFile.close()
+		linesCount = len(motdLines)
+		for l in motdLines:
+			mud.send_message(id, l[:-1])
 
 		# mud.send_message(id, " ")
 		log("Client ID: " + str(id) + " has connected", "info")
@@ -949,7 +922,7 @@ while True:
 				#print("gone into command eval")
 				if len(command) > 0:
 					if str(command[0]) == "@":
-						runAtCommand(command.lower()[1:], params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, itemsInWorld, envDB, env, scriptedEventsDB, eventSchedule, id, fights, corpses)
+						runAtCommand(command.lower()[1:], params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, itemsInWorld, envDB, env, scriptedEventsDB, eventSchedule, id, fights, corpses, channels, gsocket)
 					elif str(command[0]) == "/":
 						c = command[1:]
 						if len(c) == 0 and players[id]['defaultChannel'] != None:

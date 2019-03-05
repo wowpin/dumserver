@@ -1,4 +1,11 @@
-## cmsg.py 
+__filename__ = "cmsg.py"
+__author__ = "Bartek Radwanski"
+__credits__ = ["Bartek Radwanski"]
+__license__ = "MIT"
+__version__ = "0.6.0"
+__maintainer__ = "Bartek Radwanski"
+__email__ = "bartek.radwanski@gmail.com"
+__status__ = "Production"
 
 import re
 dict = {

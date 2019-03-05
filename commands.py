@@ -1,9 +1,16 @@
+__filename__ = "commands.py"
+__author__ = "Bartek Radwanski"
+__credits__ = ["Bartek Radwanski"]
+__license__ = "MIT"
+__version__ = "0.6.1"
+__maintainer__ = "Bartek Radwanski"
+__email__ = "bartek.radwanski@gmail.com"
+__status__ = "Production"
+
 from functions import addToScheduler
 from functions import getFreeKey
 from copy import deepcopy
 import time
-
-#from gossip import gsocket
 
 '''
 Command function template:
@@ -48,7 +55,7 @@ def whisper(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items
 	if len(target) > 0:
 		if len(message) > 0:
 			for p in players:
-				if players[p]['name'].lower() == target.lower():
+				if players[p]['name'] != None and players[p]['name'].lower() == target.lower():
 					if players[p]['room'] == players[id]['room']:
 						if players[p]['name'].lower() != players[id]['name'].lower():
 							mud.send_message(id, "You whisper to <f32>" + players[p]['name'] + "<r>: " + message[1:])
@@ -433,25 +440,6 @@ def take(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items, e
 		mud.send_message(id, 'You cannot see ' + str(params) + ' anywhere.')
 		itemPickedUp = False
 
-def webclienttest(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items, envDB, env, eventDB, eventSchedule, id, fights, corpses):
-	mud.send_message(id, '<f30><u>Foreground')
-	mud.send_message(id, '<f31><b>Foreground')
-	mud.send_message(id, '<f32><u><b>Foreground')
-	mud.send_message(id, '<f33>Foreground')
-	mud.send_message(id, '<f34>Foreground')
-	mud.send_message(id, '<f35>Foreground')
-	mud.send_message(id, '<f36>Foreground')
-	mud.send_message(id, '<f37>Foreground')
-
-	mud.send_message(id, '<b40><u>Background')
-	mud.send_message(id, '<b41><b>Background')
-	mud.send_message(id, '<b42><u><b>Background')
-	mud.send_message(id, '<b43>Background')
-	mud.send_message(id, '<b44>Background')
-	mud.send_message(id, '<b45>Background')
-	mud.send_message(id, '<b46>Background')
-	mud.send_message(id, '<b47>Background')
-
 def runCommand(command, params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items, envDB, env, eventDB, eventSchedule, id, fights, corpses):
 	switcher = {
 		"sendCommandError": sendCommandError,
@@ -463,7 +451,6 @@ def runCommand(command, params, mud, playersDB, players, rooms, npcsDB, npcs, it
 		"take": take,
 		"drop": drop,
 		"check": check,
-		"webclienttest": webclienttest,
 		"whisper": whisper,
 		"tell": tell,
 	}
