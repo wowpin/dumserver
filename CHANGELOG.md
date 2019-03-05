@@ -6,7 +6,7 @@
 - Fixed bug in `@SUBSCRIBE` where it would allow players to subscribe to channel "show", which is an invalid name.
 - Server Message Of The Day is now stored in a file (motd) rather than source code.
 
-### ![Legacy Version](https://img.shields.io/badge/%20-Legacy%20Version-green.svg) ![0.6.0](https://img.shields.io/badge/%20-0.6.0-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/19%20FEB%202019-lightgrey.svg)
+### ![Legacy Version](https://img.shields.io/badge/%20-Legacy%20Version-orange.svg) ![0.6.0](https://img.shields.io/badge/%20-0.6.0-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/19%20FEB%202019-lightgrey.svg)
 - **Grapevine.haus support!** Yay! Grapevine is a brilliant initiative, bringing a number of MUDs together by providing cross-game chat channels, player status and tells. DUM is heading towrds full Grapevine support, currently the following has been introduced:
 
 ***Default grapevine channels (gossip, testing, announcements)***
