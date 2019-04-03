@@ -3,7 +3,7 @@
 
 {
     "$rid=0$": {
-        "description": "You are in your private quarter aboard the Mariner spacecraft. Your room is dark, the only source of light being a wall screen displaying current time of day on Earth. You can hear a distant hum of ventilation equipment and a characteristic buzz of FTL engines, currently pushing you through a vast, unknown expand of space. The air feels fresh and pleasantly cool. Air pumps and filters are doing a good job today",
+        "description": "You are in your private quarter aboard the Mariner spacecraft. Your room is dark, the only source of light being a wall screen displaying current time of day on Earth. You can hear a distant hum of ventilation equipment and a characteristic buzz of FTL engines, currently pushing you through a vast, unknown expand of space. The air feels fresh and pleasantly cool. Air pumps and filters are doing a good job today.",
         "exits": {
             "door": "$rid=1$",
             "bathroom": "$rid=4$"

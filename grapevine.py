@@ -2,7 +2,7 @@ __filename__ = "grapevine.py"
 __author__ = "Jubelo"
 __credits__ = ["Jubelo", "Bartek Radwanski"]
 __license__ = "MIT"
-__version__ = "0.6.1"
+__version__ = "0.6.2"
 __maintainer__ = "Bartek Radwanski"
 __email__ = "bartek.radwanski@gmail.com"
 __status__ = "Production"
@@ -90,7 +90,7 @@ import json
 import socket
 import datetime
 import uuid
-
+import time
 # import config parser
 import configparser
 
@@ -438,6 +438,8 @@ class GrapevineSocket(WebSocket):
 		
 		self.debug = False
 		
+		self.lastHeartbeat = 0
+		
 		if int(Config.get('Grapevine', 'Debug')) != 0:
 			self.debug = True
 
@@ -502,7 +504,7 @@ class GrapevineSocket(WebSocket):
 
 	def gsocket_disconnect(self):
 		self.state["connected"] = False
-		self.events.clear()
+		# self.events.clear()
 		self.subscribed.clear()
 		self.other_games_players.clear()
 		self.close()
@@ -563,6 +565,9 @@ class GrapevineSocket(WebSocket):
 		# in response to a grapevine heartbeat.  Uncomment/replace with your functionality.
 		# XXX
 		#player_list = [player.name.capitalize() for player in player.playerlist]
+		# print("Heartbeat!")
+		self.lastHeartbeat = int(time.time())
+		
 		payload = {"players": self.players}
 		#payload = {}
 		msg = {"event": "heartbeat",
@@ -571,6 +576,9 @@ class GrapevineSocket(WebSocket):
 		self.send_out(json.dumps(msg, sort_keys=True, indent=4))
 		
 		#return("generated heartbeat!")
+		
+	def msg_gen_lastheartbeat_timestamp(self):
+		return self.lastHeartbeat
 
 	def msg_gen_chan_subscribe(self, chan=None):
 		'''

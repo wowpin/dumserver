@@ -2,7 +2,7 @@ __filename__ = "atcommands.py"
 __author__ = "Bartek Radwanski"
 __credits__ = ["Bartek Radwanski"]
 __license__ = "MIT"
-__version__ = "0.6.0"
+__version__ = "0.6.2"
 __maintainer__ = "Bartek Radwanski"
 __email__ = "bartek.radwanski@gmail.com"
 __status__ = "Production"
@@ -124,7 +124,8 @@ def subscribe(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, ite
 				mud.send_message(id, "You have subscribed to [<f191>" + params + "<r>]")
 				if "@" in params:
 					gsocket.msg_gen_message_channel_send(players[id]['name'], params.split("@")[0].lower(), players[id]['name'] + " has joined the channel!")
-				sendToChannel(players[id]['name'], params, players[id]['name'] + " has joined the channel.", chans)
+				if params.lower() != "system":
+					sendToChannel(players[id]['name'], params, players[id]['name'] + " has joined the channel.", chans)
 			else:
 				mud.send_message(id, "Invalid channel name [<f191>" + params + "<r>]")
 	else:
@@ -136,7 +137,8 @@ def unsubscribe(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, i
 		try:
 			if "@" in params:
 				gsocket.msg_gen_message_channel_send(players[id]['name'], params.split("@")[0].lower(), players[id]['name'] + " has left the channel!")
-			sendToChannel(players[id]['name'], params, players[id]['name'] + " has left the channel.", chans)
+			if params.lower() != "system":
+				sendToChannel(players[id]['name'], params, players[id]['name'] + " has left the channel.", chans)
 			players[id]['channels'].remove(params.lower())
 			mud.send_message(id, "You have unsubscribed from [<f191>" + params.lower() + "<r>]")
 		except Exception as e:

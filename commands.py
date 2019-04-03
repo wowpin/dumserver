@@ -2,7 +2,7 @@ __filename__ = "commands.py"
 __author__ = "Bartek Radwanski"
 __credits__ = ["Bartek Radwanski"]
 __license__ = "MIT"
-__version__ = "0.6.1"
+__version__ = "0.6.2"
 __maintainer__ = "Bartek Radwanski"
 __email__ = "bartek.radwanski@gmail.com"
 __status__ = "Production"
@@ -74,7 +74,7 @@ def whisper(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items
 		mud.send_message(id, "Who would you like to whisper to??")
 
 def help(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items, envDB, env, eventDB, eventSchedule, id, fights, corpses):
-	mud.send_message(id, '\nCommands:')
+	mud.send_message(id, 'Commands:')
 	mud.send_message(id, '  say [message]                    - Says something out loud, '  + "e.g. 'say Hello'")
 	mud.send_message(id, '  look                             - Examines the ' + "surroundings, items in the room, NPCs or other players e.g. 'look tin can' or 'look cleaning robot'")
 	mud.send_message(id, '  go [exit]                        - Moves through the exit ' + "specified, e.g. 'go outside'")
@@ -119,7 +119,7 @@ def look(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items, e
 			rm = rooms[players[id]['room']]
 	
 			# send the player back the description of their current room
-			mud.send_message(id, "<f230>" + rm['description'])
+			mud.send_message(id, "\n<f230>" + rm['description'])
 	
 			playershere = []
 			
@@ -162,6 +162,8 @@ def look(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items, e
 			# send player a message containing the list of items in the room
 			if len(itemshere) > 0:
 				mud.send_message(id, '<f230>You notice: <f220>{}'.format(', '.join(itemshere)))
+			
+			#mud.send_message(id, " ")
 		else:
 			# If argument is given, then evaluate it
 			param = params.lower()

@@ -2,7 +2,7 @@ __filename__ = "dumserver.py"
 __author__ = "Bartek Radwanski"
 __credits__ = ["Bartek Radwanski", "Mark Frimston"]
 __license__ = "MIT"
-__version__ = "0.6.1"
+__version__ = "0.6.2"
 __maintainer__ = "Bartek Radwanski"
 __email__ = "bartek.radwanski@gmail.com"
 __status__ = "Production"
@@ -78,10 +78,15 @@ if useGrapevine:
 	gsocket = grapevine.GrapevineSocket()
 	if gsocket.gsocket_connect() == True:
 		log("Connection Successful", "grapevine")
+		# Setting last hearbeat to NOW since we have just connected.
+		gsocket.lastHeartbeat = int(time.time())
 	else:
 		log("Connection Failed", "grapevine")
 		useGrapevine = False
 		log("Grapevine features have been disabled", "grapevine")
+
+# Grapevine re-enable requested
+grapevineReconnecting = False
 
 # Declare rooms dictionary
 rooms = {}
@@ -284,32 +289,74 @@ mud = MudServer()
 
 # main game loop. We loop forever (i.e. until the program is terminated)
 while True:
-	if useGrapevine:
-		gsocket.import_players(playerList)
-		gsocket.handle_read()
-		gsocket.handle_write()
-
-		rcvd_msg = None
-		ret_value = None
-		
-		if len(gsocket.inbound_frame_buffer) > 0:
-			rcvd_msg = gsocket.receive_message()
-			#print(rcvd_msg.event)
-			ret_value = rcvd_msg.parse_frame()
-			#print(ret_value)
-			if rcvd_msg.event == "channels/broadcast":
-				#print("sending to channels in game")
-				sendToChannel(str(ret_value['name']) + "@" + ret_value['game'], ret_value['channel'] + "@grapevine", ret_value['message'], channels)
-
-		# update player list for grapevine heartbeats
-		playerList = []
-		for p in players:
-			if players[p]['name'] != None and players[p]['authenticated'] != None:
-				if players[p]['name'] not in playerList:
-					playerList.append(players[p]['name'])
-		
-	#print(playerList)
+	# print(int(time.time()))
+	if useGrapevine == True or grapevineReconnecting == True:
+		if gsocket.state["connected"] == True:
+			gsocket.import_players(playerList)
+			gsocket.handle_read()
+			gsocket.handle_write()
 	
+			rcvd_msg = None
+			ret_value = None
+			
+			if len(gsocket.inbound_frame_buffer) > 0:
+				rcvd_msg = gsocket.receive_message()
+				#print(rcvd_msg.event)
+				ret_value = rcvd_msg.parse_frame()
+				#print(ret_value)
+				if rcvd_msg.event == "channels/broadcast":
+					#print("sending to channels in game")
+					sendToChannel(str(ret_value['name']) + "@" + ret_value['game'], ret_value['channel'] + "@grapevine", ret_value['message'], channels)
+				elif rcvd_msg.event == "players/sign-in":
+					log("Received player sign in", "info")
+					log(ret_value)
+	
+			# update player list for grapevine heartbeats
+			playerList = []
+			for p in players:
+				if players[p]['name'] != None and players[p]['authenticated'] != None:
+					if players[p]['name'] not in playerList:
+						playerList.append(players[p]['name'])
+			
+		#grapevineLastHeartbeat = gsocket.msg_gen_lastheartbeat_timestamp()
+		#print(str(grapevineLastHeartbeat))
+		
+		# Let's wait some time before attempting reconnection (as defined in config.ini)
+		if gsocket.state["connected"] == False and int(time.time()) >= timeDisconnected + int(Config.get('Grapevine', 'ConnectionRetryDelay')):
+			#print("grapevine trying to reconnect")
+			#timeDisconnected = int(time.time())
+			#log("Trying to connect", "grapevine")
+			gsocket = grapevine.GrapevineSocket()
+			log("Attempting to reconnect...", "grapevine")
+			sendToChannel("Grapevine", "system", "Attempting to reconnect to the Network...", channels)
+			if gsocket.gsocket_connect() == True:
+				log("Connection Successful", "grapevine")
+				gsocket.lastHeartbeat = int(time.time())
+				sendToChannel("Grapevine", "system", "Connection to Grapevine Network has been restored!", channels)
+				useGrapevine = True
+				grapevineReconnecting = False
+			else:
+				log("Failed to reconnect after " + str(Config.get('Grapevine', 'ConnectionRetryDelay')) + " seconds", "grapevine")
+				log("Disabling Grapevine permanently", "grapevine")
+				sendToChannel("Grapevine", "system", "Failed to reconnect to the network. Grapevine functionality is now permanently disabled.", channels)
+				grapevineReconnecting = False
+
+		if gsocket.state["connected"] == True and int(time.time()) > gsocket.msg_gen_lastheartbeat_timestamp() + int(Config.get('Grapevine', 'MaxHeartbeatDelay')):
+			# Opps! It has been more than 60 seconds since last grapevine heartbeat!
+			#print("60 secs since heartbeat")
+			gsocket.state["connected"] = False
+			gsocket.state["authenticated"] = False
+			gsocket.gsocket_disconnect()
+			log("Connection to Grapevine Network was lost! Attempt to reconnect will be made in " + str(Config.get('Grapevine', 'ConnectionRetryDelay')) + " seconds.", "grapevine")
+			sendToChannel("Grapevine", "system", "Connection to Grapevine Network was lost. We will try to reconnect in " + str(Config.get('Grapevine', 'ConnectionRetryDelay')) + " seconds.", channels)
+			grapevineReconnecting = True
+			useGrapevine = False
+			timeDisconnected = int(time.time())
+		
+
+	
+	# print("useGrapevine: " + str(useGrapevine))
+	# print("grapevineReconnecting: " + str(grapevineReconnecting))
 	# pause for 1/5 of a second on each loop, so that we don't constantly
 	# use 100% CPU time
 	time.sleep(0.1)
@@ -376,8 +423,8 @@ while True:
 							if players[fights[fid]['s1id']]['hp'] > 0:
 								players[fights[fid]['s2id']]['hp'] = players[fights[fid]['s2id']]['hp'] - (players[fights[fid]['s1id']]['str'] + modifier)
 								players[fights[fid]['s1id']]['lastCombatAction'] = int(time.time())
-								mud.send_message(fights[fid]['s1id'], 'You manage to hit <f32><u>' + players[fights[fid]['s2id']]['name'] + '<r> for <f0><b2>' + str(players[fights[fid]['s1id']]['str'] + modifier) + '<r> points of damage.')
-								mud.send_message(fights[fid]['s2id'], '<f32>' + players[fights[fid]['s1id']]['name'] + '<r> has managed to hit you for <f15><b88>' + str(players[fights[fid]['s1id']]['str'] + modifier) + '<r> points of damage.')
+								mud.send_message(fights[fid]['s1id'], 'You manage to hit <f32><u>' + players[fights[fid]['s2id']]['name'] + '<r> for <f15><b2> * ' + str(players[fights[fid]['s1id']]['str'] + modifier) + ' *<r> points of damage.')
+								mud.send_message(fights[fid]['s2id'], '<f32>' + players[fights[fid]['s1id']]['name'] + '<r> has managed to hit you for <f15><b88> * ' + str(players[fights[fid]['s1id']]['str'] + modifier) + ' *<r> points of damage.')
 
 						else:
 							players[fights[fid]['s1id']]['lastCombatAction'] = int(time.time())
@@ -402,7 +449,7 @@ while True:
 							if players[fights[fid]['s1id']]['hp'] > 0:
 								npcs[fights[fid]['s2id']]['hp'] = npcs[fights[fid]['s2id']]['hp'] - (players[fights[fid]['s1id']]['str'] + modifier)
 								players[fights[fid]['s1id']]['lastCombatAction'] = int(time.time())
-								mud.send_message(fights[fid]['s1id'], 'You manage to hit <f220>' + npcs[fights[fid]['s2id']]['name'] + '<r> for <b2><f0>' + str(players[fights[fid]['s1id']]['str'] + modifier)  + '<r> points of damage')
+								mud.send_message(fights[fid]['s1id'], 'You manage to hit <f220>' + npcs[fights[fid]['s2id']]['name'] + '<r> for <b2><f15> * ' + str(players[fights[fid]['s1id']]['str'] + modifier)  + ' * <r> points of damage')
 
 						else:
 							players[fights[fid]['s1id']]['lastCombatAction'] = int(time.time())
@@ -425,7 +472,7 @@ while True:
 						if npcs[fights[fid]['s1id']]['hp'] > 0:
 							players[fights[fid]['s2id']]['hp'] = players[fights[fid]['s2id']]['hp'] - (npcs[fights[fid]['s1id']]['str'] + modifier)
 							npcs[fights[fid]['s1id']]['lastCombatAction'] = int(time.time())
-							mud.send_message(fights[fid]['s2id'], '<f220>' + npcs[fights[fid]['s1id']]['name'] + '<r> has managed to hit you for <f15><b88>' + str(npcs[fights[fid]['s1id']]['str'] + modifier) + '<r> points of damage.')
+							mud.send_message(fights[fid]['s2id'], '<f220>' + npcs[fights[fid]['s1id']]['name'] + '<r> has managed to hit you for <f15><b88> * ' + str(npcs[fights[fid]['s1id']]['str'] + modifier) + ' * <r> points of damage.')
 					else:
 						npcs[fights[fid]['s1id']]['lastCombatAction'] = int(time.time())
 						mud.send_message(fights[fid]['s2id'], '<f220>' + npcs[fights[fid]['s1id']]['name'] + '<r> has missed you completely!')
@@ -896,8 +943,9 @@ while True:
 					# send the new player a welcome message
 					mud.send_message(id, '\n<f220>Welcome to DUM!, {}. '.format(players[id]['name']))
 					mud.send_message(id, '\n<f255>Hello there traveller! You have connected to a DUM development server, which currently consists of a few test rooms, npcs, items and environment actors. You can move around the rooms along with other players (if you are lucky to meet any), attack each other (including NPCs), pick up and drop items and chat. Make sure to visit the github repo for further info, make sure to check out the CHANGELOG. Thanks for your interest in DUM, high five!')
-					mud.send_message(id, "\n<f220>Some feature highlights in v0.6.1:")
-					mud.send_message(id, "<f255> * Preparing for full Grapevine integration and major Webclient overhaul")
+					mud.send_message(id, "\n<f220>Some feature highlights in v0.6.2:")
+					mud.send_message(id, "<f255> * STILL Preparing for full Grapevine integration and major Webclient overhaul")
+					mud.send_message(id, "<f255> * Connection to Grapevine is now monitored and will be re-established automatically following Grapevine downtime")
 					mud.send_message(id, "<f255> * Number of bugfixes")
 					mud.send_message(id, "\n<f255>Type '<r><f220>help<r><f255>' for a list of all currently implemented commands/functions. Have fun!")
 				else:
@@ -938,6 +986,7 @@ while True:
 									if len(l) == 2 and len(l[0]) > 0 and len(l[1]) > 0:
 										if l[1].lower() == "grapevine":
 											if useGrapevine:
+												#print("grapevine used!")
 												gsocket.msg_gen_message_channel_send(players[id]['name'], l[0].lower(), params)
 												sendToChannel(players[id]['name'], chan, params, channels)
 											else:
