@@ -1,4 +1,8 @@
-### ![Current Version](https://img.shields.io/badge/%20-Current%20Version-green.svg) ![0.6.1](https://img.shields.io/badge/%20-0.6.1-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/5%20MAR%202019-lightgrey.svg)
+### ![Current Version](https://img.shields.io/badge/%20-Current%20Version-green.svg) ![0.6.2](https://img.shields.io/badge/%20-0.6.2-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/3%20APR%202019-lightgrey.svg)
+- **Automatic re-connection to Grapevine following network downtime!** - DUM now tracks timestamp of the last heartbeat. Once heartbeat has been detected to take unusually long (tolerance set via MaxHeartbeatDelay in config.ini - in seconds), DUM will attempt to reconnect to the network once after a configurable amount of time (controlled via ConnectionRetryDelay in config.ini - in seconds). If the reconnection attempt fails, Grapevine will be permanently disabled.
+- Readability of damage bubbles improved
+
+### ![Legacy Version](https://img.shields.io/badge/%20-Legacy%20Version-orange.svg) ![0.6.1](https://img.shields.io/badge/%20-0.6.1-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/5%20MAR%202019-lightgrey.svg)
 - **New domain for the dev environment and the webclient** - [dum.wowpin.eu](http://dum.wowpin.eu "Webclient")
 - Minor code cleanup and source code files headers included.
 - Bugfix in `WHISPER` which until now would throw an exception when whispering while there are players in 'not authenticated' state (e.g. on login screen, during character creation etc.).
