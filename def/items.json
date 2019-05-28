@@ -70,6 +70,41 @@
 	"weight": "1",
 	"article": "a"
 	// --- End of Item definition ---
+    },
+	
+    "3": {
+	// --- Item definition ---
+        "name": "Rat's Tail",
+        "long_description": "You obtained it from a dead body of a rat aboard Mariner.",
+        "short_description": "It's a severed rat's tail.",
+	"clo_head": "0",
+	"clo_larm": "0",
+	"clo_rarm": "0",
+	"clo_lhand": "0",
+	"clo_rhand": "0",
+	"clo_chest": "0",
+	"clo_lleg": "0",
+	"clo_rleg": "0",
+	"clo_feet": "0",
+	"imp_head": "0",
+	"imp_larm": "0",
+	"imp_rarm": "0",
+	"imp_lhand": "0",
+	"imp_rhand": "0",
+	"imp_chest": "0",
+	"imp_lleg": "0",
+	"imp_rleg": "0",
+	"imp_feet": "0",
+	"mod_str": "0",
+	"mod_per": "0",
+	"mod_endu": "0",
+	"mod_cha": "0",
+	"mod_inte": "0",
+	"mod_agi": "0",
+	"mod_luc": "0",
+	"weight": "1",
+	"article": "a"
+	// --- End of Item definition ---
     }
 }
 

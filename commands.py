@@ -2,7 +2,7 @@ __filename__ = "commands.py"
 __author__ = "Bartek Radwanski"
 __credits__ = ["Bartek Radwanski"]
 __license__ = "MIT"
-__version__ = "0.6.2"
+__version__ = "0.6.3"
 __maintainer__ = "Bartek Radwanski"
 __email__ = "bartek.radwanski@gmail.com"
 __status__ = "Production"
@@ -18,6 +18,104 @@ Command function template:
 def commandname(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items, envDB, env, eventDB, eventSchedule, id, fights, corpses):
 	print("I'm in!")
 '''
+
+def target(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items, envDB, env, eventDB, eventSchedule, id, fights, corpses):
+	targetID = None
+	
+	p = params.split(" ")
+	#print(p)
+	for item in p:
+		if item.isdigit() == True:
+			targetID = int(item)
+			break
+	pCopy = deepcopy(p)
+	for item in pCopy:
+		if item.isdigit() == True:
+			p.remove(item)
+	
+	params = " ".join(p)
+	#print(params)
+	#print("ID=" + str(targetID))
+
+	
+	if len(params) > 0:
+		searchResults = []
+		pcIndex = 0
+		npcIndex = 0
+		itemIndex = 0
+		## Step 1 - Find a PC 
+		
+		for p in players:
+			if players[p]['name'].lower() == params.lower() and players[p]['room'] == players[id]['room']:
+				searchResults.append([players[p]['name'], 'pc', players[p]['room'], pcIndex, id])
+				pcIndex += 1
+		
+		## Step 2 - Find an NPC
+		for n in npcs:
+			if npcs[n]['name'].lower() == params.lower() and players[id]['room'] == npcs[n]['room']:
+				searchResults.append([npcs[n]['name'], 'npc', npcs[n]['room'], npcIndex, n])
+				npcIndex += 1
+
+		if len(searchResults) > 0 and len(searchResults) < 2:
+			#print(str())
+			players[id]['target'] = searchResults[0]
+			if players[id]['target'][1].lower() == "pc":
+				mud.send_message(id, "You have targeted player <f32>" + players[id]['target'][0])
+			elif players[id]['target'][1].lower() == "npc":
+				mud.send_message(id, "You have targeted non-player <f220>" + players[id]['target'][0])
+			# mud.send_message(id, str(searchResults))
+		elif len(searchResults) > 1:
+			if targetID == None:
+				## Multiple search results and no targetID specified
+				mud.send_message(id, "You can see " + str(len(searchResults)) + " of those around. Which one would you like to target?")
+				for r in searchResults:
+					if r[1].lower() == "pc":
+						resultType = "<f32>Player<r>"
+					if r[1].lower() == "npc":
+						resultType = "<f220>Non-Player<r>"
+					
+					mud.send_message(id, "<f166><" + str(r[4]) + "> <f220>" + str(r[0]) + "<r>, it is a " +  resultType)
+					# mud.send_message(id, str(r))
+				mud.send_message(id, "Which one would you like to target?")
+			else:
+				#Multiple same targets exist and target ID has been specified - ACTUAL TARGET ASSIGNED TO PLAYER HERE!
+				#print("Targeting " + params + " ID:" + str(targetID))
+				for r in searchResults:
+					if int(r[4]) == int(targetID):
+						players[id]['target'] = r
+				if players[id]['target'][1].lower() == "pc":
+					mud.send_message(id, "You have targeted player <f32>" + str(players[id]['target'][0]))
+				elif players[id]['target'][1].lower() == "npc":
+					mud.send_message(id, "You have targeted non-player <f220>" + str(players[id]['target'][0]) + "<r> <f166><" + str(players[id]['target'][4]) + "><r>")
+		else:
+			mud.send_message(id, "You cannot see " + params + " anywhere")
+	else:
+		if players[id]['target'] != None:
+			if players[id]['target'][1].lower() == "pc":
+				targetType = "<f32>Player<r>"
+			if players[id]['target'][1].lower() == "npc":
+				targetType = "<f220>Non-Player<r>"
+				
+			if players[id]['target'][4] != None:
+				if players[id]['target'][1].lower() == "pc":
+					mud.send_message(id, "You are currently targeting player <f32>" + str(players[id]['target'][0]) + "<r>")
+				elif players[id]['target'][1].lower() == "npc":
+					mud.send_message(id, "You are currently targeting non-player <f220>" + str(players[id]['target'][0]) + "<r>")
+			else:
+				mud.send_message(id, "You are currently targeting <f220>" + str(players[id]['target'][0]))
+		else:
+			mud.send_message(id, "You are not currently targeting anything")
+
+def untarget(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items, envDB, env, eventDB, eventSchedule, id, fights, corpses):
+	if players[id]['target'] == None:
+		mud.send_message(id, "You are not currently targetting anything")
+		# Any combat involving the target should cease here!!!
+	else:
+		if players[id]['target'][1].lower() == "pc":
+			mud.send_message(id, "You are no longer targeting player <f32>" + str(players[id]['target'][0]))
+		elif players[id]['target'][1].lower() == "npc":
+			mud.send_message(id, "You are no longer targeting non-player <f220>" + str(players[id]['target'][0]))
+		players[id]['target'] = None
 
 def sendCommandError(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items, envDB, env, eventDB, eventSchedule, id, fights, corpses):
 	mud.send_message(id, "Unknown command " + str(params) + "!")
@@ -84,6 +182,7 @@ def help(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items, e
 	mud.send_message(id, '  drop [item]                      - Drop an item from your inventory ' + "on the floor")
 	mud.send_message(id, '  whisper [target] [message]       - Whisper to a player in the same room')
 	mud.send_message(id, '  tell [target] [message]          - Send a tell message to another player')
+	mud.send_message(id, '  target [pc/npc]                  - Target a player on non-player character in the room')
 	mud.send_message(id, '\nAT Commands:')
 	mud.send_message(id, '  @who                             - See who is logged in (permission level 0 required')
 	mud.send_message(id, '  @serverlog [clear/show]          - Print or clear the server log (permission level 0 required)')
@@ -455,6 +554,8 @@ def runCommand(command, params, mud, playersDB, players, rooms, npcsDB, npcs, it
 		"check": check,
 		"whisper": whisper,
 		"tell": tell,
+		"target": target,
+		"untarget": untarget,
 	}
 
 	try:

@@ -38,5 +38,6 @@
 	"permissionLevel": 0,
 	"exAttribute0": 0,
 	"exAttribute1": 0,
-	"exAttribute2": 0
+	"exAttribute2": 0,
+	"hpMax": 100
 }

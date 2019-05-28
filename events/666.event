@@ -21,4 +21,3 @@
 40|setPlayerCanAttack|1
 41|setPlayerCanDirectMessage|1
 120|setPlayerPrefix|None
-120|msg|All residual effect of your recent death are now gone.

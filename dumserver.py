@@ -2,7 +2,7 @@ __filename__ = "dumserver.py"
 __author__ = "Bartek Radwanski"
 __credits__ = ["Bartek Radwanski", "Mark Frimston"]
 __license__ = "MIT"
-__version__ = "0.6.2"
+__version__ = "0.6.3"
 __maintainer__ = "Bartek Radwanski"
 __email__ = "bartek.radwanski@gmail.com"
 __status__ = "Production"
@@ -180,6 +180,7 @@ for k in npcsDB:
 	npcsDB[k]['lastRoom'] = None
 	npcsDB[k]['whenDied'] = None
 	npcsDB[k]['vocabulary'] = npcsDB[k]['vocabulary'].split('|')
+	npcsDB[k]['combatVocabulary'] = npcsDB[k]['combatVocabulary'].split('|')
 	for v in npcsDB[k]:
 		if not(v == "name" or \
 		v == "room" or \
@@ -188,6 +189,7 @@ for k in npcsDB:
 		v == "lookDescription" or \
 		v == "lastRoom" or \
 		v == "loot" or \
+		v == "combatVocabulary" or \
 		v == "whenDied"):
 			npcsDB[k][v] = int(npcsDB[k][v])
 
@@ -485,23 +487,42 @@ while True:
 		# Check if any player is in the same room, then send a random message to them
 		now = int(time.time())
 		if now > npcs[nid]['timeTalked'] + npcs[nid]['talkDelay'] + npcs[nid]['randomizer']:
-			rnd = randint(0, len(npcs[nid]['vocabulary']) - 1)
-			while rnd is npcs[nid]['lastSaid']:
+			if npcs[nid]['isInCombat'] == 0:
 				rnd = randint(0, len(npcs[nid]['vocabulary']) - 1)
-			for (pid, pl) in list(players.items()):
-				if npcs[nid]['room'] == players[pid]['room']:
-					if len(npcs[nid]['vocabulary']) > 1:
-						#mud.send_message(pid, npcs[nid]['vocabulary'][rnd])
-						msg = '<f220>' + npcs[nid]['name'] + '<r> says: <f86>' + npcs[nid]['vocabulary'][rnd]
-						mud.send_message(pid, msg)
-						npcs[nid]['randomizer'] = randint(0, npcs[nid]['randomFactor'])
-						npcs[nid]['lastSaid'] = rnd
-					else:
-						#mud.send_message(pid, npcs[nid]['vocabulary'][0])
-						msg = '<f220>' + npcs[nid]['name'] + '<r> says: <f86>' + npcs[nid]['vocabulary'][0]
-						mud.send_message(pid, msg)
-						npcs[nid]['randomizer'] = randint(0, npcs[nid]['randomFactor'])
-			npcs[nid]['timeTalked'] =  now
+				while rnd is npcs[nid]['lastSaid']:
+					rnd = randint(0, len(npcs[nid]['vocabulary']) - 1)
+				for (pid, pl) in list(players.items()):
+					if npcs[nid]['room'] == players[pid]['room']:
+						if len(npcs[nid]['vocabulary']) > 1:
+							#mud.send_message(pid, npcs[nid]['vocabulary'][rnd])
+							msg = '<f220>' + npcs[nid]['name'] + '<r> says: <f86>' + npcs[nid]['vocabulary'][rnd]
+							mud.send_message(pid, msg)
+							npcs[nid]['randomizer'] = randint(0, npcs[nid]['randomFactor'])
+							npcs[nid]['lastSaid'] = rnd
+						else:
+							#mud.send_message(pid, npcs[nid]['vocabulary'][0])
+							msg = '<f220>' + npcs[nid]['name'] + '<r> says: <f86>' + npcs[nid]['vocabulary'][0]
+							mud.send_message(pid, msg)
+							npcs[nid]['randomizer'] = randint(0, npcs[nid]['randomFactor'])
+				npcs[nid]['timeTalked'] =  now
+			else:
+				rnd = randint(0, len(npcs[nid]['combatVocabulary']) - 1)
+				while rnd is npcs[nid]['lastSaid']:
+					rnd = randint(0, len(npcs[nid]['combatVocabulary']) - 1)
+				for (pid, pl) in list(players.items()):
+					if npcs[nid]['room'] == players[pid]['room']:
+						if len(npcs[nid]['combatVocabulary']) > 1:
+							#mud.send_message(pid, npcs[nid]['vocabulary'][rnd])
+							msg = '<f220>' + npcs[nid]['name'] + '<r> says: <f86>' + npcs[nid]['combatVocabulary'][rnd]
+							mud.send_message(pid, msg)
+							npcs[nid]['randomizer'] = randint(0, npcs[nid]['randomFactor'])
+							npcs[nid]['lastSaid'] = rnd
+						else:
+							#mud.send_message(pid, npcs[nid]['vocabulary'][0])
+							msg = '<f220>' + npcs[nid]['name'] + '<r> says: <f86>' + npcs[nid]['combatVocabulary'][0]
+							mud.send_message(pid, msg)
+							npcs[nid]['randomizer'] = randint(0, npcs[nid]['randomFactor'])
+				npcs[nid]['timeTalked'] =  now
 
 		# Iterate through fights and see if anyone is attacking an NPC - if so, attack him too if not in combat (TODO: and isAggressive = true)
 		for (fid, pl) in list(fights.items()):
@@ -587,12 +608,41 @@ while True:
 	for (nid, pl) in list(npcs.items()):
 		# print(npcs[nid])
 		if npcs[nid]['whenDied'] is not None and int(time.time()) >= npcs[nid]['whenDied'] + npcs[nid]['respawn']:
-			#print("IN")
-			npcs[nid]['whenDied'] = None
-			#npcs[nid]['room'] = npcsTemplate[nid]['room']
-			npcs[nid]['room'] = npcs[nid]['lastRoom']
-			# print("respawning " + npcs[nid]['name'])
-			# print(npcs[nid]['hp'])
+			# Look for an NPC template in the DB and when found, respawn the NPC setting his stats back to what they should be.
+			for n in npcsDB:
+				if npcsDB[n]['name'] == npcs[nid]['name'] and npcsDB[n]['lookDescription'] == npcs[nid]['lookDescription']:
+					npcs[nid]['whenDied'] = None
+					npcs[nid]['room'] = npcs[nid]['lastRoom']
+					npcs[nid]['hp'] = npcsDB[n]['hp']
+					npcs[nid]['charge'] = npcsDB[n]['charge']
+					npcs[nid]['lvl'] = npcsDB[n]['lvl']
+					npcs[nid]['exp'] = npcsDB[n]['exp']
+					npcs[nid]['str'] = npcsDB[n]['str']
+					npcs[nid]['per'] = npcsDB[n]['per']
+					npcs[nid]['endu'] = npcsDB[n]['endu']
+					npcs[nid]['cha'] = npcsDB[n]['cha']
+					npcs[nid]['inte'] = npcsDB[n]['inte']
+					npcs[nid]['agi'] = npcsDB[n]['agi']
+					npcs[nid]['luc'] = npcsDB[n]['luc']
+					npcs[nid]['cred'] = npcsDB[n]['cred']
+					npcs[nid]['clo_head'] = npcsDB[n]['clo_head']
+					npcs[nid]['clo_larm'] = npcsDB[n]['clo_larm']
+					npcs[nid]['clo_rarm'] = npcsDB[n]['clo_rarm']
+					npcs[nid]['clo_lhand'] = npcsDB[n]['clo_lhand']
+					npcs[nid]['clo_rhand'] = npcsDB[n]['clo_rhand']
+					npcs[nid]['clo_chest'] = npcsDB[n]['clo_chest']
+					npcs[nid]['clo_lleg'] = npcsDB[n]['clo_lleg']
+					npcs[nid]['clo_rleg'] = npcsDB[n]['clo_rleg']
+					npcs[nid]['clo_feet'] = npcsDB[n]['clo_feet']
+					npcs[nid]['imp_head'] = npcsDB[n]['imp_head']
+					npcs[nid]['imp_larm'] = npcsDB[n]['imp_larm']
+					npcs[nid]['imp_rarm'] = npcsDB[n]['imp_rarm']
+					npcs[nid]['imp_lhand'] = npcsDB[n]['imp_lhand']
+					npcs[nid]['imp_rhand'] = npcsDB[n]['imp_rhand']
+					npcs[nid]['imp_chest'] = npcsDB[n]['imp_chest']
+					npcs[nid]['imp_lleg'] = npcsDB[n]['imp_lleg']
+					npcs[nid]['imp_rleg'] = npcsDB[n]['imp_rleg']
+					npcs[nid]['imp_feet'] = npcsDB[n]['imp_feet']
 
 	# Evaluate the Event Schedule
 	for (event, pl) in list(eventSchedule.items()):
@@ -696,7 +746,9 @@ while True:
 			'defaultChannel': None,
 			'exAttribute0': None,
 			'exAttribute1': None,
-			'exAttribute2': None
+			'exAttribute2': None,
+			'hpMax': None,
+			'target': None
 			}
 
 		# Read in the MOTD file and send to the player
@@ -784,13 +836,25 @@ while True:
 		if players[id]['exAttribute0'] == 1001:
 			players[id]['idleStart'] = int(time.time())
 			taken = False
+			blank = False
+			nonAlnum = False
 			for p in playersDB:
+				if len(command) < 1:
+					mud.send_message(id, "\n<f220>Character name cannot be blank!")
+					mud.send_message(id, "Press ENTER to continue...")
+					blank = True
+					break
 				if playersDB[p]['name'].lower() == command.lower():
 					mud.send_message(id, "\n<f220>This character name is already taken!")
 					mud.send_message(id, "Press ENTER to continue...")
 					taken = True
 					break
-			if taken == False:	
+				if command.isalnum() == False:
+					mud.send_message(id, "\n<f220>Character names must be alphanumeric!")
+					mud.send_message(id, "Press ENTER to continue...")
+					nonAlnum = True
+					break
+			if taken == False and blank == False and nonAlnum == False:	
 				players[id]['exAttribute1'] = command
 				# print(players[id]['exAttribute1'])
 				mud.send_message(id, "<f220>\nAhh.. <r><f32>" + command + "<r><f220>! That's a strong name!\n")
@@ -928,6 +992,7 @@ while True:
 					players[id]['exAttribute0'] = dbResponse[37]
 					players[id]['exAttribute1'] = dbResponse[38]
 					players[id]['exAttribute2'] = dbResponse[39]
+					players[id]['hpMax'] = dbResponse[40]
 					
 					
 					log("Client ID: " + str(id) + " has successfully authenticated user " + players[id]['name'], "info")
@@ -943,10 +1008,10 @@ while True:
 					# send the new player a welcome message
 					mud.send_message(id, '\n<f220>Welcome to DUM!, {}. '.format(players[id]['name']))
 					mud.send_message(id, '\n<f255>Hello there traveller! You have connected to a DUM development server, which currently consists of a few test rooms, npcs, items and environment actors. You can move around the rooms along with other players (if you are lucky to meet any), attack each other (including NPCs), pick up and drop items and chat. Make sure to visit the github repo for further info, make sure to check out the CHANGELOG. Thanks for your interest in DUM, high five!')
-					mud.send_message(id, "\n<f220>Some feature highlights in v0.6.2:")
-					mud.send_message(id, "<f255> * STILL Preparing for full Grapevine integration and major Webclient overhaul")
-					mud.send_message(id, "<f255> * Connection to Grapevine is now monitored and will be re-established automatically following Grapevine downtime")
-					mud.send_message(id, "<f255> * Number of bugfixes")
+					mud.send_message(id, "\n<f220>v0.6.3 highlights:")
+					mud.send_message(id, "<f255> * Another wave of bugfixes (see Github issues log!)")
+					mud.send_message(id, "<f255> * Introduction of a targetting system - see changelog for a detailed explanation.")
+					mud.send_message(id, "<f255> * NPC vocabulary overhaul (different chat phrases in and out of combat)")
 					mud.send_message(id, "\n<f255>Type '<r><f220>help<r><f255>' for a list of all currently implemented commands/functions. Have fun!")
 				else:
 					mud.send_message(id, '<f202>This character is already in the world!')

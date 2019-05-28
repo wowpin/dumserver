@@ -2,7 +2,7 @@ __filename__ = "atcommands.py"
 __author__ = "Bartek Radwanski"
 __credits__ = ["Bartek Radwanski"]
 __license__ = "MIT"
-__version__ = "0.6.2"
+__version__ = "0.6.3"
 __maintainer__ = "Bartek Radwanski"
 __email__ = "bartek.radwanski@gmail.com"
 __status__ = "Production"
@@ -28,6 +28,9 @@ def atcommandname(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB,
 	print("I'm in!")
 '''
 
+def debug(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items, envDB, env, eventDB, eventSchedule, id, fights, corpses, chans, gsocket):
+	mud.send_message(id, str(fights))
+	
 def config(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items, envDB, env, eventDB, eventSchedule, id, fights, corpses, chans, gsocket):
 	configitem = params.split(" ")[0]
 	parameter = " ".join(params.split(" ")[1:])
@@ -115,19 +118,22 @@ def subscribe(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, ite
 	invalidChannels = ["clear", "show"]
 	params = params.replace(" ", "")
 	if len(params) > 0:
-		if str(params.lower()) in players[id]['channels']:
-			mud.send_message(id, "You are already subscribed to [<f191>" + params.lower() + "<r>]")
-		else:
-			#if str(params.lower()) != 'clear':
-			if str(params.lower()) not in invalidChannels:
-				players[id]['channels'].append(str(params.lower()))
-				mud.send_message(id, "You have subscribed to [<f191>" + params + "<r>]")
-				if "@" in params:
-					gsocket.msg_gen_message_channel_send(players[id]['name'], params.split("@")[0].lower(), players[id]['name'] + " has joined the channel!")
-				if params.lower() != "system":
-					sendToChannel(players[id]['name'], params, players[id]['name'] + " has joined the channel.", chans)
+		if len(params) < 81:
+			if str(params.lower()) in players[id]['channels']:
+				mud.send_message(id, "You are already subscribed to [<f191>" + params.lower() + "<r>]")
 			else:
-				mud.send_message(id, "Invalid channel name [<f191>" + params + "<r>]")
+				#if str(params.lower()) != 'clear':
+				if str(params.lower()) not in invalidChannels:
+					players[id]['channels'].append(str(params.lower()))
+					mud.send_message(id, "You have subscribed to [<f191>" + params + "<r>]")
+					if "@" in params:
+						gsocket.msg_gen_message_channel_send(players[id]['name'], params.split("@")[0].lower(), players[id]['name'] + " has joined the channel!")
+					if params.lower() != "system":
+						sendToChannel(players[id]['name'], params, players[id]['name'] + " has joined the channel.", chans)
+				else:
+					mud.send_message(id, "Invalid channel name [<f191>" + params + "<r>]")
+		else:
+			mud.send_message(id, "Channel names longer than 80 character are unsupported!")
 	else:
 		mud.send_message(id, "What channel would you like to subscribe to?")
 
@@ -168,6 +174,7 @@ def runAtCommand(command, params, mud, playersDB, players, rooms, npcsDB, npcs, 
 		"who": who,
 		"serverlog": serverlog,
 		"config": config,
+		"debug": debug,
 	}
 
 	try:

@@ -2,4 +2,9 @@
 # 0|spawnNPC|id;room;isAttackable;isStealable;isKillable;isAggressive;corpseTTL;respawn
 2
 0|spawnNPC|1;$rid=2$;1;1;1;1;30;10
+0|spawnNPC|1;$rid=2$;1;1;1;1;30;10
+0|spawnNPC|1;$rid=2$;1;1;1;1;30;10
+0|spawnNPC|1;$rid=2$;1;1;1;1;30;10
+0|spawnNPC|1;$rid=2$;1;1;1;1;30;10
 0|spawnNPC|2;$rid=3$;1;1;1;1;30;45
+0|spawnNPC|3;$rid=4$;1;1;1;1;45;120

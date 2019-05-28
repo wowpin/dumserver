@@ -1,19 +1,30 @@
-<f172>         88
-<f172>         88 
-<f172>         88 
-<f172> ,adPPYb,88  88       88  88,dPYba,,adPYba,
-<f172>a8"    `Y88  88       88  88P'   "88"    "8a
-<f172>8b       88  88       88  88      88      88
-<f172>"8a,   ,d88  "8a,   ,a88  88      88      88
-<f172> `"8bbdP"Y8   `"YbbdP'Y8  88      88      88
+<f172>                                                       ..       :
+<f172>                    .                  .               .   .  .
+<f172>      .           .                .               .. .  .  *
+<f172>             *          .                    ..        .
+<f172>                           .             .     . :  .   .    .  .
+<f172>            .                         .   .  .  .   .
+<f172>                                         . .  *:. . .
+<f172>.                                 .  .   . .. .         .
+<f172>                         .     . .  . ...    .    .
+<f172>       .              .  .  . .    . .  . .
+<f172>                        .    .     . ...   ..   .       .               .
+<f172>                 .  .    . *.   . .
+<f172>    .                   :.  .           .
+<f172>                 .   .    <f255>.<r><f172>    .
+<f172>             .  .  .    .<f255>/|\<r><f172>
+<f172>            .  .. :.    . <f255>|<r><f172>             .               .
+<f172>     .   ... .            <f255>|<r><f172>
+<f172> .    :.  . .   *.        <f255>|<r><f172>     .               .
+<f172>   .  *.             <f255>You are here.<r><f172>
+<f172> . .    .               .             *.          <f220>- dum -<r><f172>        .
 
-            <f255>- <f243>Development Server 2 <f255>-
 
 
 <f0><b220> a modern MU* engine               
 <f0><b220>    github.com/wowpin/dumserver    
 
-<f0><b220> Codebase: v0.6.2 (Stable)         
+<f0><b220> Codebase: v0.6.3 (Stable)    
 
 <f15>You can create a new Character, or use the following guest account:
 <f15>Username: <r><f220>Guest<r><f15> Password: <r><f220>Password
