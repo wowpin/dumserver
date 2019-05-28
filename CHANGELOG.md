@@ -8,6 +8,7 @@
 - **Introducing a targeting system.** Currently not doing much more than just allowing you to target an NPC/PC, it allows selecting a specific npc in a situation where there are multiple instances of the same NPC in a room (e.g. 3 rats etc.). In summary:
 
 `target` - displays your current target
+
 `target <name>` - targets a Player or a Non-Player in your current room
 
 if there are multiple NPCs with the same name, you will be given an option to specify which one exactly to target. A list will be displayed including unique IDs:
