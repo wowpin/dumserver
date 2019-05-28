@@ -1,4 +1,35 @@
-### ![Current Version](https://img.shields.io/badge/%20-Current%20Version-green.svg) ![0.6.2](https://img.shields.io/badge/%20-0.6.2-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/3%20APR%202019-lightgrey.svg)
+### ![Current Version](https://img.shields.io/badge/%20-Current%20Version-green.svg) ![0.6.3](https://img.shields.io/badge/%20-0.6.3-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/28%20MAY%202019-lightgrey.svg)
+- Fixed issue **#9** (NPCs not respawning with full health)
+- Fixed issue **#7** (Blank names allowed in user creation)
+- Fixed issue **#2** (Channel name length is unrestricted)
+- Fixed issue **#3** (No character name validation when creating new character)
+- Added a 'hpMax' parameter to players. All accounts created so far on Dev Server 2 (dum.wowpin.eu) have been wiped - accounts created pre-0.6.3 are missing 'hpMax' from their definitions causing compatibility issue.
+- NPCs will now stop saying their routine phrases while in combat and switch to saying their combat phrases. 'combatVocabulary' has been introduced in NPC definition (def/npcs.json).
+- **Introducing a targeting system.** Currently not doing much more than just allowing you to target an NPC/PC, it allows selecting a specific npc in a situation where there are multiple instances of the same NPC in a room (e.g. 3 rats etc.). In summary:
+
+'target' - displays your current target
+'target <name>' - targets a Player or a Non-Player in your current room
+
+if there are multiple NPCs with the same name, you will be given an option to specify which one exactly to target. A list will be displayed including unique IDs:
+
+'''
+You can see 5 of those around. Which one would you like to target?
+<90000> Cleaning Robot, it is a Non-Player
+<90001> Cleaning Robot, it is a Non-Player
+<90002> Cleaning Robot, it is a Non-Player
+<90003> Cleaning Robot, it is a Non-Player
+<90004> Cleaning Robot, it is a Non-Player
+Which one would you like to target?
+'''
+
+You can reissue the 'target' command including the unique ID of your choice to target the NPC you are after:
+
+'target cleaning robot 90002' or 'target 90002 cleaning robot'
+
+Note: It is not possible to 'target 90002'!
+
+Right now targeting is not usable in any part of the game, I'll be incorporating it in existing mechanics over the coming updates. It paves the way for ability use, more advanced combat mechanics, controlled ability casting etc.
+### ![Legacy Version](https://img.shields.io/badge/%20-Legacy%20Version-orange.svg) ![0.6.2](https://img.shields.io/badge/%20-0.6.2-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/3%20APR%202019-lightgrey.svg)
 - **Automatic re-connection to Grapevine following network downtime!** - DUM now tracks timestamp of the last heartbeat. Once heartbeat has been detected to take unusually long (tolerance set via MaxHeartbeatDelay in config.ini - in seconds), DUM will attempt to reconnect to the network once after a configurable amount of time (controlled via ConnectionRetryDelay in config.ini - in seconds). If the reconnection attempt fails, Grapevine will be permanently disabled.
 - Readability of damage bubbles improved
 
