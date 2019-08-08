@@ -6,7 +6,7 @@
 - Fixed issue **#8** (Random server crashes)
 - Fixed issue **#13** (Targeting does not work while there are non-authenticated players)
 
-### ![Legacy Version](https://img.shields.io/badge/%20-Current%20Version-orange.svg) ![0.6.3](https://img.shields.io/badge/%20-0.6.3-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/28%20MAY%202019-lightgrey.svg)
+### ![Legacy Version](https://img.shields.io/badge/%20-Legacy%20Version-orange.svg) ![0.6.3](https://img.shields.io/badge/%20-0.6.3-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/28%20MAY%202019-lightgrey.svg)
 - Fixed issue **#9** (NPCs not respawning with full health)
 - Fixed issue **#7** (Blank names allowed in user creation)
 - Fixed issue **#2** (Channel name length is unrestricted)
