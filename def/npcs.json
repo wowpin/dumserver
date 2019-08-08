@@ -4,7 +4,7 @@
 {
     "1": {
 	"name" : "Cleaning Robot",
-	"inv" : [[1,19], [2,12]],
+	"inv" : [[1,5], [2,100], [3, 100]],
 	"vocabulary" : "Beep Bop!|Eeeeek!|Whir Whirrr!|Systems operational!|Buzzzzz!",
 	"talkDelay" : "30",
 	"randomFactor": "30",

@@ -2,10 +2,10 @@ __filename__ = "functions.py"
 __author__ = "Bartek Radwanski"
 __credits__ = ["Bartek Radwanski"]
 __license__ = "MIT"
-__version__ = "0.6.3"
+__version__ = "0.6.4"
 __maintainer__ = "Bartek Radwanski"
 __email__ = "bartek.radwanski@gmail.com"
-__status__ = "Production"
+__status__ = "Stable"
 
 import time
 import os
@@ -13,6 +13,7 @@ import commentjson
 import errno
 from copy import deepcopy
 import configparser
+import json
 
 # example of config file usage
 # print(str(Config.get('Database', 'Hostname')))
@@ -35,7 +36,7 @@ def loadPlayersDB(location = str(Config.get('Players', 'Location')), forceLowerc
 	for f in playerFiles:
 		with open(os.path.join(location,f)) as file_object:
 			#playersDB[f] = file_object.read()
-			DB[f] = commentjson.load(file_object)
+			DB[f] = json.load(file_object)
 
 	if forceLowercase is True:
 		out = {}

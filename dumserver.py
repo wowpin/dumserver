@@ -2,10 +2,10 @@ __filename__ = "dumserver.py"
 __author__ = "Bartek Radwanski"
 __credits__ = ["Bartek Radwanski", "Mark Frimston"]
 __license__ = "MIT"
-__version__ = "0.6.3"
+__version__ = "0.6.4"
 __maintainer__ = "Bartek Radwanski"
 __email__ = "bartek.radwanski@gmail.com"
-__status__ = "Production"
+__status__ = "Stable"
 
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
@@ -396,6 +396,14 @@ while True:
 				fightsCopy = deepcopy(fights)
 				for (fight, pl) in fightsCopy.items():
 					if fightsCopy[fight]['s1id'] == pid or fightsCopy[fight]['s2id'] == pid:
+						#print("Entering the fights clearing section")
+						print(str(fightsCopy[fight]))
+						if fightsCopy[fight]['s1type'] == 'npc':
+							#print("s1 = npc!")
+							npcs[fightsCopy[fight]['s1id']]['isInCombat'] = 0
+						if fightsCopy[fight]['s2type'] == 'npc':
+							#print("s2 = npc!")
+							npcs[fightsCopy[fight]['s2id']]['isInCombat'] = 0
 						del fights[fight]
 				for (pid2, pl) in list(players.items()):
 					if players[pid2]['authenticated'] is not None \
@@ -513,13 +521,13 @@ while True:
 					if npcs[nid]['room'] == players[pid]['room']:
 						if len(npcs[nid]['combatVocabulary']) > 1:
 							#mud.send_message(pid, npcs[nid]['vocabulary'][rnd])
-							msg = '<f220>' + npcs[nid]['name'] + '<r> says: <f86>' + npcs[nid]['combatVocabulary'][rnd]
+							msg = '<f220>' + npcs[nid]['name'] + '<r> says: <f9>' + npcs[nid]['combatVocabulary'][rnd]
 							mud.send_message(pid, msg)
 							npcs[nid]['randomizer'] = randint(0, npcs[nid]['randomFactor'])
 							npcs[nid]['lastSaid'] = rnd
 						else:
 							#mud.send_message(pid, npcs[nid]['vocabulary'][0])
-							msg = '<f220>' + npcs[nid]['name'] + '<r> says: <f86>' + npcs[nid]['combatVocabulary'][0]
+							msg = '<f220>' + npcs[nid]['name'] + '<r> says: <f9>' + npcs[nid]['combatVocabulary'][0]
 							mud.send_message(pid, msg)
 							npcs[nid]['randomizer'] = randint(0, npcs[nid]['randomFactor'])
 				npcs[nid]['timeTalked'] =  now
@@ -643,6 +651,7 @@ while True:
 					npcs[nid]['imp_lleg'] = npcsDB[n]['imp_lleg']
 					npcs[nid]['imp_rleg'] = npcsDB[n]['imp_rleg']
 					npcs[nid]['imp_feet'] = npcsDB[n]['imp_feet']
+					#npcs[nid]['isInCombat'] = npcsDB[n]['isInCombat']
 
 	# Evaluate the Event Schedule
 	for (event, pl) in list(eventSchedule.items()):
@@ -1008,10 +1017,10 @@ while True:
 					# send the new player a welcome message
 					mud.send_message(id, '\n<f220>Welcome to DUM!, {}. '.format(players[id]['name']))
 					mud.send_message(id, '\n<f255>Hello there traveller! You have connected to a DUM development server, which currently consists of a few test rooms, npcs, items and environment actors. You can move around the rooms along with other players (if you are lucky to meet any), attack each other (including NPCs), pick up and drop items and chat. Make sure to visit the github repo for further info, make sure to check out the CHANGELOG. Thanks for your interest in DUM, high five!')
-					mud.send_message(id, "\n<f220>v0.6.3 highlights:")
+					mud.send_message(id, "\n<f220>v0.6.4 highlights:")
 					mud.send_message(id, "<f255> * Another wave of bugfixes (see Github issues log!)")
-					mud.send_message(id, "<f255> * Introduction of a targetting system - see changelog for a detailed explanation.")
-					mud.send_message(id, "<f255> * NPC vocabulary overhaul (different chat phrases in and out of combat)")
+					#mud.send_message(id, "<f255> * Introduction of a targetting system - see changelog for a detailed explanation.")
+					#mud.send_message(id, "<f255> * NPC vocabulary overhaul (different chat phrases in and out of combat)")
 					mud.send_message(id, "\n<f255>Type '<r><f220>help<r><f255>' for a list of all currently implemented commands/functions. Have fun!")
 				else:
 					mud.send_message(id, '<f202>This character is already in the world!')

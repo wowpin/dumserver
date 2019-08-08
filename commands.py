@@ -2,10 +2,10 @@ __filename__ = "commands.py"
 __author__ = "Bartek Radwanski"
 __credits__ = ["Bartek Radwanski"]
 __license__ = "MIT"
-__version__ = "0.6.3"
+__version__ = "0.6.4"
 __maintainer__ = "Bartek Radwanski"
 __email__ = "bartek.radwanski@gmail.com"
-__status__ = "Production"
+__status__ = "Stable"
 
 from functions import addToScheduler
 from functions import getFreeKey
@@ -46,13 +46,13 @@ def target(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items,
 		## Step 1 - Find a PC 
 		
 		for p in players:
-			if players[p]['name'].lower() == params.lower() and players[p]['room'] == players[id]['room']:
+			if players[p]['authenticated'] != None and players[p]['name'].lower() == params.lower() and players[p]['room'] == players[id]['room']:
 				searchResults.append([players[p]['name'], 'pc', players[p]['room'], pcIndex, id])
 				pcIndex += 1
 		
 		## Step 2 - Find an NPC
 		for n in npcs:
-			if npcs[n]['name'].lower() == params.lower() and players[id]['room'] == npcs[n]['room']:
+			if npcs[n]['name'].lower() == params.lower() and players[p]['authenticated'] != None and players[id]['room'] == npcs[n]['room']:
 				searchResults.append([npcs[n]['name'], 'npc', npcs[n]['room'], npcIndex, n])
 				npcIndex += 1
 

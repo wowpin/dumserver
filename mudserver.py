@@ -2,10 +2,10 @@ __filename__ = "mudserver.py"
 __author__ = "Mark Frimston"
 __credits__ = ["Bartek Radwanski", "Mark Frimston"]
 __license__ = "MIT"
-__version__ = "0.6.3"
+__version__ = "0.6.4"
 __maintainer__ = "Bartek Radwanski"
 __email__ = "bartek.radwanski@gmail.com"
-__status__ = "Production"
+__status__ = "Stable"
 
 """Basic MUD server module for creating text-based Multi-User Dungeon
 (MUD) games.
@@ -22,6 +22,7 @@ import select
 import time
 import sys
 from cmsg import cmsg
+import configparser
 
 class MudServer(object):
 	"""A basic server for text-based Multi-User Dungeon (MUD) games.
@@ -98,6 +99,12 @@ class MudServer(object):
 		self._events = []
 		self._new_events = []
 
+		# load the configuration file
+		Config = configparser.ConfigParser()
+		Config.read('config.ini')
+		# example of config file usage
+		# print(str(Config.get('Database', 'Hostname')))
+
 		# create a new tcp socket which will be used to listen for new clients
 		self._listen_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -111,7 +118,8 @@ class MudServer(object):
 		# this requires root permissions, so we use a higher arbitrary port
 		# number instead: 1234. Address 0.0.0.0 means that we will bind to all
 		# of the available network interfaces
-		self._listen_socket.bind(("0.0.0.0", 35123))
+		#print(str(Config.get('System', 'ServerPort')))
+		self._listen_socket.bind(("0.0.0.0", int(Config.get('System', 'ServerPort'))))
 
 		# set to non-blocking mode. This means that when we call 'accept', it
 		# will return immediately without waiting for a connection
