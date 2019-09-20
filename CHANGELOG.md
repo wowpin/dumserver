@@ -5,6 +5,8 @@
 - Closed issue **#11** (Crash on NPC respawn) - no longer a problem
 - Fixed issue **#8** (Random server crashes)
 - Fixed issue **#13** (Targeting does not work while there are non-authenticated players)
+- NPC phrases during combat are now displayed in different color
+- Network port DUM is running on is now configurable via config.ini (in the System section)
 
 ### ![Legacy Version](https://img.shields.io/badge/%20-Legacy%20Version-orange.svg) ![0.6.3](https://img.shields.io/badge/%20-0.6.3-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/28%20MAY%202019-lightgrey.svg)
 - Fixed issue **#9** (NPCs not respawning with full health)
