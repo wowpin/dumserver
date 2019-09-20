@@ -2,10 +2,10 @@ __filename__ = "dumserver.py"
 __author__ = "Bartek Radwanski"
 __credits__ = ["Bartek Radwanski", "Mark Frimston"]
 __license__ = "MIT"
-__version__ = "0.6.4"
+__version__ = "0.6.5"
 __maintainer__ = "Bartek Radwanski"
 __email__ = "bartek.radwanski@gmail.com"
-__status__ = "Stable"
+__status__ = "Development"
 
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
@@ -397,7 +397,7 @@ while True:
 				for (fight, pl) in fightsCopy.items():
 					if fightsCopy[fight]['s1id'] == pid or fightsCopy[fight]['s2id'] == pid:
 						#print("Entering the fights clearing section")
-						print(str(fightsCopy[fight]))
+						#print(str(fightsCopy[fight]))
 						if fightsCopy[fight]['s1type'] == 'npc':
 							#print("s1 = npc!")
 							npcs[fightsCopy[fight]['s1id']]['isInCombat'] = 0
@@ -406,6 +406,8 @@ while True:
 							npcs[fightsCopy[fight]['s2id']]['isInCombat'] = 0
 						del fights[fight]
 				for (pid2, pl) in list(players.items()):
+					if players[pid2]['target'] is not None and players[pid2]['target'][0].lower() == players[pid]['name'].lower():
+						players[pid2]['target'] = None
 					if players[pid2]['authenticated'] is not None \
 						and players[pid2]['room'] == players[pid]['lastRoom'] \
 						and players[pid2]['name'] != players[pid]['name']:
@@ -416,7 +418,8 @@ while True:
 				# Add Player Death event (ID:666) to eventSchedule
 				addToScheduler(666, pid, eventSchedule, scriptedEventsDB)
 
-				players[pid]['hp'] = 4
+				players[pid]['hp'] = players[pid]['hpMax']
+				players[pid]['target'] = None
 
 	# Handle Fights
 	for (fid, pl) in list(fights.items()):
@@ -428,6 +431,8 @@ while True:
 						players[fights[fid]['s1id']]['isInCombat'] = 1
 						players[fights[fid]['s2id']]['isInCombat'] = 1
 						# Do damage to the PC here
+						# set lastHit in a fight
+						fights[fid]['lastHit'] = int(time.time())
 						if randint(0, 1) == 1:
 							modifier = randint(0, 10)
 							if players[fights[fid]['s1id']]['hp'] > 0:
@@ -435,11 +440,13 @@ while True:
 								players[fights[fid]['s1id']]['lastCombatAction'] = int(time.time())
 								mud.send_message(fights[fid]['s1id'], 'You manage to hit <f32><u>' + players[fights[fid]['s2id']]['name'] + '<r> for <f15><b2> * ' + str(players[fights[fid]['s1id']]['str'] + modifier) + ' *<r> points of damage.')
 								mud.send_message(fights[fid]['s2id'], '<f32>' + players[fights[fid]['s1id']]['name'] + '<r> has managed to hit you for <f15><b88> * ' + str(players[fights[fid]['s1id']]['str'] + modifier) + ' *<r> points of damage.')
+								players[fights[fid]['s1id']]['idleStart'] = int(time.time())
 
 						else:
 							players[fights[fid]['s1id']]['lastCombatAction'] = int(time.time())
 							mud.send_message(fights[fid]['s1id'], 'You miss trying to hit <f32><u>' + players[fights[fid]['s2id']]['name'] + '')
 							mud.send_message(fights[fid]['s2id'], '<f32><u>' + players[fights[fid]['s1id']]['name'] + '<r> missed while trying to hit you!')
+							players[fights[fid]['s1id']]['idleStart'] = int(time.time())
 					else:
 						mud.send_message(fights[fid]['s1id'], '<f225>Suddnely you stop. It wouldn`t be a good idea to attack <f32>' + players[fights[fid]['s2id']]['name'] + ' at this time.')
 						fightsCopy = deepcopy(fights)
@@ -454,12 +461,15 @@ while True:
 						players[fights[fid]['s1id']]['isInCombat'] = 1
 						npcs[fights[fid]['s2id']]['isInCombat'] = 1
 						# Do damage to the NPC here
+						# set lastHit in a fight
+						fights[fid]['lastHit'] = int(time.time())
 						if randint(0, 1) == 1:
 							modifier = randint(0, 10)
 							if players[fights[fid]['s1id']]['hp'] > 0:
 								npcs[fights[fid]['s2id']]['hp'] = npcs[fights[fid]['s2id']]['hp'] - (players[fights[fid]['s1id']]['str'] + modifier)
 								players[fights[fid]['s1id']]['lastCombatAction'] = int(time.time())
 								mud.send_message(fights[fid]['s1id'], 'You manage to hit <f220>' + npcs[fights[fid]['s2id']]['name'] + '<r> for <b2><f15> * ' + str(players[fights[fid]['s1id']]['str'] + modifier)  + ' * <r> points of damage')
+								players[fights[fid]['s1id']]['idleStart'] = int(time.time())
 
 						else:
 							players[fights[fid]['s1id']]['lastCombatAction'] = int(time.time())
@@ -477,6 +487,8 @@ while True:
 					npcs[fights[fid]['s1id']]['isInCombat'] = 1
 					players[fights[fid]['s2id']]['isInCombat'] = 1
 					# Do the damage to PC here
+					# set lastHit in a fight
+					fights[fid]['lastHit'] = int(time.time())
 					if randint(0, 1) == 1:
 						modifier = randint(0, 10)
 						if npcs[fights[fid]['s1id']]['hp'] > 0:
@@ -489,6 +501,16 @@ while True:
 		elif fights[fid]['s1type'] == 'npc' and fights[fid]['s2type'] == 'npc':
 			test = 1
 			# NPC -> NPC
+
+	# Iterate through fights again and look for expired fights (combat where lastHit is a set amount of time in the past). hen found, delete such fight, effectively ending combat.
+	fightsCopy = deepcopy(fights)
+	for (fid, pl) in list(fightsCopy.items()):
+		if (int(fightsCopy[fid]['lastHit']) + 35) < int(time.time()):
+			if fightsCopy[fid]['s1type'] == 'npc':
+				npcs[fightsCopy[fid]['s1id']]['isInCombat'] = 0
+			if fightsCopy[fid]['s2type'] == 'npc':
+				npcs[fightsCopy[fid]['s2id']]['isInCombat'] = 0
+			del fights[fid]
 
 	# Iterate through NPCs, check if its time to talk, then check if anyone is attacking it
 	for (nid, pl) in list(npcs.items()):
@@ -540,14 +562,15 @@ while True:
 				npcs[fights[fid]['s2id']]['lastCombatAction'] = int(time.time())
 				fights[fid]['retaliated'] = 1
 				npcs[fights[fid]['s2id']]['isInCombat'] = 1
-				fights[len(fights)] = { 's1': npcs[fights[fid]['s2id']]['name'], 's2': players[fights[fid]['s1id']]['name'], 's1id': nid, 's2id': fights[fid]['s1id'], 's1type': 'npc', 's2type': 'pc', 'retaliated': 1 }
+				fights[getFreeKey(fights)] = { 's1': npcs[fights[fid]['s2id']]['name'], 's2': players[fights[fid]['s1id']]['name'], 's1id': nid, 's2id': fights[fid]['s1id'], 's1type': 'npc', 's2type': 'pc', 'retaliated': 1, 'lastHit': int(time.time()) }
+				print("NPC has retaliated")
 			elif fights[fid]['s2id'] == nid and npcs[fights[fid]['s2id']]['isInCombat'] == 1 and fights[fid]['s1type'] == 'npc' and fights[fid]['retaliated'] == 0:
 				# print('npc is attacking npc')
 				# BETA: set las combat action to now when attacking a player
 				npcs[fights[fid]['s2id']]['lastCombatAction'] = int(time.time())
 				fights[fid]['retaliated'] = 1
 				npcs[fights[fid]['s2id']]['isInCombat'] = 1
-				fights[len(fights)] = { 's1': npcs[fights[fid]['s2id']]['name'], 's2': players[fights[fid]['s1id']]['name'], 's1id': nid, 's2id': fights[fid]['s1id'], 's1type': 'npc', 's2type': 'npc', 'retaliated': 1 }
+				fights[getFreeKepy(fights)] = { 's1': npcs[fights[fid]['s2id']]['name'], 's2': players[fights[fid]['s1id']]['name'], 's1id': nid, 's2id': fights[fid]['s1id'], 's1type': 'npc', 's2type': 'npc', 'retaliated': 1, 'lastHit': int(time.time()) }
 		# Check if NPC is still alive, if not, remove from room and create a corpse, set isInCombat to 0, set whenDied to now and remove any fights NPC was involved in
 		if npcs[nid]['hp'] <= 0:
 			npcs[nid]['isInCombat'] = 0
@@ -560,8 +583,11 @@ while True:
 			corpses[len(corpses)] = { 'room': npcs[nid]['room'], 'name': str(npcs[nid]['name'] + '`s corpse'), 'inv': npcs[nid]['inv'], 'died': int(time.time()), 'TTL': npcs[nid]['corpseTTL'], 'owner': 1 }
 			for (pid, pl) in list(players.items()):
 				if players[pid]['authenticated'] is not None:
+					if players[pid]['target'] != None and players[pid]['target'][4] == nid:
+						players[pid]['target'] = None
 					if players[pid]['authenticated'] is not None and players[pid]['room'] == npcs[nid]['room']:
 						mud.send_message(pid, "<f220>{}<r> <f88>has been killed.".format(npcs[nid]['name']))
+
 			npcs[nid]['lastRoom'] = npcs[nid]['room']
 			npcs[nid]['room'] = None
 			npcs[nid]['hp'] = npcsTemplate[nid]['hp']
@@ -1015,12 +1041,12 @@ while True:
 							mud.send_message(pid, '{} has materialised out of thin air nearby.'.format(players[id]['name']))
 	
 					# send the new player a welcome message
-					mud.send_message(id, '\n<f220>Welcome to DUM!, {}. '.format(players[id]['name']))
+					mud.send_message(id, '\n<f220>Welcome to DUMSERVER!, {}. '.format(players[id]['name']))
 					mud.send_message(id, '\n<f255>Hello there traveller! You have connected to a DUM development server, which currently consists of a few test rooms, npcs, items and environment actors. You can move around the rooms along with other players (if you are lucky to meet any), attack each other (including NPCs), pick up and drop items and chat. Make sure to visit the github repo for further info, make sure to check out the CHANGELOG. Thanks for your interest in DUM, high five!')
-					mud.send_message(id, "\n<f220>v0.6.4 highlights:")
-					mud.send_message(id, "<f255> * Another wave of bugfixes (see Github issues log!)")
-					#mud.send_message(id, "<f255> * Introduction of a targetting system - see changelog for a detailed explanation.")
-					#mud.send_message(id, "<f255> * NPC vocabulary overhaul (different chat phrases in and out of combat)")
+					mud.send_message(id, "\n<f220>v0.6.5 highlights:")
+					mud.send_message(id, "<f255> * Brand new targetting system! Woop! It has been polished, de-bugged and is currently rather stable and robust.")
+					mud.send_message(id, "<f255> * Significant number of game-breaking bugs detected and dealt with. Yay!")
+
 					mud.send_message(id, "\n<f255>Type '<r><f220>help<r><f255>' for a list of all currently implemented commands/functions. Have fun!")
 				else:
 					mud.send_message(id, '<f202>This character is already in the world!')

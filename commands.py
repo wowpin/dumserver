@@ -2,10 +2,10 @@ __filename__ = "commands.py"
 __author__ = "Bartek Radwanski"
 __credits__ = ["Bartek Radwanski"]
 __license__ = "MIT"
-__version__ = "0.6.4"
+__version__ = "0.6.5"
 __maintainer__ = "Bartek Radwanski"
 __email__ = "bartek.radwanski@gmail.com"
-__status__ = "Stable"
+__status__ = "Development"
 
 from functions import addToScheduler
 from functions import getFreeKey
@@ -43,8 +43,8 @@ def target(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items,
 		pcIndex = 0
 		npcIndex = 0
 		itemIndex = 0
+
 		## Step 1 - Find a PC 
-		
 		for p in players:
 			if players[p]['authenticated'] != None and players[p]['name'].lower() == params.lower() and players[p]['room'] == players[id]['room']:
 				searchResults.append([players[p]['name'], 'pc', players[p]['room'], pcIndex, id])
@@ -52,10 +52,13 @@ def target(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items,
 		
 		## Step 2 - Find an NPC
 		for n in npcs:
-			if npcs[n]['name'].lower() == params.lower() and players[p]['authenticated'] != None and players[id]['room'] == npcs[n]['room']:
+			#if npcs[n]['name'].lower() == params.lower() and players[p]['authenticated'] != None and players[id]['room'] == npcs[n]['room']:
+			if npcs[n]['name'].lower() == params.lower() and players[id]['room'] == npcs[n]['room']:
 				searchResults.append([npcs[n]['name'], 'npc', npcs[n]['room'], npcIndex, n])
 				npcIndex += 1
 
+		print(searchResults)
+		
 		if len(searchResults) > 0 and len(searchResults) < 2:
 			#print(str())
 			players[id]['target'] = searchResults[0]
@@ -83,10 +86,17 @@ def target(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items,
 				for r in searchResults:
 					if int(r[4]) == int(targetID):
 						players[id]['target'] = r
-				if players[id]['target'][1].lower() == "pc":
-					mud.send_message(id, "You have targeted player <f32>" + str(players[id]['target'][0]))
-				elif players[id]['target'][1].lower() == "npc":
-					mud.send_message(id, "You have targeted non-player <f220>" + str(players[id]['target'][0]) + "<r> <f166><" + str(players[id]['target'][4]) + "><r>")
+						if players[id]['target'][1].lower() == "pc":
+							mud.send_message(id, "You have targeted player <f32>" + str(players[id]['target'][0]))
+						elif players[id]['target'][1].lower() == "npc":
+							mud.send_message(id, "You have targeted non-player <f220>" + str(players[id]['target'][0]) + "<r> <f166><" + str(players[id]['target'][4]) + "><r>")
+						targetFound = True
+						break
+					else:
+						targetFound = False
+						#mud.send_message(id, "I'm not sure which one exactly you are after.")
+				if targetFound is False:
+					mud.send_message(id, "I'm not sure which one exactly you are after.")
 		else:
 			mud.send_message(id, "You cannot see " + params + " anywhere")
 	else:
@@ -176,7 +186,7 @@ def help(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items, e
 	mud.send_message(id, '  say [message]                    - Says something out loud, '  + "e.g. 'say Hello'")
 	mud.send_message(id, '  look                             - Examines the ' + "surroundings, items in the room, NPCs or other players e.g. 'look tin can' or 'look cleaning robot'")
 	mud.send_message(id, '  go [exit]                        - Moves through the exit ' + "specified, e.g. 'go outside'")
-	mud.send_message(id, '  attack [target]                  - Attack target ' + "specified, e.g. 'attack cleaning bot'")
+	mud.send_message(id, '  attack                           - Attack your current target')
 	mud.send_message(id, '  check inventory                  - Check the contents of ' + "your inventory")
 	mud.send_message(id, '  take [item]                      - Pick up an item lying ' + "on the floor")
 	mud.send_message(id, '  drop [item]                      - Drop an item from your inventory ' + "on the floor")
@@ -317,59 +327,90 @@ def look(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items, e
 
 def attack(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items, envDB, env, eventDB, eventSchedule, id, fights, corpses):
 	if players[id]['canAttack'] == 1:
+		## Target dict format example:
+		## ['Rat', 'npc', '$rid=4$', 0, 90006]
 		isAlreadyAttacking = False
-		target = params #.lower()
-		targetFound = False
-	
-		for (fight, pl) in fights.items():
-			if fights[fight]['s1'] == players[id]['name']:
-				isAlreadyAttacking = True
-				currentTarget = fights[fight]['s2']
-	
-		if isAlreadyAttacking == False:
-			if players[id]['name'].lower() != target.lower():
-				for (pid, pl) in players.items():							
-					if players[pid]['authenticated'] == True and players[pid]['name'].lower() == target.lower():
-						targetFound = True
-						victimId = pid
-						attackerId = id
-						if players[pid]['room'] == players[id]['room']:
-							fights[len(fights)] = { 's1': players[id]['name'], 's2': target, 's1id': attackerId, 's2id': victimId, 's1type': 'pc', 's2type': 'pc', 'retaliated': 0 }
-							mud.send_message(id, '<f214>Attacking <r><f255>' + target + '!')
-							# addToScheduler('0|msg|<b63>You are being attacked by ' + players[id]['name'] + "!", pid, eventSchedule, eventDB)
-						else:
-							targetFound = False
-	
-				# mud.send_message(id, 'You cannot see ' + target + ' anywhere nearby.|')
-				if(targetFound == False):
-					for (nid, pl) in list(npcs.items()):
-						if npcs[nid]['name'].lower() == target.lower():
-							victimId = nid
-							attackerId = id
-							# print('found target npc')
-							if npcs[nid]['room'] == players[id]['room'] and targetFound == False:
-								targetFound = True
-								# print('target found!')
-								if players[id]['room'] == npcs[nid]['room']:
-									fights[len(fights)] = { 's1': players[id]['name'], 's2': nid, 's1id': attackerId, 's2id': victimId, 's1type': 'pc', 's2type': 'npc', 'retaliated': 0 }
-									mud.send_message(id, 'Attacking <u><f21>' + npcs[nid]['name'] + '<r>!')
-								else:
-									pass
-	
-				if targetFound == False:
-					mud.send_message(id, 'You cannot see ' + target + ' anywhere nearby.')
-			else:
-				mud.send_message(id, 'You attempt hitting yourself and realise this might not be the most productive way of using your time.')
+		#target = params #.lower()
+		if players[id]['target'] != None:
+			target = players[id]['target'][0]
 		else:
-			if type(currentTarget) is not int:
-				mud.send_message(id, 'You are already attacking ' + currentTarget)
+			target = None
+
+		targetFound = False
+		
+		#mud.send_message(id, "Target <" + str(target) + ">")
+		#mud.send_message(id, "Params <" + str(params) + ">")
+		
+		if params == "":
+			if target != None:
+				for (fight, pl) in fights.items():
+					if fights[fight]['s1'] == players[id]['name']:
+						isAlreadyAttacking = True
+						currentTarget = fights[fight]['s2']
+			
+				if isAlreadyAttacking == False:
+					if players[id]['name'].lower() != target.lower():
+						## See if target is a player
+						for (pid, pl) in players.items():							
+							if players[pid]['authenticated'] == True and players[pid]['name'].lower() == target.lower():
+								targetFound = True
+								victimId = pid
+								attackerId = id
+								if players[pid]['room'] == players[id]['room']:
+									fights[getFreeKey(fights)] = { 's1': players[id]['name'], 's2': target, 's1id': attackerId, 's2id': victimId, 's1type': 'pc', 's2type': 'pc', 'retaliated': 0, 'lastHit': int(time.time()) }
+									mud.send_message(id, '<f214>Attacking <r><f32>' + target + '!')
+									players[pid]['isInCombat'] = 1
+									# Tell others in the room a brawl has started
+									for plr in players:
+										if players[plr]['authenticated'] != None:
+											if players[plr]['room'] == players[id]['room'] and players[plr]['name'].lower() != players[id]['name'].lower() and players[plr]['name'].lower() != target.lower():
+												mud.send_message(plr, '<f32>' + players[id]['name'] + '<r> has moved to attack <f32>' + target + '<r>!')
+											if players[plr]['name'].lower() == target.lower():
+												mud.send_message(plr, '<f32>' + players[id]['name'] + '<r> has attacked you!')
+									# addToScheduler('0|msg|<b63>You are being attacked by ' + players[id]['name'] + "!", pid, eventSchedule, eventDB)
+								else:
+									targetFound = False
+			
+						# mud.send_message(id, 'You cannot see ' + target + ' anywhere nearby.|')
+						if(targetFound == False):
+							## See if target is an NPC
+							for (nid, pl) in list(npcs.items()):
+								if npcs[nid]['name'].lower() == target.lower():
+									victimId = players[id]['target'][4]
+									#victimId = target
+									attackerId = id
+									# print('found target npc')
+									if npcs[nid]['room'] == players[id]['room'] and targetFound == False:
+										targetFound = True
+										# print('target found!')
+										if players[id]['room'] == npcs[nid]['room']:
+											fights[getFreeKey(fights)] = { 's1': players[id]['name'], 's2': nid, 's1id': attackerId, 's2id': victimId, 's1type': 'pc', 's2type': 'npc', 'retaliated': 0, 'lastHit': int(time.time()) }
+											mud.send_message(id, '<f214>Attacking <r><f220>' + npcs[nid]['name'] + '<r>!')
+											players[pid]['isInCombat'] = 1
+											# Tell other is the room brawl has started
+											for plr in players:
+												if players[plr]['authenticated'] != None:
+													if players[plr]['name'].lower() != players[id]['name'].lower() and players[plr]['room'] == players[id]['room']:
+														mud.send_message(plr, '<f32>' + players[id]['name'] + '<r> has moved to attack <f220>' + target + '<r>!')
+										else:
+											pass
+
+						if targetFound == False:
+							mud.send_message(id, 'You cannot see ' + target + ' anywhere nearby.')
+					else:
+						mud.send_message(id, 'You attempt hitting yourself and realise this might not be the most productive way of using your time.')
+				else:
+					if type(currentTarget) is not int:
+						mud.send_message(id, 'You are already attacking ' + currentTarget)
+					else:
+						mud.send_message(id, 'You are already attacking ' + npcs[currentTarget]['name'])
 			else:
-				mud.send_message(id, 'You are already attacking ' + npcs[currentTarget]['name'])
-		# List fights for debugging purposes
-		# for x in fights:
-			# print (x)
-			# for y in fights[x]:
-				# print (y,':',fights[x][y])
+				if params == "":
+					mud.send_message(id, 'You need to target something before you can attack it!')
+				else:
+					mud.send_message(id, 'You need to "target ' + params + '" before you can attack it. Once targetted, simply type "attack".')
+		else:
+			mud.send_message(id, "There is no need to 'attack <target>'. Simply 'attack' to start combat with your current target.")
 	else:
 		mud.send_message(id, 'Right now, you do not feel like you can force yourself to attack anyone or anything.')
 
@@ -416,6 +457,16 @@ def go(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items, env
 			players[id]['room'] = rm['exits'][ex]
 			rm = rooms[players[id]['room']]
 			
+			# Clear player's target
+			players[id]['target'] = None
+			
+			# Stop any fights where player is the aggressor
+			#players[id]['isInCombat'] = 0
+			fightsCopy = deepcopy(fights)
+			for (fid, pl) in list(fightsCopy.items()):
+				if fightsCopy[fid]['s1'].lower() == players[id]['name'].lower():
+					del fights[fid]
+
 			# trigger new room eventOnEnter for the player
 			if rooms[players[id]['room']]['eventOnEnter'] is not "":
 				addToScheduler(int(rooms[players[id]['room']]['eventOnEnter']), id, eventSchedule, eventDB)

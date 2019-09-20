@@ -2,10 +2,10 @@ __filename__ = "atcommands.py"
 __author__ = "Bartek Radwanski"
 __credits__ = ["Bartek Radwanski"]
 __license__ = "MIT"
-__version__ = "0.6.4"
+__version__ = "0.6.5"
 __maintainer__ = "Bartek Radwanski"
 __email__ = "bartek.radwanski@gmail.com"
-__status__ = "Stable"
+__status__ = "Development"
 
 from functions import addToScheduler
 from functions import getFreeKey
@@ -29,7 +29,7 @@ def atcommandname(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB,
 '''
 
 def debug(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items, envDB, env, eventDB, eventSchedule, id, fights, corpses, chans, gsocket):
-	mud.send_message(id, str(npcs))
+	mud.send_message(id, str(players))
 	
 def config(params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, items, envDB, env, eventDB, eventSchedule, id, fights, corpses, chans, gsocket):
 	configitem = params.split(" ")[0]

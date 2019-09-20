@@ -4,9 +4,9 @@
 {
     "1": {
 	"name" : "Cleaning Robot",
-	"inv" : [[1,5], [2,100], [3, 100]],
+	"inv" : [[1,5], [2,28], [3, 12]],
 	"vocabulary" : "Beep Bop!|Eeeeek!|Whir Whirrr!|Systems operational!|Buzzzzz!",
-	"talkDelay" : "30",
+	"talkDelay" : "47",
 	"randomFactor": "30",
 	"lookDescription" : "It's an automated, autonomous cleaning robot. It slowly drives around the room following mysterious paths known only to himself.",
 	"hp" : "30",
@@ -89,7 +89,7 @@
 	"talkDelay" : "43",
 	"randomFactor": "120",
 	"lookDescription" : "A rat? On a spacecraft? Surely that's an issue.. Also it appears to be unreasonably durable. Not very strong, but durable..",
-	"hp" : "50",
+	"hp" : "20",
 	"charge" : "100",
 	"lvl" : "1",
 	"exp" : "1",

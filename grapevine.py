@@ -2,10 +2,10 @@ __filename__ = "grapevine.py"
 __author__ = "Jubelo"
 __credits__ = ["Jubelo", "Bartek Radwanski"]
 __license__ = "MIT"
-__version__ = "0.6.4"
+__version__ = "0.6.5"
 __maintainer__ = "Bartek Radwanski"
 __email__ = "bartek.radwanski@gmail.com"
-__status__ = "Stable"
+__status__ = "Development"
 
 #! usr/bin/env python3
 # Project: Akrios
