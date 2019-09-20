@@ -1,4 +1,21 @@
-### ![Current Version](https://img.shields.io/badge/%20-Current%20Version-green.svg) ![0.6.4](https://img.shields.io/badge/%20-0.6.4-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/28%20MAY%202019-lightgrey.svg)
+### ![Current Version](https://img.shields.io/badge/%20-Current%20Version-green.svg) ![0.6.5](https://img.shields.io/badge/%20-0.6.5-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/20%20SEP%202019-lightgrey.svg)
+- Brand new targetting system! Woop! It has been polished, de-bugged and is currently rather stable and robust.
+- PvP and PvE fights will now expire after 35 seconds of inactivity. As an example -  if you hit an NPC and flee the room, after 35 seconds the NPC will loose aggro and no longer attack you if you return. 
+- Players will now loose their current target when they 'go' to another room during a fight.
+- Fights where the player is the attacking side will now cease when he leaves the room. When a player returns to the room, the NPC might still be attacking (due to not yet expired aggro), but a player will need to re-target and re-attack.
+- Fixed Issue #17 '(Players respawn with 4HP rather than their max HP)'
+- Fixed Issue #15 '(Player's current target persists through player's death)'
+- Fixed Issue #16 '(Player's current target persists through targets death)'
+- Fixed a bug where a server would crash on player death in certain scenarios.
+- Fixed Issue #19 '(Server crash on NPC death after leaving area)'
+- Fixed Issue #21 '(Targetting an NPC with non-existetnt ID throws an unhandled exception.)'
+- Implemented Enhancement #22 '(Combat Announcements)'
+- Fixed Issue #27 '(Combat with NPC does not persist in certain scenario)'
+- Fixed Issue #29 '(Issue with targetting NPC in crowded room)'
+- Fixed Issue #31 '(Players can get disconnected due to inactivity during ongoing fights)'
+- Cosmetic changes here and there
+
+### ![Legacy Version](https://img.shields.io/badge/%20-Legacy%20Version-orange.svg) ![0.6.4](https://img.shields.io/badge/%20-0.6.4-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/28%20MAY%202019-lightgrey.svg)
 - Fixed issue **#14** (Not handling the "#" character in user password)
 - Fixed issue **#12** (NPCs only ever dropping the first item from their loot table)
 - Fixed issue **#10** (NPCs not coming out of combat after killing a player)
