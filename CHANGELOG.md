@@ -1,5 +1,5 @@
 ### ![Current Version](https://img.shields.io/badge/%20-Current%20Version-green.svg) ![0.6.5](https://img.shields.io/badge/%20-0.6.5-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/20%20SEP%202019-lightgrey.svg)
-- Brand new targetting system! Woop! It has been polished, de-bugged and is currently rather stable and robust.
+- **Finalised targetting system!** Woop! It has been polished, de-bugged and is currently rather stable and robust.
 - PvP and PvE fights will now expire after 35 seconds of inactivity. As an example -  if you hit an NPC and flee the room, after 35 seconds the NPC will loose aggro and no longer attack you if you return. 
 - Players will now loose their current target when they 'go' to another room during a fight.
 - Fights where the player is the attacking side will now cease when he leaves the room. When a player returns to the room, the NPC might still be attacking (due to not yet expired aggro), but a player will need to re-target and re-attack.
