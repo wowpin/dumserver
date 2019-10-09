@@ -127,6 +127,8 @@ eventSchedule = {}
 # Declare channels message queue dictionary
 channels = {}
 
+COMBAT_TIMEOUT = int(Config.get('Timeouts', 'Combat'))
+
 # Specify allowe player idle time
 allowedPlayerIdle = int(Config.get('World', 'IdleTimeBeforeDisconnect'))
 
@@ -134,7 +136,7 @@ allowedPlayerIdle = int(Config.get('World', 'IdleTimeBeforeDisconnect'))
 # Loading rooms
 with open(str(Config.get('Rooms', 'Definition')), "r") as read_file:
 	rooms = commentjson.load(read_file)
-	
+
 log("Rooms loaded: " + str(len(rooms)), "info")
 
 # Loading environment actors
@@ -165,7 +167,7 @@ log("Environment Actors loaded: " + str(len(envDB)), "info")
 	# print (x)
 	# for y in env[x]:
 		# print (y,':',env[x][y])
-		
+
 # Loading NPCs
 with open(str(Config.get('NPCs', 'Definition')), "r") as read_file:
 	npcsDB = commentjson.load(read_file)
@@ -277,7 +279,7 @@ npcsTemplate = deepcopy(npcs)
 	# print (x)
 	# for y in itemsInWorld[x]:
 		# print(y,':',itemsInWorld[x][y])
-		
+
 # stores the players in the game
 players = {}
 
@@ -297,10 +299,10 @@ while True:
 			gsocket.import_players(playerList)
 			gsocket.handle_read()
 			gsocket.handle_write()
-	
+
 			rcvd_msg = None
 			ret_value = None
-			
+
 			if len(gsocket.inbound_frame_buffer) > 0:
 				rcvd_msg = gsocket.receive_message()
 				#print(rcvd_msg.event)
@@ -312,17 +314,17 @@ while True:
 				elif rcvd_msg.event == "players/sign-in":
 					log("Received player sign in", "info")
 					log(ret_value)
-	
+
 			# update player list for grapevine heartbeats
 			playerList = []
 			for p in players:
 				if players[p]['name'] != None and players[p]['authenticated'] != None:
 					if players[p]['name'] not in playerList:
 						playerList.append(players[p]['name'])
-			
+
 		#grapevineLastHeartbeat = gsocket.msg_gen_lastheartbeat_timestamp()
 		#print(str(grapevineLastHeartbeat))
-		
+
 		# Let's wait some time before attempting reconnection (as defined in config.ini)
 		if gsocket.state["connected"] == False and int(time.time()) >= timeDisconnected + int(Config.get('Grapevine', 'ConnectionRetryDelay')):
 			#print("grapevine trying to reconnect")
@@ -354,9 +356,9 @@ while True:
 			grapevineReconnecting = True
 			useGrapevine = False
 			timeDisconnected = int(time.time())
-		
 
-	
+
+
 	# print("useGrapevine: " + str(useGrapevine))
 	# print("grapevineReconnecting: " + str(grapevineReconnecting))
 	# pause for 1/5 of a second on each loop, so that we don't constantly
@@ -505,7 +507,7 @@ while True:
 	# Iterate through fights again and look for expired fights (combat where lastHit is a set amount of time in the past). hen found, delete such fight, effectively ending combat.
 	fightsCopy = deepcopy(fights)
 	for (fid, pl) in list(fightsCopy.items()):
-		if (int(fightsCopy[fid]['lastHit']) + 35) < int(time.time()):
+		if (int(fightsCopy[fid]['lastHit']) + COMBAT_TIMEOUT) < int(time.time()):
 			if fightsCopy[fid]['s1type'] == 'npc':
 				npcs[fightsCopy[fid]['s1id']]['isInCombat'] = 0
 			if fightsCopy[fid]['s2type'] == 'npc':
@@ -591,7 +593,7 @@ while True:
 			npcs[nid]['lastRoom'] = npcs[nid]['room']
 			npcs[nid]['room'] = None
 			npcs[nid]['hp'] = npcsTemplate[nid]['hp']
-			
+
 			# Drop NPC loot on the floor
 			droppedItems = []
 			for i in npcs[nid]['inv']:
@@ -688,7 +690,7 @@ while True:
 			else:
 				evaluateEvent(eventSchedule[event]['target'], eventSchedule[event]['type'], eventSchedule[event]['body'], players, npcs, itemsInWorld, env, npcsDB, envDB)
 			del eventSchedule[event]
-	
+
 	# Evaluate player idle time and disconnect if required
 	now = int(time.time())
 	playersCopy = deepcopy(players)
@@ -705,7 +707,7 @@ while True:
 			mud._handle_disconnect(p)
 
 	npcsTemplate = deepcopy(npcs)
-	
+
 	# go through channels messages queue and send messages to subscribed players
 	ch = deepcopy(channels)
 	for p in players:
@@ -717,8 +719,8 @@ while True:
 						mud.send_message(p, "[<f191>" + ch[m]['channel'] + "<r>] <f32>" + ch[m]['sender'] + "<r>: " + ch[m]['message'])
 						# del channels[m]
 	channels.clear()
-	
-	
+
+
 
 	# go through any newly connected players
 	for id in mud.get_new_players():
@@ -804,9 +806,9 @@ while True:
 		# move on to the next one
 		if id not in players:
 			continue
-		
+
 		log("Client ID: " + str(id) + " has disconnected (" + str(players[id]['name']) + ")", "info")
-		
+
 		# go through all the players in the game
 		for (pid, pl) in list(players.items()):
 			# send each player a message to tell them about the diconnected
@@ -823,7 +825,7 @@ while True:
 			log("Player disconnected, saving state", "info")
 			saveState(players[id], playersDB)
 			playersDB = loadPlayersDB()
-		
+
 		# TODO: IDEA - Some sort of a timer to have the character remain in the game for some time after disconnection?
 
 		# Create a deep copy of fights, iterate through it and remove fights disconnected player was taking part in
@@ -836,20 +838,20 @@ while True:
 		# remove the player's entry in the player dictionary
 		del players[id]
 
-	
+
 	# go through any new commands sent from players
 	for (id, command, params) in mud.get_commands():
 		# if for any reason the player isn't in the player map, skip them and
 		# move on to the next one
 		if id not in players:
 			continue
-		
+
 		# print(str(players[id]['authenticated']))
 		if command.lower() == "startover" and players[id]['exAttribute0'] != None and players[id]['authenticated'] == None:
 			players[id]['idleStart'] = int(time.time())
 			mud.send_message(id, "<f220>Ok, Starting character creation from the beginning!\n")
 			players[id]['exAttribute0'] = 1000
-		
+
 		if command.lower() == "exit" and players[id]['exAttribute0'] != None and players[id]['authenticated'] == None:
 			players[id]['idleStart'] = int(time.time())
 			mud.send_message(id, "<f220>Ok, leaving the character creation.\n")
@@ -867,7 +869,7 @@ while True:
 				pass
 			players[id]['exAttribute0'] = 1001
 			break
-		
+
 		if players[id]['exAttribute0'] == 1001:
 			players[id]['idleStart'] = int(time.time())
 			taken = False
@@ -889,7 +891,7 @@ while True:
 					mud.send_message(id, "Press ENTER to continue...")
 					nonAlnum = True
 					break
-			if taken == False and blank == False and nonAlnum == False:	
+			if taken == False and blank == False and nonAlnum == False:
 				players[id]['exAttribute1'] = command
 				# print(players[id]['exAttribute1'])
 				mud.send_message(id, "<f220>\nAhh.. <r><f32>" + command + "<r><f220>! That's a strong name!\n")
@@ -900,28 +902,28 @@ while True:
 				players[id]['idleStart'] = int(time.time())
 				players[id]['exAttribute0'] = 1000
 				break
-			
+
 		if players[id]['exAttribute0'] == 1002:
 			players[id]['idleStart'] = int(time.time())
 			mud.send_message(id, "<f220>\nOk, got that.")
 			players[id]['exAttribute2'] = command
-			
+
 			# Load the player template from a file
 			with open(str(Config.get('Players', 'Location')) + "/player.template", "r") as read_file:
 				template = commentjson.load(read_file)
-			
+
 			# Make required changes to template before saving again into <Name>.player
 			template['name'] = players[id]['exAttribute1']
 			template['pwd'] = players[id]['exAttribute2']
-			
+
 			# Save template into a new player file
 			# print(template)
 			with open(str(Config.get('Players', 'Location')) + "/" + template['name'] + ".player", 'w') as fp:
 				commentjson.dump(template, fp)
-			
+
 			# Reload PlayersDB to include this newly created player
 			playersDB = loadPlayersDB()
-			
+
 			players[id]['exAttribute0'] = None
 			mud.send_message(id, '<f220>Your character has now been created, you can log in using credentials you have provided.\n')
 			# mud.send_message(id, '<f15>What is your username?')
@@ -938,9 +940,9 @@ while True:
 				file = loadPlayer(command, playersDB)
 				if file is not None:
 					dbResponse = tuple(file.values())
-				
+
 				#print(dbResponse)
-				
+
 				if dbResponse != None:
 					players[id]['name'] = dbResponse[0]
 
@@ -1028,8 +1030,8 @@ while True:
 					players[id]['exAttribute1'] = dbResponse[38]
 					players[id]['exAttribute2'] = dbResponse[39]
 					players[id]['hpMax'] = dbResponse[40]
-					
-					
+
+
 					log("Client ID: " + str(id) + " has successfully authenticated user " + players[id]['name'], "info")
 					# print(players[id])
 					# go through all the players in the game
@@ -1039,7 +1041,7 @@ while True:
 							and players[pid]['room'] == players[id]['room'] \
 							and players[pid]['name'] != players[id]['name']:
 							mud.send_message(pid, '{} has materialised out of thin air nearby.'.format(players[id]['name']))
-	
+
 					# send the new player a welcome message
 					mud.send_message(id, '\n<f220>Welcome to DUMSERVER!, {}. '.format(players[id]['name']))
 					mud.send_message(id, '\n<f255>Hello there traveller! You have connected to a DUM development server, which currently consists of a few test rooms, npcs, items and environment actors. You can move around the rooms along with other players (if you are lucky to meet any), attack each other (including NPCs), pick up and drop items and chat. Make sure to visit the github repo for further info, make sure to check out the CHANGELOG. Thanks for your interest in DUM, high five!')
@@ -1072,7 +1074,7 @@ while True:
 						c = command[1:]
 						if len(c) == 0 and players[id]['defaultChannel'] != None:
 							c = players[id]['defaultChannel']
-							
+
 						if len(c) > 0:
 							if len(params) > 0:
 								if c.lower() == "system":
@@ -1106,8 +1108,8 @@ while True:
 								#sendToChannel(players[id]['name'], players[id]['defaultChannel'], params, channels)
 							#else:
 							mud.send_message(id, "Which channel would you like to message?")
-							
+
 					else:
 						runCommand(command.lower(), params, mud, playersDB, players, rooms, npcsDB, npcs, itemsDB, itemsInWorld, envDB, env, scriptedEventsDB, eventSchedule, id, fights, corpses)
-			
+
 
