@@ -1,0 +1,24 @@
+Metadata-Version: 2.1
+Name: websocket
+Version: 0.2.1
+Summary: Websocket implementation for gevent
+Home-page: http://pypi.python.org/pypi/websocket
+Author: UNKNOWN
+Author-email: UNKNOWN
+License: UNKNOWN
+Platform: UNKNOWN
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python
+Classifier: Operating System :: MacOS :: MacOS X
+Classifier: Operating System :: POSIX
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Topic :: Internet
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Intended Audience :: Developers
+Classifier: Development Status :: 4 - Beta
+Requires-Dist: gevent
+Requires-Dist: greenlet
+
+UNKNOWN
+
+
