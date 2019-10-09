@@ -9,3 +9,9 @@ nohup.out
 to-commit
 server.log
 trace.log
+
+# virtualenv excludes
+bin/
+lib/
+include/
+share/
