@@ -1,3 +1,12 @@
+__filename__ = "password.py"
+__author__ = "Chris Byrd"
+__credits__ = ["Chris Byrd"]
+__license__ = "MIT"
+__version__ = "0.6.6"
+__maintainer__ = "Bartek Radwanski"
+__email__ = "bartek.radwanski@gmail.com"
+__status__ = "Development"
+
 """Password hashing and authentication logic for DUM server."""
 
 import binascii
