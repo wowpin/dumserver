@@ -15,12 +15,15 @@ from copy import deepcopy
 import configparser
 import json
 
+from password import hash_password
+
+
 # example of config file usage
 # print(str(Config.get('Database', 'Hostname')))
 Config = configparser.ConfigParser()
 Config.read('config.ini')
 
-# Function to silently remove file 
+# Function to silently remove file
 def silentRemove(filename):
 	try:
 		os.remove(filename)
@@ -115,11 +118,11 @@ def savePlayer(player, masterDB, path = str(Config.get('Players', 'Location')) +
 			#print("removed file")
 			newPlayer = deepcopy(temp)
 			#print(newPlayer)
-			newPlayer['pwd'] = temp['pwd']
+			newPlayer['pwd'] = hash_password(temp['pwd'])
 			for key in newPlayer:
 				if key != "pwd":
 					# print(key)
-					newPlayer[key] = player[key]
+					newPlayer[key] = hash_password(player[key])
 			#print(newPlayer)
 			#print("Saving player state")
 			with open(path + player['name'] + ".player", 'w') as fp:
@@ -137,7 +140,7 @@ def saveState(player, masterDB):
 
 def str2bool(v):
   return v.lower() in ("yes", "true", "True", "t", "1")
-  
+
 def sendToChannel(sender, channel, message, channels):
 	#print("Im in!")
 	channels[getFreeKey(channels)] = {"channel": str(channel), "message": str(message), "sender": str(sender)}
