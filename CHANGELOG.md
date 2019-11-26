@@ -1,4 +1,9 @@
-### ![Current Version](https://img.shields.io/badge/%20-Current%20Version-green.svg) ![0.6.5](https://img.shields.io/badge/%20-0.6.5-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/20%20SEP%202019-lightgrey.svg)
+### ![Current Version](https://img.shields.io/badge/%20-Current%20Version-green.svg) ![0.6.6](https://img.shields.io/badge/%20-0.6.6-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/20%26NOV%202019-lightgrey.svg)
+- Fixed Issue **#23** (Combat timeout to be configurable via config.ini) - Fixed via a pull request from ChrisByrd14, much appreciated my firend!
+- Fixed Issue **#5** (No password security) - Fixed via a pull request from ChrisByrd14, awesome password hashing functions, many thanks!
+- Fixed Issue **#20** (Chrome not handling empty chars correctly)
+
+### ![Legacy Version](https://img.shields.io/badge/%20-Legacy%20Version-orange.svg) ![0.6.5](https://img.shields.io/badge/%20-0.6.5-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/20%20SEP%202019-lightgrey.svg)
 - **Finalised targetting system!** Woop! It has been polished, de-bugged and is currently rather stable and robust.
 - PvP and PvE fights will now expire after 35 seconds of inactivity. As an example -  if you hit an NPC and flee the room, after 35 seconds the NPC will loose aggro and no longer attack you if you return. 
 - Players will now loose their current target when they `go` to another room during a fight.
