@@ -14,19 +14,15 @@ import os
 
 from cmsg import cmsg
 
-from functions import getFreeKey
-from functions import log
-from functions import saveState
-from functions import addToScheduler
-from functions import loadPlayer
-from functions import savePlayer
-from functions import loadPlayersDB
-from functions import sendToChannel
+from functions import (addToScheduler, getFreeKey, loadPlayer, loadPlayersDB,
+			log, savePlayer, saveState, sendToChannel)
 
 from events import evaluateEvent
 
 from commands import runCommand
 from atcommands import runAtCommand
+
+from password import check_password, hash_password
 
 import time
 
@@ -914,7 +910,8 @@ while True:
 
 			# Make required changes to template before saving again into <Name>.player
 			template['name'] = players[id]['exAttribute1']
-			template['pwd'] = players[id]['exAttribute2']
+
+			template['pwd'] = hash_password(players[id]['exAttribute2'])
 
 			# Save template into a new player file
 			# print(template)
@@ -975,7 +972,7 @@ while True:
 				if players[id]['name'] != None and players[pl]['name'] != None and players[id]['name'] == players[pl]['name'] and pl != id:
 					playerFound = True
 
-			if dbPass == command:
+			if check_password(dbPass, command):
 				if playerFound == False:
 					players[id]['authenticated'] = True
 					players[id]['prefix'] = "None"
