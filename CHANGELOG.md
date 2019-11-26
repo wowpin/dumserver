@@ -1,4 +1,4 @@
-### ![Current Version](https://img.shields.io/badge/%20-Current%20Version-green.svg) ![0.6.6](https://img.shields.io/badge/%20-0.6.6-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/20%26NOV%202019-lightgrey.svg)
+### ![Current Version](https://img.shields.io/badge/%20-Current%20Version-green.svg) ![0.6.6](https://img.shields.io/badge/%20-0.6.6-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/26%20NOV%202019-lightgrey.svg)
 - Fixed Issue **#23** (Combat timeout to be configurable via config.ini) - Fixed via a pull request from ChrisByrd14, much appreciated my firend!
 - Fixed Issue **#5** (No password security) - Fixed via a pull request from ChrisByrd14, awesome password hashing functions, many thanks!
 - Fixed Issue **#20** (Chrome not handling empty chars correctly)
