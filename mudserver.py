@@ -5,7 +5,7 @@ __license__ = "MIT"
 __version__ = "0.6.6"
 __maintainer__ = "Bartek Radwanski"
 __email__ = "bartek.radwanski@gmail.com"
-__status__ = "Development"
+__status__ = "Stable"
 
 """Basic MUD server module for creating text-based Multi-User Dungeon
 (MUD) games.
