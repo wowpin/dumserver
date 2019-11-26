@@ -507,7 +507,7 @@ while True:
 	# Iterate through fights again and look for expired fights (combat where lastHit is a set amount of time in the past). hen found, delete such fight, effectively ending combat.
 	fightsCopy = deepcopy(fights)
 	for (fid, pl) in list(fightsCopy.items()):
-		if (int(fightsCopy[fid]['lastHit']) + COMBAT_TIMEOUT) < int(time.time()):
+		if (int(fightsCopy[fid]['lastHit']) + int(COMBAT_TIMEOUT)) < int(time.time()):
 			if fightsCopy[fid]['s1type'] == 'npc':
 				npcs[fightsCopy[fid]['s1id']]['isInCombat'] = 0
 			if fightsCopy[fid]['s2type'] == 'npc':
