@@ -1042,9 +1042,9 @@ while True:
 					# send the new player a welcome message
 					mud.send_message(id, '\n<f220>Welcome to DUMSERVER!, {}. '.format(players[id]['name']))
 					mud.send_message(id, '\n<f255>Hello there traveller! You have connected to a DUM development server, which currently consists of a few test rooms, npcs, items and environment actors. You can move around the rooms along with other players (if you are lucky to meet any), attack each other (including NPCs), pick up and drop items and chat. Make sure to visit the github repo for further info, make sure to check out the CHANGELOG. Thanks for your interest in DUM, high five!')
-					mud.send_message(id, "\n<f220>v0.6.5 highlights:")
-					mud.send_message(id, "<f255> * Brand new targetting system! Woop! It has been polished, de-bugged and is currently rather stable and robust.")
-					mud.send_message(id, "<f255> * Significant number of game-breaking bugs detected and dealt with. Yay!")
+					mud.send_message(id, "\n<f220>v0.6.6 highlights:")
+					mud.send_message(id, "<f255> * Password security has finally been implemented! No more plain text passwords in .player files! Thanks Chris!")
+					mud.send_message(id, "<f255> * Some minor bugfixes, see Github CHANGELOG!")
 
 					mud.send_message(id, "\n<f255>Type '<r><f220>help<r><f255>' for a list of all currently implemented commands/functions. Have fun!")
 				else:
