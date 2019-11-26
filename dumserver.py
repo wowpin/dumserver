@@ -123,6 +123,8 @@ eventSchedule = {}
 # Declare channels message queue dictionary
 channels = {}
 
+COMBAT_TIMEOUT = int(Config.get('Timeouts', 'Combat'))
+
 # Specify allowe player idle time
 allowedPlayerIdle = int(Config.get('World', 'IdleTimeBeforeDisconnect'))
 
@@ -501,7 +503,7 @@ while True:
 	# Iterate through fights again and look for expired fights (combat where lastHit is a set amount of time in the past). hen found, delete such fight, effectively ending combat.
 	fightsCopy = deepcopy(fights)
 	for (fid, pl) in list(fightsCopy.items()):
-		if (int(fightsCopy[fid]['lastHit']) + 35) < int(time.time()):
+		if (int(fightsCopy[fid]['lastHit']) + int(COMBAT_TIMEOUT)) < int(time.time()):
 			if fightsCopy[fid]['s1type'] == 'npc':
 				npcs[fightsCopy[fid]['s1id']]['isInCombat'] = 0
 			if fightsCopy[fid]['s2type'] == 'npc':
@@ -908,6 +910,7 @@ while True:
 
 			# Make required changes to template before saving again into <Name>.player
 			template['name'] = players[id]['exAttribute1']
+
 			template['pwd'] = hash_password(players[id]['exAttribute2'])
 
 			# Save template into a new player file
