@@ -6,8 +6,8 @@
 	// --- Actor definition ---
         "name": "Wind Draft",
         "vocabulary": "The air smells fresh.|Hmmmm fresh air...",
-	"talkDelay": "1",
-	"randomFactor": "4",
+	"talkDelay": "15",
+	"randomFactor": "30",
 	// --- End of Actor definition ---
 
 	// --- Do not modify below this line ---

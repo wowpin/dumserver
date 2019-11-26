@@ -2,7 +2,7 @@ __filename__ = "mudserver.py"
 __author__ = "Mark Frimston"
 __credits__ = ["Bartek Radwanski", "Mark Frimston"]
 __license__ = "MIT"
-__version__ = "0.6.5"
+__version__ = "0.6.6"
 __maintainer__ = "Bartek Radwanski"
 __email__ = "bartek.radwanski@gmail.com"
 __status__ = "Development"
@@ -285,7 +285,7 @@ class MudServer(object):
 			# still be written to the socket. If it can't, an error will be
 			# raised and we'll know that the client has disconnected.
 			# self._attempt_send(id, "\x00")
-			self._attempt_send(id, "\x00")
+			self._attempt_send(id, " ")
 
 			# update the last check time
 			cl.lastcheck = time.time()

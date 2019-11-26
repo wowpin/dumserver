@@ -1,30 +1,44 @@
-<f172>                                                       ..       :
-<f172>                    .                  .               .   .  .
-<f172>      .           .                .               .. .  .  *
-<f172>             *          .                    ..        .
-<f172>                           .             .     . :  .   .    .  .
-<f172>            .                         .   .  .  .   .
-<f172>                                         . .  *:. . .
-<f172>.                                 .  .   . .. .         .
-<f172>                         .     . .  . ...    .    .
-<f172>       .              .  .  . .    . .  . .
-<f172>                        .    .     . ...   ..   .       .               .
-<f172>                 .  .    . *.   . .
-<f172>    .                   :.  .           .
-<f172>                 .   .    <f255>.<r><f172>    .
-<f172>             .  .  .    .<f255>/|\<r><f172>
-<f172>            .  .. :.    . <f255>|<r><f172>             .               .
-<f172>     .   ... .            <f255>|<r><f172>
-<f172> .    :.  . .   *.        <f255>|<r><f172>     .               .
-<f172>   .  *.             <f255>You are here.<r><f172>
-<f172> . .    .               .             *.          <f220>- dum -<r><f172>        .
+<f255>                                   ,_-=(!7(7/zs_.
+<f255>                                .='  ' .`/,/!(=)Zm.
+<f255>                  .._,,._..  ,-`- `,\ ` -` -`\\7//WW.
+<f255>             ,v=~/.-,-\- -!|V-s.)iT-|s|\-.'   `///mK%.
+<f255>           v!`i!-.e]-g`bT/i(/[=.Z/m)K(YNYi..   /-]i44M.
+<f255>         v`/,`|v]-DvLcfZ/eV/iDLN\D/ZK@%8W[Z..   `/d!Z8m
+<f255>        //,c\(2(X/NYNY8]ZZ/bZd\()/\7WY%WKKW)   -'|(][%4.
+<f255>      ,\\i\c(e)WX@WKKZKDKWMZ8(b5/ZK8]Z7%ffVM,   -.Y!bNMi
+<f255>      /-iit5N)KWG%%8%%%%W8%ZWM(8YZvD)XN(@.  [   \]!/GXW[
+<f255>     / ))G8\NMN%W%%%%%%%%%%8KK@WZKYK*ZG5KMi,-   vi[NZGM[
+<f255>    i\!(44Y8K%8%%%**~YZYZ@%%%%%4KWZ/PKN)ZDZ7   c=//WZK%!
+<f255>   ,\v\YtMZW8W%%f`,`.t/bNZZK%%W%%ZXb*K(K5DZ   -c\\/KM48
+<f255>   -|c5PbM4DDW%f  v./c\[tMY8W%PMW%D@KW)Gbf   -/(=ZZKM8[
+<f255>   2(N8YXWK85@K   -'c|K4/KKK%@  V%@@WD8e~  .//ct)8ZK%8`
+<f255>   =)b%]Nd)@KM[  !'\cG!iWYK%%|   !M@KZf    -c\))ZDKW%`
+<f255>   YYKWZGNM4/Pb  '-VscP4]b@W%     'Mf`   -L\///KM(%W!
+<f255>   !KKW4ZK/W7)Z. '/cttbY)DKW%     -`  .',\v)K(5KW%%f
+<f255>   'W)KWKZZg)Z2/,!/L(-DYYb54%  ,,`, -\-/v(((KK5WW%f
+<f255>    \M4NDDKZZ(e!/\7vNTtZd)8\Mi!\-,-/i-v((tKNGN%W%%
+<f255>    'M8M88(Zd))///((|D\tDY\\KK-`/-i(=)KtNNN@W%%%@%[
+<f255>     !8%@KW5KKN4///s(\Pd!ROBY8/=2(/4ZdzKD%K%%%M8@%%
+<f255>      '%%%W%dGNtPK(c\/2\[Z(ttNYZ2NZW8W8K%%%%YKM%M%%.
+<f255>        *%%W%GW5@/%!e]_tZdY()v)ZXMZW%W%%%*5Y]K%ZK%8[
+<f255>         '*%%%%8%8WK\)[/ZmZ/Zi]!/M%%%%@f\ \Y/NNMK%%!
+<f255>           'VM%%%%W%WN5Z/Gt5/b)((cV@f`  - |cZbMKW%%|
+<f255>              'V*M%%%WZ/ZG\t5((+)L'-,,/  -)X(NWW%%
+<f255>                   `~`MZ/DZGNZG5(((\,    ,t\\Z)KW%@
+<f255>                      'M8K%8GN8\5(5///]i!v\K)85W%%f
+<f255>                        YWWKKKKWZ8G54X/GGMeK@WM8%@
+<f255>                         !M8%8%48WG@KWYbW%WWW%%%@
+<f255>                           VM%WKWK%8K%%8WWWW%%%@`
+<f255>                             ~*%%%%%%W%%%%%%%@~
+<f255>                                ~*MM%%%%%%@f`
+<f255>                                    '''''  .
 
 
 
 <f0><b220> a modern MU* engine               
 <f0><b220>    github.com/wowpin/dumserver    
 
-<f0><b220> Codebase: v0.6.5 (STABLE)    
+<f0><b220> Codebase: v0.6.5 (STABLE)         
 
 <f15>You can create a new Character, or use the following guest account:
 <f15>Username: <r><f220>Guest<r><f15> Password: <r><f220>Password
