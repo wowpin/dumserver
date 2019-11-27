@@ -118,7 +118,8 @@ def savePlayer(player, masterDB, path = str(Config.get('Players', 'Location')) +
 			#print("removed file")
 			newPlayer = deepcopy(temp)
 			#print(newPlayer)
-			newPlayer['pwd'] = hash_password(temp['pwd'])
+			#newPlayer['pwd'] = hash_password(temp['pwd'])
+			newPlayer['pwd'] = temp['pwd']
 			for key in newPlayer:
 				if key != "pwd":
 					# print(key)
