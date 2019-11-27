@@ -122,7 +122,7 @@ def savePlayer(player, masterDB, path = str(Config.get('Players', 'Location')) +
 			for key in newPlayer:
 				if key != "pwd":
 					# print(key)
-					newPlayer[key] = hash_password(player[key])
+					newPlayer[key] = player[key]
 			#print(newPlayer)
 			#print("Saving player state")
 			with open(path + player['name'] + ".player", 'w') as fp:
