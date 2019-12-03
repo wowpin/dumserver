@@ -12,6 +12,5 @@ trace.log
 
 # virtualenv excludes
 bin/
-lib/
 include/
 share/
