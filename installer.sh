@@ -10,6 +10,10 @@ sudo npm install -g forever
 
 git clone https://github.com/wowpin/dumserver.git
 
+cd dumserver
+sudo pip3 install -r requirements.txt
+cd ..
+
 cd dumserver/webclient/dome-client.js
 sudo npm install
 cd ..
