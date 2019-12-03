@@ -1,0 +1,34 @@
+<%
+  var editThemes = ['ambience', 'chaos', 'chrome', 'clouds', 'clouds_midnight', 'cobalt', 'crimson_editor', 'dawn', 'dreamweaver', 'eclipse', 'github', 'idle_fingers', 'kr_theme', 'merbivore', 'merbivore_soft', 'mono_industrial', 'monokai', 'pastel_on_dark', 'solarized_dark', 'solarized_light', 'terminal', 'textmate', 'tomorrow_night', 'tomorrow_night_blue', 'tomorrow_night_bright', 'tomorrow_night_eighties', 'twilight', 'vibrant_ink', 'xcode'];
+	
+  var editorTheme = 'twilight'; // default theme
+  if ( req['query'] && req.query['et'] ) {
+	  var et = req.query['et'];
+	  for (var i = 0; i < editThemes.length; i++) {
+		  if (et == editThemes[i]) {
+			  editorTheme = et;
+			  break;
+			}
+	  }
+  }
+%>
+<% layout('../shells/child-window') -%>
+<div class="editor">
+  <div class="menu">
+    <% if ( !editor.readonly ) { %>
+      <button class="btn btn-danger abort pull-left">CLOSE</button>
+      <button class="btn btn-success upload pull-right" data-command="">LOADING ...</button>
+    <% } else { %>
+      <button class="btn btn-danger abort pull-left">CLOSE</button>
+      <button class="btn pull-right">READ-ONLY</button>
+    <% } %>
+  </div>
+  <div id="verb-editor-holder" class="verb-editor"></div>
+</div>
+<script src="/js/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    var verbEditor = ace.edit("verb-editor-holder");
+    verbEditor.setTheme("ace/theme/<%=editorTheme%>");
+    verbEditor.getSession().setMode("ace/mode/moo");
+</script>
+<script src="/js/editor-window.js"></script>

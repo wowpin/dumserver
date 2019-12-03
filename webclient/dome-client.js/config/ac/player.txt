@@ -1,0 +1,19 @@
+@quit
+@channels
+@subscribe
+@unsubscribe
+@who
+@serverlog show
+@serverlog clear
+go
+look
+say
+tell
+whisper
+attack
+take
+drop
+check inv
+check inventory
+check stats
+help

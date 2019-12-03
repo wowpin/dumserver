@@ -1,0 +1,9 @@
+<%
+ var addressParts = gameinfo.address.split(':');
+ var gameHost = addressParts[0];
+ var gamePort = addressParts[1];
+ %>
+<tr>
+ <td class="count-column"><%=gameinfo.count%></td>
+ <td><a target="_blank" href="/player-client/?gh=<%=gameHost%>&gp=<%=gamePort%>" class="game-address"><%=gameinfo.address%></a></td>
+</tr>

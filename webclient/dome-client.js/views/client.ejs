@@ -1,0 +1,46 @@
+<% layout('./shells/master') -%>
+        <style>
+            .status_window
+            {
+                font-family:    Source Code Pro;
+                font-size:      14px;
+                font-weight:    normal;
+				line-height:    15px;
+            }
+        </style>
+		
+<div id="browser-client">
+  <table border=0 cellpadding=0 cellspacing=0 width="100%" style="table-layout:fixed;">
+   <tr>
+    <td width="auto">
+     <div id="lineBuffer" class="standardText"></div>
+	</td>
+	<td width=1 bgcolor="#6e6e6e"></td>
+	<td valign="top" width=400 bgcolor="#000000">
+	 <div id="statusPanel" class="status_window"></div>
+	</td>
+   </tr>
+  </table>
+  <div><textarea id="inputBuffer" rows="4" cols="50"></textarea></div>
+</div>
+<div id="disconnect-overlay" class="hide"></div>
+<div id="scroll-overlay" class="hide"></div>
+<div class="container disconnect-buttons hide">
+  <button id="button-save" class="btn btn-large btn-primary">Save Session as HTML Log</button>
+  <button id="button-reconnect" class="btn btn-large btn-primary">Reconnect Now</button>
+  <form id="save-form" action="/save/" method="POST" target="download-frame">
+    <input type="hidden" name="buffer" value="">
+  </form>
+</div>
+<iframe style="display: none" name="download-frame" id="download-frame"></iframe>
+<div class="mini-controls">
+	<button id="button-auto-scroll" class="btn btn-primary btn-mini" href="#autoscroll" title="pause/unpause automatic scrolling">PAUSE SCROLL</button>
+	<button id="button-save-mini" class="btn btn-primary btn-mini" href="#savelog" title="save session as an HTML log file">LOG</button>
+	<button id="button-clear-buffer" class="btn btn-primary btn-mini" href="clearbuffer" title="clear the output buffer.">CLEAR BUFFER</button>
+</div>
+<script src="/js/client-options.js"></script>
+<script language="JavaScript">
+	clientOptions['deviceType'] = '<%=req.device%>';
+</script>
+<script src="/js/player-client.js"></script>
+

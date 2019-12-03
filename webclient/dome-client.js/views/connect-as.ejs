@@ -1,0 +1,72 @@
+<% layout('./shells/master') -%>
+<div class="moo-login-page">
+  <h1>Development Server 2</h1>
+  <div class="tabbed-panel">
+    <%if (connectAnywhere) { %>
+    <div id="address_panel" class="tab-panel">
+      <h2 style="color: #eeeeee">Connect To ...</h2>
+      <div class="field-group">
+        <label for="moo-hostname">HOSTNAME</label>
+        <input id="moo-hostname" type="text" name="hostname" value="<%= mooHostname %>" /><br>
+        <label for="moo-port">PORT</label>
+        <input id="moo-port" type="number" name="port" value="<%= mooPort %>" min="23" max="65535" step="1"/>
+      </div>
+      <div class="relative-group">
+        <a href="/client-options/" class="btn">Options</a>
+        <input class="btn btn-primary pull-right" id="next_btn" type="submit" name="next_panel" value="Next">
+        <input class="btn btn-success pull-right" id="connect_now" type="submit" name="connect_now" value="Connect Now">
+      </div>
+    </div>
+    <% } %>
+    <% if (!connectAnywhere) { %>
+        <input id="moo-hostname" type="hidden" name="hostname" value="<%= mooHostname %>" />
+        <input id="moo-port" type="hidden" name="port" value="<%= mooPort %>" />
+    <% } %>
+    <div id="contact_panel" class="tab-panel <% if (connectAnywhere) { %>hidden-panel <% } %>">
+      <h2 style="color: #eeeeee">Welcome!</h2>
+		<p>Thanks for your interest in DUM! <p>Make sure to visit the <a href="https://github.com/wowpin/dumserver">Github</a> repo for the latest changelog.<p>Any questions? Feel free to <a href = "mailto:bartek.radwanski@gmail.com">email</a> me!
+      <div class="moo-login-box">
+	  <!--
+        <label for="moo-username">CHARACTER NAME</label>
+        <div id="user-picker" class="btn-group hide">
+          <button class="btn user-picker-label">{character name}</button>
+          <button class="btn dropdown-toggle" data-toggle="dropdown">
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <li class="divider"></li>
+            <li data-command="newChar" class="command">Add Character</li>
+            <li data-command="purgeAll" class="command">Forget All</li>
+          </ul>
+        </div>
+        <input id="moo-username" type="text" name="username">
+        <label for="moo-password">PASSWORD</label>
+        <input id="moo-password" type="password" name="password"><br>
+		-->
+        <div class="relative-group">
+          <!--<a href="/client-options/" class="btn">Options</a>-->
+          <% if (connectAnywhere) { %><input class="btn btn-primary" id="back_btn" type="submit" name="back_panel" value="Back"> <% } %>
+          <input class="btn btn-large btn-primary pull-right" id="connect_as" type="submit" name="connect" value="Connect">
+          <i id="secure-toggle" class="glyph-network"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%
+    var stats = connected();
+    if (stats && stats.count > 0) {
+  %>
+  <div class="connection-stats hidden-sm hidden-xs">
+    <table>
+      <tr class="table-header"><td class="count-column"><%=stats.count%></td><td>Connections Since Restart</td></tr>
+      <%-partial('partials/gameinfo.ejs', stats.games)%>
+    </table>
+  </div>
+  <%
+    }
+  %>
+  <div class="version"><span><a href="https://github.com/JavaChilly/dome-client.js">dome-client.js</a> v<%=version%>p</span></div>
+</spandiv>
+<script src="<%=decache('/js/client-options.js')%>"></script>
+<script src="<%=decache('/js/client-connect.js')%>"></script>

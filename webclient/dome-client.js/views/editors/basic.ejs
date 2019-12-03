@@ -1,0 +1,17 @@
+<% layout('../shells/child-window') -%>
+<div class="editor">
+  <div class="menu">
+    <% if ( !editor.readonly ) { %>
+      <button class="btn btn-danger abort pull-left">CLOSE</button>
+      <button class="btn btn-success upload pull-right" data-command="">LOADING ...</button>
+    <% } else { %>
+      <button class="btn btn-danger abort pull-left">CLOSE</button>
+      <button class="btn pull-right">READ-ONLY</button>
+    <% } %>
+  </div>
+  <textarea class="basic-textarea" rows="15" col="50"></textarea>
+</div>
+<script>
+    var verbEditor = null;
+</script>
+<script src="/js/editor-window.js"></script>

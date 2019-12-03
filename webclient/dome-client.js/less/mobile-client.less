@@ -1,0 +1,62 @@
+@import "client.less";
+BODY {
+  background: url('/img/fuller_street1_sq_sm.jpg');
+}
+.moo-login-page, .client-options-page {
+  margin-top: 0;
+  width:98%;
+  h1 {
+    margin-left: 5px;
+    font-size: 30px;
+    padding: 5px 10px;
+    width: auto;
+  }
+  .guest-group {
+    display: none;
+  }
+  .option-group {
+    padding: 5px;
+    clear: both;
+    width: 100%;
+    height: auto;
+    &.connect-as-group {
+      padding-left: 0;
+      padding-top: 0;
+    }
+    &.centered {
+      margin-top: 0;
+      margin-bottom: 5px;
+    }
+  }
+  .version {
+    width: 100%;
+    padding: 5px;
+    right: auto;
+    bottom: auto;
+    position: relative;
+    background-color: transparent;
+    margin-left: 0;
+    white-space: normal;
+    border: 0;
+    SPAN {
+      margin: 5px;
+    }
+  }
+  .connection-stats {
+    display: none;
+  }
+}
+
+.client-options-page {
+  .well {
+    .option-row {
+      .space-down {
+        height: 30px;
+      }
+    }
+  }
+}
+
+.mini-controls {
+  display: none;
+}

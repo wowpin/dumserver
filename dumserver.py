@@ -2,7 +2,7 @@ __filename__ = "dumserver.py"
 __author__ = "Bartek Radwanski"
 __credits__ = ["Bartek Radwanski", "Mark Frimston"]
 __license__ = "MIT"
-__version__ = "0.6.6"
+__version__ = "0.7.0"
 __maintainer__ = "Bartek Radwanski"
 __email__ = "bartek.radwanski@gmail.com"
 __status__ = "Stable"
@@ -285,7 +285,10 @@ playerList = []
 # start the server
 mud = MudServer()
 
+# Status Panel data identifier
+STATUS_PANEL_DATA = "c3RhdHVzcGFuZWw"
 
+log("", "Waiting for Webclient")
 
 # main game loop. We loop forever (i.e. until the program is terminated)
 while True:
@@ -378,6 +381,7 @@ while True:
 				playersDB = loadPlayersDB()
 		# State Save logic End
 		lastStateSave = now
+			
 
 	# Handle Player Deaths
 	for (pid, pl) in list(players.items()):
@@ -781,7 +785,9 @@ while True:
 			'exAttribute1': None,
 			'exAttribute2': None,
 			'hpMax': None,
-			'target': None
+			'target': None,
+			'statusPanelSent': None,
+			'chargeMax': None
 			}
 
 		# Read in the MOTD file and send to the player
@@ -834,6 +840,24 @@ while True:
 		# remove the player's entry in the player dictionary
 		del players[id]
 
+	# Iterate players and send out the status panel data prefixed by a status panel tag, which will be recognised by the webclient and handled accordingly.
+	for p in players:
+		if players[p]['authenticated'] != None:	
+			if int(time.time()) > players[p]['statusPanelSent'] + int(Config.get('Webclient', 'StatusDataInterval')):
+				s_name = players[p]['name']
+				s_level = players[p]['lvl']
+				s_location = rooms[players[p]['room']]['name']
+				s_hp = players[p]['hp']
+				s_hpmax = players[p]['hpMax']
+				s_charge = players[p]['charge']
+				s_chargemax = players[p]['chargeMax']
+				s_isincombat = players[p]['isInCombat']
+				if players[p]['target'] != None:
+					s_target = players[p]['target'][0]
+				else:
+					s_target = "[None]"
+				mud.send_message(p, STATUS_PANEL_DATA + s_name + ';' + str(s_level) + ';' + s_location + ';' + str(s_hp) + ';' + str(s_hpmax) + ';' + str(s_charge) + ';' + str(s_chargemax) + ';' + str(s_isincombat) + ';' + s_target)
+				players[p]['statusPanelSent'] = int(time.time())
 
 	# go through any new commands sent from players
 	for (id, command, params) in mud.get_commands():
@@ -1027,6 +1051,8 @@ while True:
 					players[id]['exAttribute1'] = dbResponse[38]
 					players[id]['exAttribute2'] = dbResponse[39]
 					players[id]['hpMax'] = dbResponse[40]
+					players[id]['statusPanelSent'] = int(time.time())
+					players[id]['chargeMax'] = dbResponse[41]
 
 
 					log("Client ID: " + str(id) + " has successfully authenticated user " + players[id]['name'], "info")

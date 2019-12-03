@@ -39,5 +39,6 @@
 	"exAttribute0": 0,
 	"exAttribute1": 0,
 	"exAttribute2": 0,
-	"hpMax": 100
+	"hpMax": 100,
+	"chargeMax": 100
 }
