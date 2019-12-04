@@ -1,7 +1,7 @@
-### ![Current Version](https://img.shields.io/badge/%20-Current%20Version-green.svg) ![0.6.6](https://img.shields.io/badge/%20-0.6.6-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/26%20NOV%202019-lightgrey.svg)
-- Fixed Issue **#23** (Combat timeout to be configurable via config.ini) - Fixed via a pull request from ChrisByrd14, much appreciated my firend!
-- Fixed Issue **#5** (No password security) - Fixed via a pull request from ChrisByrd14, awesome password hashing functions, many thanks!
-- Fixed Issue **#20** (Chrome not handling empty chars correctly)
+### ![Current Version](https://img.shields.io/badge/%20-Current%20Version-green.svg) ![0.7.0](https://img.shields.io/badge/%20-0.7.0-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/4%20DEC%202019-lightgrey.svg)
+- **A Major release is upon us!** With 0.7.0, a Webclient has finally become an integral part of DUM repository. It now gets installed along with the server itself and all required nodejs dependencies. to simplify running server+webclient as a single package, 3 additional .sh files have been implemented - pretty self explanatory `server-start.sh`, `server-stop.sh`, `server-status.sh`.
+- An overhaul of webclient functionality has begun. As a first step, a side panel has been implemented, which shows various players related information and stats in real time.
+- `installer.sh` has been improved with fetching of missing python modules via a `requirements.txt` file.
 
 ### ![Legacy Version](https://img.shields.io/badge/%20-Legacy%20Version-orange.svg) ![0.6.5](https://img.shields.io/badge/%20-0.6.5-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/20%20SEP%202019-lightgrey.svg)
 - **Finalised targetting system!** Woop! It has been polished, de-bugged and is currently rather stable and robust.
