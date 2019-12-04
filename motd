@@ -11,9 +11,9 @@
 <f0><b220> a modern MU* engine               
 <f0><b220>    github.com/wowpin/dumserver    
 
-<f0><b220> Codebase: v0.6.6 (STABLE)         
+<f0><b220> Codebase: v0.7.0 (STABLE)         
 
-<f220>This release would not be possible without kind contributions from: <f34>ChrisByrd14
+<f220>Now including a <f34>Webclient<r>!
 
 <f15>You can create a new Character, or use the following guest account:
 <f15>Username: <r><f220>Guest<r><f15> Password: <r><f220>Password
