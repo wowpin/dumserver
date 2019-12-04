@@ -14,7 +14,7 @@ cd dumserver
 sudo pip3 install -r requirements.txt
 cd ..
 
-cd dumserver/webclient/dome-client.js
+cd dumserver/webclient
 sudo npm install
 cd ..
-cd ..
+

@@ -9,6 +9,6 @@ else
 fi
 python3 -u dumserver.py &
 sleep 2
-cd webclient/dome-client.js
+cd webclient
 ./run.sh
 echo "*** startup sequence completed ***"
