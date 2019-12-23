@@ -5,7 +5,9 @@ yes | sudo pip3 install websocket-client
 sudo apt-get -y install git-core
 
 sudo apt-get -y install nodejs
-sudo ./webclient/install-npm.sh
+cd webclient
+sudo ./install-npm.sh
+cd ..
 sudo npm install -g forever
 
 git clone https://github.com/wowpin/dumserver.git
