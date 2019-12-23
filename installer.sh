@@ -11,6 +11,7 @@ git clone https://github.com/wowpin/dumserver.git
 cd dumserver
 
 cd webclient
+sudo chmod +x install-npm.sh
 sudo ./install-npm.sh
 cd ..
 
