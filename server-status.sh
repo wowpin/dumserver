@@ -1,3 +1,9 @@
+if [ ! -e ./setup.completed ] ; then
+    echo '[error] dumserver requires configuration before it can be launched'
+    echo '[info] please run the setup.py configuration script'
+    exit
+fi
+
 SERVICE="dumserver.py"
 if pgrep -f "$SERVICE" >/dev/null
 then
