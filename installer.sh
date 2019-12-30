@@ -28,6 +28,3 @@ cd ..
 cd dumserver/webclient
 sudo npm install
 cd ..
-
-# Run DUM configuration
-sudo python3 setup.py
