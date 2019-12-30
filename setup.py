@@ -36,8 +36,8 @@ filedata = filedata.replace('PUBLIC_IP', str(ip))
 with open(str(dumhome + '/webclient/config/default.js'), 'w') as file:
   file.write(filedata)
 
-if not os.path.exists('setup.completed'):
-    os.mknod('setup.completed')
+if not os.path.exists(dumhome + '/setup.completed'):
+    os.mknod(dumhome + '/setup.completed')
 
 print('\ndumserver configuration has been completed. You can start using the sever with the help of following commands:')
 print('./server-start.sh    -    Boot up an instance of dumserver. Once up and running, server can be accessed on http://<Your public IP>')
