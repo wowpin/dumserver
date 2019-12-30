@@ -1,4 +1,12 @@
-### ![Current Version](https://img.shields.io/badge/%20-Current%20Version-green.svg) ![0.7.0](https://img.shields.io/badge/%20-0.7.0-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/4%20DEC%202019-lightgrey.svg)
+### ![Current Version](https://img.shields.io/badge/%20-Current%20Version-green.svg) ![0.7.1](https://img.shields.io/badge/%20-0.7.1-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/30%20DEC%202019-lightgrey.svg)
+- **Major improvements and bugfixes in installer.sh**
+- Obsolete version of NPM recently started generating installer errors, NPM has been updated to the most recent version.
+- Node package dependencies have been updated to newest versions where possible. Updates which require webclient code redesign have been skipped for now.
+- introduced a `setup.py` script, which will configure dum webclient after server installation. It will detect server's public IP and set accordingly in webclient configuration files. Alternatively you can choose to provide the IP manually.
+- Installation process now boils down to pasting a single oneliner.
+- `server-start`, `server-stop` and `server-status` scripts have been improved to aler the user if for some reason `setup.py` has not completed.
+
+### ![Legacy Version](https://img.shields.io/badge/%20-Legacy%20Version-orange.svg) ![0.7.0](https://img.shields.io/badge/%20-0.7.0-lightgrey.svg) ![Publish Date](https://img.shields.io/badge/4%20DEC%202019-lightgrey.svg)
 - **A Major release is upon us!** With 0.7.0, a Webclient has finally become an integral part of DUM repository. It now gets installed along with the server itself and all required nodejs dependencies. to simplify running server+webclient as a single package, 3 additional .sh files have been implemented - pretty self explanatory `server-start.sh`, `server-stop.sh`, `server-status.sh`.
 - An overhaul of webclient functionality has begun. As a first step, a side panel has been implemented, which shows various players related information and stats in real time.
 - `installer.sh` has been improved with fetching of missing python modules via a `requirements.txt` file.
