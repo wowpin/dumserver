@@ -2,7 +2,7 @@ __filename__ = "dumserver.py"
 __author__ = "Bartek Radwanski"
 __credits__ = ["Bartek Radwanski", "Mark Frimston"]
 __license__ = "MIT"
-__version__ = "0.7.0"
+__version__ = "0.7.1"
 __maintainer__ = "Bartek Radwanski"
 __email__ = "bartek.radwanski@gmail.com"
 __status__ = "Stable"
@@ -1068,9 +1068,9 @@ while True:
 					# send the new player a welcome message
 					mud.send_message(id, '\n<f220>Welcome to DUMSERVER!, {}. '.format(players[id]['name']))
 					mud.send_message(id, '\n<f255>Hello there traveller! You have connected to a DUM development server, which currently consists of a few test rooms, npcs, items and environment actors. You can move around the rooms along with other players (if you are lucky to meet any), attack each other (including NPCs), pick up and drop items and chat. Make sure to visit the github repo for further info, make sure to check out the CHANGELOG. Thanks for your interest in DUM, high five!')
-					mud.send_message(id, "\n<f220>v0.7.0 highlights:")
-					mud.send_message(id, "<f255> * The webcient has finally been made an integral part of the repo. You can now deploy a fully functional dumserver+webclient with a single one-liner! See README for details.")
-					mud.send_message(id, "<f255> * Webclient is undergoing a redesign - as a first step, a side panel has been implemented containing some health bars and other information. Watch this space!")
+					mud.send_message(id, "\n<f220>v0.7.1 highlights:")
+					mud.send_message(id, "<f255> * Major improvements and bugfixes in installer.sh.")
+					mud.send_message(id, "<f255> * One-liner server installation. Yay!")
 
 					mud.send_message(id, "\n<f255>Type '<r><f220>help<r><f255>' for a list of all currently implemented commands/functions. Have fun!")
 				else:
