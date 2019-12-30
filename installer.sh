@@ -28,3 +28,6 @@ cd ..
 cd dumserver/webclient
 sudo npm install
 cd ..
+
+HOME_DIR="$(pwd)"
+export DUM_HOME_DIR="$(echo $HOME_DIR)"
