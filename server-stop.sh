@@ -1,6 +1,6 @@
 if [ ! -e ./setup.completed ] ; then
     echo '[error] dumserver requires configuration before it can be launched'
-    echo '[info] please run the setup.py configuration script'
+    echo '[info] please run "python3 setup.py"'
     exit
 fi
 
