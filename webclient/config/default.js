@@ -11,7 +11,7 @@ module.exports = {
 // specific ip is optional (if your server has more than one)
 //    'ip'           : '208.52.189.89',
 
-    'socketUrl'    : 'http://127.0.0.1:80',
+    'socketUrl'    : 'http://PUBLIC_IP:80',
     'socketUrlSSL' : '',
     'poweredBy'    : 'dome-client.js',
     'session'      : {
@@ -31,7 +31,7 @@ module.exports = {
   // where it connects to
   'moo' : {
     'name' : 'DUM',
-    'host' : '127.0.0.1',
+    'host' : 'PUBLIC_IP',
     'port' : 35123
   },
 
