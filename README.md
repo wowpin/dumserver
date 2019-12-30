@@ -1,5 +1,5 @@
 ![Dum!](docs/logo.png)
-# dumserver ![Build](https://img.shields.io/badge/build-0.7.0-green.svg) ![Build](https://img.shields.io/badge/grapevine.haus-Supported-green.svg) ![Build](https://img.shields.io/badge/webclient-Supported-green.svg)
+# dumserver ![Build](https://img.shields.io/badge/build-0.7.1-green.svg) ![Build](https://img.shields.io/badge/grapevine.haus-Supported-green.svg) ![Build](https://img.shields.io/badge/webclient-Supported-green.svg)
 A modern Python MU* engine - re-imagined, actively developed and properly tracked.
 
 ## What is it?
@@ -15,11 +15,11 @@ Head over to the [Wiki](http://dumengine.wikidot.com/dum-v0-1-feature-summary) f
 ```diff
 - IMPORTANT - Python >= 3.6.7 is required (Ubuntu >= 18.04 LTS)!
 ```
-1. Update your system with `sudo apt update && sudo apt upgrade`
-2. Install the server with `sudo wget -O - https://raw.githubusercontent.com/wowpin/dumserver/master/installer.sh | bash`
-3. CD into newly created `dumserver` directory.
-3. Edit the webclient configuration file by typing `sudo nano webclient/config/default.js` Amend `socketUrl` amd `host` parameters (around lines 14 and 34) to match the external IP of the server you are running DUM on.
-4. Run the server by typing `sudo ./start-server.sh`
+1. Install the server in a folder of your choice using `curl -s https://raw.githubusercontent.com/wowpin/dumserver/master/installer.sh | bash && python3 <(curl "https://raw.githubusercontent.com/wowpin/dumserver/master/setup.py" -s -N)`
+2. As a last step, the installer will try to detect your public IP address and set it in Webclient config files. You can also choose to provide the IP manually. 
+4. Go into dumserver home folder and run it by typing `sudo ./start-server.sh`
+
+Note: start-server.sh needs to be ran as root if Webclient is configured to run on port 80 (that's how it comes by default).
 
 You now should be able to connect to your server on `http://<your-server-ip>`
 
