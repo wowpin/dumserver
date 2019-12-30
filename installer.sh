@@ -21,9 +21,9 @@ git clone https://github.com/wowpin/dumserver.git
 cd dumserver
 
 # Set the home directory environment variable
-echo "Setting DUM_HOME_DIR to:"
+echo "Setting /tmp/dum.home to:"
 echo $PWD
-sudo export DUM_HOME_DIR="$(pwd)"
+echo $(pwd)> /tmp/dum.home
 
 # Install required Python modules
 sudo pip3 install -r requirements.txt
