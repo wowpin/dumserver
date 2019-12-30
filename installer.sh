@@ -23,7 +23,7 @@ cd dumserver
 # Set the home directory environment variable
 echo "Setting DUM_HOME_DIR to:"
 echo $PWD
-export DUM_HOME_DIR="$(pwd)"
+sudo export DUM_HOME_DIR="$(pwd)"
 
 # Install required Python modules
 sudo pip3 install -r requirements.txt
