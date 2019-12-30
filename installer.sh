@@ -20,3 +20,4 @@ cd dumserver/webclient
 sudo npm install
 cd ..
 
+sudo python3 setup.py
