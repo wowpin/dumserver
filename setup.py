@@ -1,4 +1,3 @@
-
 import os
 from requests import get
 
@@ -15,23 +14,28 @@ def yes_or_no(question):
         
 print('\n\n\n')
 
+with open('/tmp/dum.home', 'r') as file:
+    dumhome = str(file.read())
+file.close()
+
 ip = get('https://api.ipify.org').text
 print('Following Public IP address has been detected:', ip)
 if yes_or_no('Would you like to use it for DUM Webclient configuration?'):
     pass
 else:
     ip = str(input("Please input Public IP:")).strip()
-    
+
 # Read in the webclient config file
-with open(str(os.environ['DUM_HOME_DIR'] + '/webclient/config/default.js'), 'r') as file :
+with open(str(dumhome + '/webclient/config/default.js'), 'r') as file :
   filedata = file.read()
 
 # Update the config file
 filedata = filedata.replace('PUBLIC_IP', str(ip))
-# Write the file out again
 
-with open(str(os.environ['DUM_HOME_DIR'] + '/webclient/config/default.js'), 'w') as file:
+# Write the file out again
+with open(str(dumhome + '/webclient/config/default.js'), 'w') as file:
   file.write(filedata)
+
 if not os.path.exists('setup.completed'):
     os.mknod('setup.completed')
 
