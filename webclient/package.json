@@ -6,8 +6,7 @@
     "start": "node client-app"
   },
   "dependencies": {
-    "connect": "3.7.0",
-    "express": "^3.0.0rc4",
+    "express": "3.0.0rc4",
     "ejs": "3.0.1",
     "less": "3.10.3",
     "less-middleware": "3.1.0",
