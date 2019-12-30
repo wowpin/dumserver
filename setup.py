@@ -15,7 +15,7 @@ def yes_or_no(question):
 print('\n\n\n')
 
 with open('/tmp/dum.home', 'r') as file:
-    dumhome = str(file.read()).replace('\n', '')
+    dumhome = str(file.read().replace('\n', ''))
 file.close()
 
 ip = get('https://api.ipify.org').text
