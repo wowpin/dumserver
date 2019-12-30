@@ -66,6 +66,7 @@ if int(Config.get('Grapevine', 'Enabled')) != 0:
 	log("Grapevine enabled in config!", "grapevine")
 else:
 	useGrapevine = False
+	gsocket = None
 	log("Grapevine disabled in config!", "grapevine")
 
 # initialise grapevine connection
