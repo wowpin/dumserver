@@ -23,14 +23,14 @@ else:
     ip = str(input("Please input Public IP:")).strip()
     
 # Read in the webclient config file
-with open('webclient/config/default.js', 'r') as file :
+with open(str(os.environ['DUM_HOME_DIR'] + '/webclient/config/default.js'), 'r') as file :
   filedata = file.read()
 
 # Update the config file
 filedata = filedata.replace('PUBLIC_IP', str(ip))
 # Write the file out again
 
-with open('webclient/config/default.js', 'w') as file:
+with open(str(os.environ['DUM_HOME_DIR'] + '/webclient/config/default.js'), 'w') as file:
   file.write(filedata)
 if not os.path.exists('setup.completed'):
     os.mknod('setup.completed')
