@@ -11,8 +11,6 @@ sudo npm install -g forever
 
 git clone https://github.com/wowpin/dumserver.git
 
-sudo npm update -g
-
 cd dumserver
 
 sudo pip3 install -r requirements.txt
