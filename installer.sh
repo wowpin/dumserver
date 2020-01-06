@@ -20,7 +20,7 @@ git clone https://github.com/wowpin/dumserver.git
 
 cd dumserver
 
-# Set the home directory environment variable
+# Set the home directory location
 echo "Setting /tmp/dum.home to:"
 echo $PWD
 echo $(pwd)> /tmp/dum.home
