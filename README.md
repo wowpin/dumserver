@@ -25,13 +25,13 @@ You now should be able to connect to your server on `http://<your-server-ip>`
 
 ## Screenshots
 
-![Welcome Screen](docs/screen1.png)
+![Welcome Screen](docs/screen1.JPG)
 
-![Status Panel](docs/screen2.png)
+![Status Panel](docs/screen2.JPG)
 
-![Help Section](docs/screen3.png)
+![Help Section](docs/screen3.JPG)
 
-![Some Combat](docs/screen4.png)
+![Some Combat](docs/screen4.JPG)
 
 
 ## Get in touch
