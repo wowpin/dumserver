@@ -23,8 +23,16 @@ Note: start-server.sh needs to be ran as root if Webclient is configured to run 
 
 You now should be able to connect to your server on `http://<your-server-ip>`
 
-## What now?
-I'd love to carry on developing this, it has been pretty fun so far. If anyone feels like they want to take it even further, feel free to get in touch.
+## Screenshots
+
+![Welcome Screen](docs/screen1.png)
+
+![Status Panel](docs/screen2.png)
+
+![Help Section](docs/screen3.png)
+
+![Some Combat](docs/screen4.png)
+
 
 ## Get in touch
 Bartek.Radwanski@gmail.com
