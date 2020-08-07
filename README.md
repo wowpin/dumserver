@@ -22,7 +22,7 @@ Head over to the [Wiki](http://dumengine.wikidot.com/dum-v0-1-feature-summary) f
 
 1. Install the server in a folder of your choice using `curl -s https://raw.githubusercontent.com/wowpin/dumserver/master/installer.sh | bash && python3 <(curl "https://raw.githubusercontent.com/wowpin/dumserver/master/setup.py" -s -N)`
 2. As a last step, the installer will try to detect your public IP address and set it in Webclient config files. You can also choose to provide the IP manually. 
-4. Go into dumserver home folder and run it by typing `sudo ./start-server.sh`
+4. `cd dumserver` and run it by typing `sudo ./start-server.sh`
 
 Note: start-server.sh needs to be ran as root if Webclient is configured to run on port 80 (that's how it comes by default).
 
