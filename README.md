@@ -6,7 +6,7 @@ A modern Python MU* engine - re-imagined, actively developed and properly tracke
 DUM is a hobby project aiming to develop a feature-rich Python codebase for a sci-fi MUD style game. It is building on brillinat work by Mark Frimston, be sure to check out his Mud-Pi project (https://github.com/Frimkron/mud-pi).
 
 ## Try it out!
-Go ahead an check out dumserver at http://dum.retico.co.uk --> Likely down at the moment, as DUM looks for a new hosting home.
+Go ahead an check out dumserver at http://http://146.148.38.131/
 
 ## Features
 Head over to the [Wiki](http://dumengine.wikidot.com/dum-v0-1-feature-summary) for small breakdown of core features in the initial version 0.1. All changes/improvements/fixes since 0.1 are being documented in [CHANGELOG.md](CHANGELOG.md)
@@ -23,6 +23,7 @@ Head over to the [Wiki](http://dumengine.wikidot.com/dum-v0-1-feature-summary) f
 1. Install the server in a folder of your choice using `curl -s https://raw.githubusercontent.com/wowpin/dumserver/master/installer.sh | bash && python3 <(curl "https://raw.githubusercontent.com/wowpin/dumserver/master/setup.py" -s -N)`
 2. As a last step, the installer will try to detect your public IP address and set it in Webclient config files. You can also choose to provide the IP manually. 
 4. `cd dumserver` and run it by typing `sudo ./start-server.sh`
+5. If you are running an instance behind a firewall (e.g. Google Cloud), make sure any ingress traffic to port TCP 35123 is allowed - in order for the webclient to be able to connect to the python server. You will get a blank screen when connecting to the server otherwise.
 
 Note: start-server.sh needs to be ran as root if Webclient is configured to run on port 80 (that's how it comes by default).
 
