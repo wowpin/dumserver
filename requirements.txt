@@ -1,5 +1,5 @@
 commentjson==0.8.2
-gevent==1.4.0
+gevent==23.9.1
 greenlet==0.4.15
 lark-parser==0.7.8
 websocket==0.2.1
